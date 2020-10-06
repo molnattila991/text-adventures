@@ -14,6 +14,16 @@ Parancs kiadással lehessen navigálni a játékot
 
 lista elemeken az akciókat meglehet nézni és akció kiválasztással lefuttatni
 
+különböző állapotokban különböző opciók
+    Sztori 
+        - kötelező: select storyitem "név"
+        - opcionális: inventory, attributes
+
+    Csata
+        -kötelező körönként: szavazás, jelzés hol tartasz
+        -opcionális, célpont választás, képesség kiválasztása ,támadás (csak ha van célpont és képesség kiválasztva),
+                     inventory, skills, abilities 
+
 parancs típusok
     character
         -attributumok (erő, vitalitás stb)
@@ -32,6 +42,7 @@ parancs típusok
             -visel  név
             -levesz név
             -eldob  név
+            -átad   név (csak célpont kiválasztás után)
 
         -harc
             -célpont
