@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { IGenericCrudDataProvider, ItemModel } from '@text-adventures/shared';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  constructor(@Inject("ItemsDataProviderService") service: IGenericCrudDataProvider<ItemModel>) {
+    service.getHashMap().subscribe(h => {
+      console.log(h);
+    })
+
+  }
   title = 'text-adventures';
 }

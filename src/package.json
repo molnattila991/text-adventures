@@ -21,7 +21,9 @@
     "@angular/router": "10.1.2",
     "rxjs": "6.6.3",
     "tslib": "2.0.1",
-    "zone.js": "0.11.1"
+    "zone.js": "0.11.1",
+    "@angular/fire": "6.0.3",
+    "firebase": "7.21.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.1001.3",
@@ -39,6 +41,7 @@
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "4.0.1",
     "karma-jasmine-html-reporter": "1.5.4",
+    "ng-packagr": "^10.1.0",
     "protractor": "7.0.0",
     "ts-node": "9.0.0",
     "tslint": "6.1.3",

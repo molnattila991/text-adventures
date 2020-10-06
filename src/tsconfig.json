@@ -14,7 +14,24 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@text-adventures/shared": [
+        "dist/shared/shared",
+        "dist/shared",
+        "projects/shared/src/public-api"
+      ],
+      "@text-adventures/firestore-be": [
+        "dist/firestore-be/firestore-be",
+        "dist/firestore-be",
+        "projects/firestore-be/src/public-api"
+      ],
+      "@text-adventures/data-provider": [
+        "dist/data-provider/data-provider",
+        "dist/data-provider",
+        "projects/data-provider/src/public-api"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

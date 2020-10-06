@@ -1,0 +1,1 @@
+export enum EffectDirection { in, out, inAndOut }

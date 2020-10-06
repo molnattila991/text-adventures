@@ -1,0 +1,62 @@
+export class LanguageDictionary {
+  usable = 'használati';
+  consumable = 'fogyóeszköz';
+  passive = 'passzív';
+  arm = 'kéz';
+  head = 'fej';
+  body = 'test';
+  leg = 'láb';
+  hand = 'kézfej';
+  bag = 'zsák';
+  neck = 'nyak';
+  finger = 'ujj';
+  weapon = 'fegyver';
+  shield = 'pajzs';
+  rune = 'rúna';
+  gem = 'ékkő';
+  gloves = 'kesztyű';
+  hat = 'sisak';
+  ring = 'gyűnű';
+  necklace = 'nyaklány';
+  shirt = 'felsőruházat';
+  potion = 'ital';
+  spell = 'varázslat';
+  book = 'könyv';
+  human = 'ember';
+  dwarf = 'törp';
+  ork = 'ork';
+  elf = 'tünde';
+  gold = 'Arany';
+
+  //#region property type
+  damage = 'sebzés';
+  itemClass = 'eszköz osztály';
+  characterClass = 'karakter osztály';
+  level = 'szint';
+  experiance = 'tapasztalat';
+  maxLife = 'maximális élet';
+  actLife = 'aktuális élet';
+  maxMana = 'maximális mana';
+  actMana = 'aktuális mana';
+  maxGold = 'maximális arany';
+  goldValue = 'arany érték';
+  strength = 'erő';
+  dexterity = 'ügyesség';
+  vitality = 'vitalitás';
+  energy = 'energia';
+  statPoint = 'statisztika pont';
+  skillPoint = 'képesség pont';
+  defense = 'védelem';
+  resistCold = 'fagy ellenállás';
+  resistFire = 'tűz ellenállás';
+  resistPoison = 'méreg ellenállás';
+  resistLighting = 'villám ellenállás';
+  cold = 'fagy';
+  fire = 'tűz';
+  poision = 'méreg';
+  lighting = 'villám';
+  in = "célpontra";
+  out = "visszacsap";
+  inAndOut = "mindkettő";
+  //#endregion
+}
