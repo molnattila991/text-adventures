@@ -30,6 +30,11 @@
         "dist/data-provider/data-provider",
         "dist/data-provider",
         "projects/data-provider/src/public-api"
+      ],
+      "@text-adventures/store": [
+        "dist/store/store",
+        "dist/store",
+        "projects/store/src/public-api"
       ]
     }
   },

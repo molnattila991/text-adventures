@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { SharedModelsModule } from '@text-adventures/shared';
 import { FirebaseProvidersModule, FirestoreBeModule } from '@text-adventures/firestore-be';
 import { DataProviderModule, DataProviderProvidersModule } from '@text-adventures/data-provider';
+import { StateManagerModule } from '@text-adventures/store';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DataProviderModule, DataProviderProvidersModule } from '@text-adventure
     FirebaseProvidersModule,
     FirestoreBeModule,
     DataProviderModule,
-    DataProviderProvidersModule
+    DataProviderProvidersModule,
+    StateManagerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
