@@ -1,3 +1,4 @@
+export { BaseDataCollection } from './lib/store/base-data-collection.interface';
 export { CharacterItemsInUse } from './lib/interfaces/character/character-items-in-user.interface';
 export { CharacterPlayerModel } from './lib/models-game/character-model';
 export { UserModel } from './lib/models-game/user/user-model.interface';
@@ -120,3 +121,6 @@ export {
 } from './lib/models-game/item-model';
 export { SelectItem } from './lib/interfaces/select-item.interface';
 export * from './lib/shared-models.module';
+
+export {DATA_PROVIDER_INJECTION_TOKEN} from "./lib/injection-token/data-provider-injection-token";
+

@@ -10,28 +10,29 @@ import { RoomsTitleDataProviderService } from '../services/room-title-data-provi
 import { UsersDataProviderService } from '../services/users-data-provider.service';
 import { UserCharactersDataProviderService } from '../services/user-characters-data-provider.service';
 import { FirebaseProvidersModule } from '@text-adventures/firestore-be';
+import { DATA_PROVIDER_INJECTION_TOKEN } from '@text-adventures/shared';
 
 @NgModule({
   imports: [CommonModule, FirebaseProvidersModule],
   providers: [
     {
-      provide: 'ItemsDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.ItemsDataProviderService,
       useClass: ItemsDataProviderService
     },
     {
-      provide: 'AbilitiesDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.AbilitiesDataProviderService,
       useClass: AbilitiesDataProviderService
     },
     {
-      provide: 'StoryDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.StoryDataProviderService,
       useClass: StoryDataProviderService
     },
     {
-      provide: 'StoryPageDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.StoryPageDataProviderService,
       useClass: StoryPageDataProviderService
     },
     {
-      provide: 'CharactersDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.CharactersDataProviderService,
       useClass: CharactersDataProviderService
     },
     {
