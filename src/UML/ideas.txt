@@ -6,3 +6,38 @@ spórolni kell az adatokkal fejlesztés közben. Napi 50ezer read.
 Logolás.
 
 Logolás mindig művelet után megjelenik. Külön listában gyűlik és a hisztori visszatölthető, de egyszerre csak az aktuális változásokat mutatja.
+
+
+
+
+Parancs kiadással lehessen navigálni a játékot
+
+lista elemeken az akciókat meglehet nézni és akció kiválasztással lefuttatni
+
+parancs típusok
+    character
+        -attributumok (erő, vitalitás stb)
+            -listáz
+            -megvizsgál név
+            -fejleszt   név
+
+        -képességek
+            -listáz
+            -megvizsgál
+
+        -tárgyak
+            -listáz
+            -megvizsgál név
+
+            -visel  név
+            -levesz név
+            -eldob  név
+
+        -harc
+            -célpont
+                -listáz
+                -megvizsgál név
+                -kiválaszt  név
+
+            -képesség
+                -kiválaszt név
