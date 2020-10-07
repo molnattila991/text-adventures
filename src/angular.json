@@ -283,6 +283,46 @@
           }
         }
       }
+    },
+    "business-logic": {
+      "projectType": "library",
+      "root": "projects/business-logic",
+      "sourceRoot": "projects/business-logic/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/business-logic/tsconfig.lib.json",
+            "project": "projects/business-logic/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/business-logic/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/business-logic/src/test.ts",
+            "tsConfig": "projects/business-logic/tsconfig.spec.json",
+            "karmaConfig": "projects/business-logic/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/business-logic/tsconfig.lib.json",
+              "projects/business-logic/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "text-adventures"
 }

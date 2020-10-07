@@ -35,6 +35,10 @@
         "dist/store/store",
         "dist/store",
         "projects/store/src/public-api"
+      ],
+      "business-logic": [
+        "dist/business-logic/business-logic",
+        "dist/business-logic"
       ]
     }
   },
