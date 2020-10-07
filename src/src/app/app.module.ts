@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginModule } from './components/login/login.module';
 import { ProjectsModuleProviderModule } from './projects-module-provider.module';
+import { CreateCharacterModule } from './components/create-character/create-character.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -12,11 +14,13 @@ import { ProjectsModuleProviderModule } from './projects-module-provider.module'
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
 
     ProjectsModuleProviderModule,
 
-    LoginModule
+    LoginModule, 
+    CreateCharacterModule
 
   ],
   providers: [],
