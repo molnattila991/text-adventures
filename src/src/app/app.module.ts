@@ -7,6 +7,7 @@ import { LoginModule } from './components/login/login.module';
 import { ProjectsModuleProviderModule } from './projects-module-provider.module';
 import { CreateCharacterModule } from './components/create-character/create-character.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SelectCharacterModule } from './components/selector-character/select-character.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProjectsModuleProviderModule,
 
     LoginModule, 
-    CreateCharacterModule
+    CreateCharacterModule,
+    SelectCharacterModule
 
   ],
   providers: [],

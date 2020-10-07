@@ -27,3 +27,9 @@ export interface CharacterModel {
 export interface CharacterPlayerModel extends CharacterModel {
   userId: string;
 }
+
+export interface CharacterPlayerCreateModel{
+  characterName: string;
+  characterId: string;
+  userId: string;
+}

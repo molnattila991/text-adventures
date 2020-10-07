@@ -4,5 +4,6 @@ export const DATA_PROVIDER_INJECTION_TOKEN = {
     StoryDataProviderService: "StoryDataProviderService",
     StoryPageDataProviderService: "StoryPageDataProviderService",
     CharactersDataProviderService: "CharactersDataProviderService",
+    UserCharactersDataProviderService: "UserCharactersDataProviderService",
     UsersDataProviderService: "UsersDataProviderService"
 }

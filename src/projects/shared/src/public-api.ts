@@ -124,3 +124,5 @@ export * from './lib/shared-models.module';
 
 export * from "./lib/injection-token"
 export * from "./lib/ui-actions"
+export * from "./lib/models-game"
+export * from "./lib/business-logic"

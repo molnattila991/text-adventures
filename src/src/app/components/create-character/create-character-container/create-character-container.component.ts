@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterModel, STORE_INJECTION_TOKEN, UserHandling } from '@text-adventures/shared';
+import { BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterModel, CharacterPlayerCreateModel, CreateCharacter, STORE_INJECTION_TOKEN, UserHandling } from '@text-adventures/shared';
 
 @Component({
   selector: 'app-create-character-container',
   template: `
-   <app-create-character-view [characterList]="getCharacterList()|async"></app-create-character-view>
+   <app-create-character-view [characterList]="getCharacterList()|async" (saved)="saved($event)"></app-create-character-view>
   `,
   styles: [
   ], changeDetection: ChangeDetectionStrategy.OnPush
@@ -12,11 +12,15 @@ import { BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterModel, ST
 export class CreateCharacterContainerComponent {
 
   constructor(
-    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.LoginUserService) private userData: UserHandling,
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CreateCharacterService) private createCharacterService: CreateCharacter,
     @Inject(STORE_INJECTION_TOKEN.CharacterStoreService) private characterData: BaseDataCollection<CharacterModel>
   ) { }
 
   getCharacterList() {
     return this.characterData.getSelectList();
+  }
+
+  saved(item: CharacterPlayerCreateModel) {
+    this.createCharacterService.save(item)
   }
 }

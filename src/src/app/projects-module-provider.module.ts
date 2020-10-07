@@ -16,7 +16,7 @@ import { StateManagerModule } from '@text-adventures/store';
     DataProviderModule,
     DataProviderProvidersModule,
     StateManagerModule,
-    BusinessLogicModule
+    BusinessLogicModule 
   ]
 })
 export class ProjectsModuleProviderModule { }

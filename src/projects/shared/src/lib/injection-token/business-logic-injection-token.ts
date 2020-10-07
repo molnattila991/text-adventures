@@ -1,3 +1,5 @@
 export const BUSSINESS_LOGIC_INJECTION_TOKEN = {
-    LoginUserService: "LoginUserService"
+    LoginUserService: "LoginUserService",
+    CreateCharacterService: "CreateCharacterService",
+    UserCharactersService: "UserCharactersService"
 }
