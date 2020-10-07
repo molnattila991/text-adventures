@@ -12,7 +12,10 @@ export class LoginUserService implements UserHandling {
   constructor(
     @Inject(DATA_PROVIDER_INJECTION_TOKEN.UsersDataProviderService) private userDataProvider: IGenericCrudDataProvider<UserModel>
   ) {
-
+    const loggedInUserName = localStorage.getItem("loggedInUserName");
+    if (loggedInUserName) {
+      this.logInUser(loggedInUserName);
+    }
   }
 
   getLoggedInUser(): Observable<UserModel> {
@@ -24,19 +27,22 @@ export class LoginUserService implements UserHandling {
 
     let user = await this.userDataProvider.getFiltered("name", name).pipe(take(1)).toPromise()
     if (user && user.length > 0) {
-      this.userSubscription = this.userDataProvider.getFiltered("name", name).subscribe(l => {
-        this.selectedUser$.next(l[0].model);
-      });
+      this.login(name);
     } else {
       try {
         await this.userDataProvider.add(<UserModel>{ name: name, characters: [] });
-        this.userSubscription = this.userDataProvider.getFiltered("name", name).subscribe(l => {
-          this.selectedUser$.next(l[0].model);
-        });
+        this.login(name);
       } catch (error) {
         console.log(error);
         //TODO: add logging
       }
     }
+  }
+
+  login(name) {
+    this.userSubscription = this.userDataProvider.getFiltered("name", name).subscribe(l => {
+      localStorage.setItem("loggedInUserName", l[0].model.name);
+      this.selectedUser$.next(l[0].model);
+    });
   }
 }

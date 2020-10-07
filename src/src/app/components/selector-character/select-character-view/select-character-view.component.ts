@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { CharacterPlayerModel, HashMap } from '@text-adventures/shared';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { CharacterPlayerModel } from '@text-adventures/shared';
 
 @Component({
   selector: 'app-select-character-view',

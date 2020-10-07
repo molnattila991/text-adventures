@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { Inject, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +8,7 @@ import { ProjectsModuleProviderModule } from './projects-module-provider.module'
 import { CreateCharacterModule } from './components/create-character/create-character.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectCharacterModule } from './components/selector-character/select-character.module';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, UserHandling } from '@text-adventures/shared';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { SelectCharacterModule } from './components/selector-character/select-ch
 
     ProjectsModuleProviderModule,
 
-    LoginModule, 
+    LoginModule,
     CreateCharacterModule,
     SelectCharacterModule
 
@@ -28,4 +29,8 @@ import { SelectCharacterModule } from './components/selector-character/select-ch
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.LoginUserService) private userService: UserHandling
+  ) { }
+}
