@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { CharacterModel, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, AbilityModel } from '@text-adventures/shared';
+import { DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, AbilityModel } from '@text-adventures/shared';
 import { BaseDataCollectionStore } from './base-data-collection-store.class';
 
 @Injectable()

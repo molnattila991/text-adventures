@@ -44,7 +44,7 @@ import { DATA_PROVIDER_INJECTION_TOKEN } from '@text-adventures/shared';
       useClass: RoomsTitleDataProviderService
     },
     {
-      provide: 'UsersDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.UsersDataProviderService,
       useClass: UsersDataProviderService
     },
     {

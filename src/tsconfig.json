@@ -36,9 +36,10 @@
         "dist/store",
         "projects/store/src/public-api"
       ],
-      "business-logic": [
+      "@text-adventures/business-logic": [
         "dist/business-logic/business-logic",
-        "dist/business-logic"
+        "dist/business-logic",
+        "projects/business-logic/src/public-api"
       ]
     }
   },

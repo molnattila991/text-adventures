@@ -122,5 +122,5 @@ export {
 export { SelectItem } from './lib/interfaces/select-item.interface';
 export * from './lib/shared-models.module';
 
-export {DATA_PROVIDER_INJECTION_TOKEN} from "./lib/injection-token/data-provider-injection-token";
-
+export * from "./lib/injection-token"
+export * from "./lib/ui-actions"
