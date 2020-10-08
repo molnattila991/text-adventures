@@ -6,8 +6,10 @@ import { CharacterPlayerModel } from '@text-adventures/shared';
   template: `
     <div>
       <ul>
-        <li *ngFor="let character of characters">
-          {{character.id}} {{character.name}} <button (click)="deleted.emit(character.id)">X</button>
+        <li *ngFor="let item of characters">
+          {{item.id}} {{item.name}} 
+          <button (click)="deleted.emit(item.id)">X</button>
+          <button (click)="selected.emit(item.id)">Select</button>
         </li>
       </ul>
     </div>
@@ -18,5 +20,7 @@ import { CharacterPlayerModel } from '@text-adventures/shared';
 export class SelectCharacterViewComponent {
   @Input() characters: CharacterPlayerModel[] = [];
   @Output() deleted: EventEmitter<string> = new EventEmitter();
+  @Output() selected: EventEmitter<string> = new EventEmitter();
+
   constructor() { }
 }

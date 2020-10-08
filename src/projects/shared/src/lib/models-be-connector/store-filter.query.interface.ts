@@ -1,5 +1,5 @@
 export interface StoreFilter {
   fieldPath: string;
-  operationString: '<' | '<=' | '==' | '>' | '>=';
-  value: any;
+  operationString: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any';
+  value: any | any[];
 }

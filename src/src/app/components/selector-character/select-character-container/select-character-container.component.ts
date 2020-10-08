@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, CharacterPlayerModel, BUSSINESS_LOGIC_INJECTION_TOKEN, HashMap } from '@text-adventures/shared';
-import { UserCharactersService } from 'projects/business-logic/src/lib/character-management/user-characters.service';
+import { DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, CharacterPlayerModel, BUSSINESS_LOGIC_INJECTION_TOKEN, HashMap, UserCharacters } from '@text-adventures/shared';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-select-character-container',
   template: `
-    <app-select-character-view [characters]="this.getCharacterList()|async" (deleted)="delete($event)"></app-select-character-view>
+    <app-select-character-view [characters]="this.getCharacterList()|async" 
+    (deleted)="delete($event)"
+    (selected)="select($event)"></app-select-character-view>
   `,
   styles: [
   ], changeDetection: ChangeDetectionStrategy.OnPush
@@ -16,7 +17,7 @@ export class SelectCharacterContainerComponent {
 
   constructor(
     @Inject(DATA_PROVIDER_INJECTION_TOKEN.UserCharactersDataProviderService) private userCharacterDataProvider: IGenericCrudDataProvider<CharacterPlayerModel>,
-    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) public userCharactersService: UserCharactersService
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) public userCharactersService: UserCharacters
   ) { }
 
   getCharacterList(): Observable<CharacterPlayerModel[]> {
@@ -34,6 +35,10 @@ export class SelectCharacterContainerComponent {
       //TODO: logging
       console.log(error);
     }
+  }
+
+  select(id: string): void {
+    this.userCharactersService.selectCharacter(id);
   }
 
 }

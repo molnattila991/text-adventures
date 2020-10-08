@@ -9,6 +9,7 @@ import { CreateCharacterModule } from './components/create-character/create-char
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectCharacterModule } from './components/selector-character/select-character.module';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, UserHandling } from '@text-adventures/shared';
+import { SelectStoryModule } from './components/selector-story/select-character.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BUSSINESS_LOGIC_INJECTION_TOKEN, UserHandling } from '@text-adventures/
 
     LoginModule,
     CreateCharacterModule,
-    SelectCharacterModule
+    SelectCharacterModule,
+    SelectStoryModule,
 
   ],
   providers: [],

@@ -37,22 +37,22 @@ export class GenericCrudDataProvider<T> implements IGenericCrudDataProvider<T> {
     return this.hashMap$.asObservable();
   }
 
-  getHashFiltered(property: string, value: any): Observable<HashMap<T>> {
+  getHashFiltered(property: string, value: any, operation: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' = "=="): Observable<HashMap<T>> {
     //return this.hashMapFiltered$.asObservable();
     return this.crudService.getHashMapFiltered(this.path, <StoreFilter>{
       fieldPath: property,
-      operationString: '==',
+      operationString: operation,
       value: value
     });
   }
 
-  refreshHashMapFiltered(property: string, value: any) {
+  refreshHashMapFiltered(property: string, value: any, operation: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' = "==") {
     this.hashMapSubscriptionFiltered &&
       this.hashMapSubscriptionFiltered.unsubscribe();
     this.hashMapSubscriptionFiltered = this.crudService
       .getHashMapFiltered<T>(this.path, <StoreFilter>{
         fieldPath: property,
-        operationString: '==',
+        operationString: operation,
         value: value
       })
       .subscribe(this.hashMapFiltered$);
@@ -69,10 +69,10 @@ export class GenericCrudDataProvider<T> implements IGenericCrudDataProvider<T> {
     return this.byId$.asObservable();
   }
 
-  getFiltered(property: string, value: any): Observable<StoreKeyValue<T>[]> {
+  getFiltered(property: string, value: any, operation: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' = "=="): Observable<StoreKeyValue<T>[]> {
     return this.crudService.getFiltered(this.path, <StoreFilter>{
       fieldPath: property,
-      operationString: '==',
+      operationString: operation,
       value: value
     });
   }
