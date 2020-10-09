@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectCharacterModule } from './components/selector-character/select-character.module';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, UserHandling } from '@text-adventures/shared';
 import { SelectStoryModule } from './components/selector-story/select-character.module';
+import { SinglePlayerModule } from './components/single-player/single-player.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { SelectStoryModule } from './components/selector-story/select-character.
     CreateCharacterModule,
     SelectCharacterModule,
     SelectStoryModule,
+    SinglePlayerModule,
 
   ],
   providers: [],

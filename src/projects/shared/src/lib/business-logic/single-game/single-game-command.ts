@@ -1,41 +1,65 @@
-export const Commands = {
-    go: {
-        story: [],
-        attributes: [],
-        skills: [],
-        inventory: [],
-        enemies: []
+export const SinglePlayerCommands = {
+    history: {
+        description: "A funkció leírása",
+        all: [],
+        recent: []
     },
     story: {
+        description: "A funkció leírása",
         list: {
             options: []
+        },
+        inspect: {
+            story: []
         },
         select: {
             option: ["{option number}"]
         }
     },
     attributes: {
+        description: "A funkció leírása",
         list: [],
-        show: ["{attribute name}"],
+        inspect: ["{attribute name}"],
         improve: ["{attribute name}"],
     },
-    inventory: {
+    skills: {
+        description: "A funkció leírása",
         list: {
-            bodyParts: [],
-            allItem: [],
-            bag: [],
-            weared: []
+            all: [],
+            physical: [],
+            magical: []
         },
-        putOn: ["{item name}", "{body part}"],
-        putOff: ["{item name}", "{body part}"],
+        inspect: ["{skill name}"],
+        improve: ["{skill name}"],
+    },
+    inventory: {
+        description: "A funkció leírása",
+        list: {
+            items: {
+                all: [],
+                bag: [],
+                used: []
+            },
+            bodyParts: [],
+        },
+        inspect: ["{item name}"],
+        put: ["{item name}", "on/off", "{body part}"],
         drop: ["{item name}"],
         use: ["{item name}"]
     },
     enemies: {
+        description: "A funkció leírása",
         list: {
             all: [],
             enemies: [],
-            mates: []
-        }
+            mates: [],
+            skills: {
+                all: [],
+                physical: [],
+                magical: []
+            }
+        },
+        inspect: ["{enemy name}"],
+        hit: ["{enemy name}", "with", "{skill name}"]
     }
 }

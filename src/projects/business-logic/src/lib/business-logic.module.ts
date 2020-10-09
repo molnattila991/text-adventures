@@ -3,6 +3,9 @@ import { BUSSINESS_LOGIC_INJECTION_TOKEN } from '@text-adventures/shared';
 import { CreateCharacterService } from './character-management/create-character.service';
 import { UserCharactersService } from './character-management/user-characters.service';
 import { LoginUserService } from './login/login-user.service';
+import { CommandHandlerService } from './single-player/command-handler.service';
+import { CommandHelperService } from './single-player/command-helper.service';
+import { CommandOutputService } from './single-player/command-output.service';
 import { SinglePlayerManagerService } from './single-player/single-player-manager.service';
 import { CharacterStoryService } from './story-management/character-story.service';
 
@@ -15,6 +18,11 @@ import { CharacterStoryService } from './story-management/character-story.servic
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService, useClass: UserCharactersService },
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.CharacterStoryService, useClass: CharacterStoryService },
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SinglePlayerManagerService, useClass: SinglePlayerManagerService },
+    { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.CommandHandlerService, useClass: CommandHandlerService },
+    { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService, useClass: CommandOutputService },
+    CommandHelperService
+
+
   ]
 })
 export class BusinessLogicModule { }
