@@ -1,65 +1,110 @@
 export const SinglePlayerCommands = {
-    history: {
-        description: "A funkció leírása",
-        all: [],
-        recent: []
+    // history: {
+    //     description: "Az előzmények kilistázása.",
+    //     param: 
+    //     all: {
+    //         description: "A teljes előzmény kiírása."
+    //     },
+    //     recent: {
+    //         description: "Az jelenlegi előzmények kiírása."
+    //     }
+    // },
+    start: {
+        description: "A játék kezdése"
     },
     story: {
-        description: "A funkció leírása",
+        description: "Történettel kapcsolatos adatok kezelése.",
         list: {
-            options: []
+            description: "A választási lehetőségek listázása.",
+            default: "options",
+            params: ["options"]
         },
         inspect: {
-            story: []
+            description: "Részletesen megjeleníti a kiválasztott elem adatait.",
+            default: "story",
+            params: ["story"]
         },
         select: {
-            option: ["{option number}"]
+            description: "Történet folytatásának kiválasztása.",
+            params: ["{option number}"]
         }
     },
     attributes: {
-        description: "A funkció leírása",
-        list: [],
-        inspect: ["{attribute name}"],
-        improve: ["{attribute name}"],
+        description: "Karaktertulajdonságokkal kapcsolatos adatok kezelése.",
+        list: {
+            description: "Karaktertulajdonságok lisája.",
+        },
+        inspect: {
+            description: "Részletesen megjeleníti a kiválasztott elem adatait.",
+            params: ["{attribute name}"]
+        },
+        improve: {
+            description: "Képesség fejlesztése.",
+            params: ["{attribute name}"]
+        },
     },
     skills: {
-        description: "A funkció leírása",
+        description: "Karaktertuképességekkel kapcsolatos adatok kezelése.",
         list: {
-            all: [],
-            physical: [],
-            magical: []
+            description: "Karaktertuképességek lisája.",
+            default: "all",
+            params: ["all/physical/magical"]
         },
-        inspect: ["{skill name}"],
-        improve: ["{skill name}"],
+        inspect: {
+            description: "Részletesen megjeleníti a kiválasztott elem adatait.",
+            params: ["{skill name}"]
+        },
+        improve: {
+            description: "Képesség fejlesztése.",
+            params: ["{skill name}"]
+        },
     },
     inventory: {
-        description: "A funkció leírása",
+        description: "Eszköztárral kapcsolatos adatok kezelése.",
         list: {
-            items: {
-                all: [],
-                bag: [],
-                used: []
-            },
-            bodyParts: [],
+            description: "Eszköztárral kapcsolatos adatok listája.",
+            default: "all",
+            params: ["all/bag/used/bodyparts"]
         },
-        inspect: ["{item name}"],
-        put: ["{item name}", "on/off", "{body part}"],
-        drop: ["{item name}"],
-        use: ["{item name}"]
+        bodyParts: {
+            description: "Karakter testrészeinek listája.",
+            default: ["all"],
+            params: ["all/free/used"]
+        },
+        inspect: {
+            description: "Részletesen megjeleníti a kiválasztott elem adatait.",
+            params: ["{item name}"]
+        },
+        pick: {
+            description: "Eszköz felvétele.",
+            params: ["{item name}"]
+        },
+        put: {
+            description: "Ezköz használata/táskába tétele testrésszel.",
+            params: ["{item name}", "on/off", "{body part}"]
+        },
+        drop: {
+            description: "Eszköz eldobobása.",
+            params: ["{item name}"]
+        },
+        use: {
+            description: "Eszköz felhasználása",
+            params: ["{item name}"]
+        }
     },
     enemies: {
         description: "A funkció leírása",
         list: {
-            all: [],
-            enemies: [],
-            mates: [],
-            skills: {
-                all: [],
-                physical: [],
-                magical: []
-            }
+            description: "",
+            params: ["all/enemies/mates"]
         },
-        inspect: ["{enemy name}"],
-        hit: ["{enemy name}", "with", "{skill name}"]
+        inspect: {
+            description: "Kiválsaztott karakter részleteinek litázása.",
+            params: ["{character name}"]
+        },
+        target: {
+            description: "Kiválasztott karakter célzása.",
+            params: ["{character name}", "{skill name}"]
+        }
     }
 }

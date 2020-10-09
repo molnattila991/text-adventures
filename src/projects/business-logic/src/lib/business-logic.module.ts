@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { BUSSINESS_LOGIC_INJECTION_TOKEN } from '@text-adventures/shared';
+import { Inject, NgModule } from '@angular/core';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, SinglePlayerGame } from '@text-adventures/shared';
 import { CreateCharacterService } from './character-management/create-character.service';
 import { UserCharactersService } from './character-management/user-characters.service';
 import { LoginUserService } from './login/login-user.service';
@@ -20,9 +20,12 @@ import { CharacterStoryService } from './story-management/character-story.servic
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SinglePlayerManagerService, useClass: SinglePlayerManagerService },
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.CommandHandlerService, useClass: CommandHandlerService },
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService, useClass: CommandOutputService },
-    CommandHelperService
+    CommandHelperService,
 
 
   ]
 })
-export class BusinessLogicModule { }
+export class BusinessLogicModule {
+  constructor(
+  ) { }
+}

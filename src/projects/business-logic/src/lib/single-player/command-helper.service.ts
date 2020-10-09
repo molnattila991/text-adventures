@@ -6,19 +6,53 @@ export class CommandHelperService {
   commands = SinglePlayerCommands;
   constructor() { }
 
-  getCommands(level: number = 0, type?: string) {
-    if (level == 0) {
-      const rows: string[] = [];
-      const keys: string[] = Object.keys(this.commands);
+  getCommands() {
+    const cmds = this.commands;
 
-      for (const key of keys) {
-        rows.push(key + "      " + this.commands[key].description);
-      }
+    const rows: string[] = [];
+    const keys: string[] = Object.keys(cmds).filter(k => k != "description");
 
-      rows.push("Run 'COMMAND --help' for more information on a command.");
-      return rows;
+    for (const key of keys) {
+      rows.push(key + "      " + cmds[key].description);
     }
 
-    return Object.keys(this.commands);
+    return rows;
+  }
+
+  getTypedCommands(type: string) {
+    const cmds = this.commands[type];
+    if (cmds) {
+
+      const rows: string[] = [];
+      const keys: string[] = Object.keys(cmds).filter(k => k != "description" && k != "params" && k != "default");
+
+      for (const key of keys) {
+        rows.push(key + "      " + cmds[key].description);
+      }
+
+      return rows;
+    } else {
+      return ["Command " + type + " is not valid. Type 'help' for listing valid commands"];
+    }
+  }
+
+  getTypedSubCommands(type: string, subtype: string) {
+    const cmds = this.commands[type];
+    if (cmds) {
+      if (cmds[subtype]) {
+        const rows: string[] = [];
+        rows.push("Usage of '" + type + " " + subtype + "':")
+        cmds[subtype].description && rows.push("Description: " + cmds[subtype].description);
+        cmds[subtype].params && rows.push("Parameters: " + cmds[subtype].params);
+        cmds[subtype].default && rows.push("Default Parameter: " + cmds[subtype].default);
+
+
+        return rows;
+      } else {
+        return ["Command " + subtype + " is not valid. Type 'help " + type + "' for listing valid commands"];
+      }
+    } else {
+      return ["Command " + type + " is not valid. Type 'help' for listing valid commands"];
+    }
   }
 }

@@ -11,5 +11,4 @@ export interface CharacterStory {
 
 export interface CharacterStoryItem {
     selectStoryItem(id: string): void;
-    getSelectedStoryItem(): Observable<StoryPageModel>;
 }

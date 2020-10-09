@@ -19,7 +19,7 @@ export class SinglePlayerContainerComponent implements OnInit {
 
   ngOnInit(): void {
     //TODO init help text
-    this.output.pushAndFlush(["Gépelje be az alábbi, hogy 'help' és nyomja meg az enter billentyűzetet."])
+    this.output.pushAndFlush(["Üdvözöllek vándor. Amennyiben segítségre van szükséged, írd a 'help' parancsot az alábbi mezőbe."])
   }
 
   performCommnad(command: string) {
