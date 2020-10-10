@@ -36,7 +36,7 @@ export class SinglePlayerViewComponent {
 
   commandFormControl: FormControl;
   constructor(builder: FormBuilder) {
-    this.commandFormControl = builder.control("help");
+    this.commandFormControl = builder.control("story start");
   }
 
   send() {

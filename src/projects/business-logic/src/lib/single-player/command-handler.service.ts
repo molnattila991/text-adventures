@@ -1,14 +1,17 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite, SinglePlayerCommands, SinglePlayerGame } from '@text-adventures/shared';
 import { CommandHelperService } from './command-helper.service';
+import { CommandManagerStoryService } from './command-manager-story.service';
+import { CommandManagerSkillService } from './command-manager-skill.service';
 
 @Injectable()
 export class CommandHandlerService {
-  commands = SinglePlayerCommands;
   constructor(
     private commandHelper: CommandHelperService,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
-    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SinglePlayerManagerService) private singlePlayerGame: SinglePlayerGame
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SinglePlayerManagerService) private singlePlayerGame: SinglePlayerGame,
+    private storyCommandManager: CommandManagerStoryService,
+    private skillCommandManager: CommandManagerSkillService
   ) { }
 
   perform(command: string) {
@@ -26,18 +29,13 @@ export class CommandHandlerService {
     } else {
       //EXECUTE
       switch (commandParts[0]) {
-        case "start":
-          const result = confirm("Biztos vagy benne?");
-          result && this.singlePlayerGame.start();
-          break;
-        case "history":
-          break;
         case "story":
-          this.handleStory(commandParts);
+          this.storyCommandManager.handle(commandParts);
           break;
         case "attributes":
           break;
         case "skills":
+          this.skillCommandManager.handle(commandParts);
           break;
         case "inventory":
           break;
@@ -62,34 +60,5 @@ export class CommandHandlerService {
       this.output.pushText(this.commandHelper.getTypedCommands(commandParts[1]));
     }
     this.output.pushText(["Run 'help' for more information on a command."]);
-  }
-
-  handleStory(commandParts: string[]) {
-    if (commandParts[1]) {
-      switch (commandParts[1]) {
-        case "inspect":
-          this.singlePlayerGame.inspect();
-          break;
-        case "select":
-          if (commandParts[2]) {
-            const index = Number.parseInt(commandParts[2]);
-            if (isNaN(index) == false) {
-              this.singlePlayerGame.selectOptionByIndex(index)
-            } else {
-              this.output.pushText(["Index must be number."]);
-              this.pushHelpText("story select");
-            }
-          } else {
-            this.pushHelpText("story select");
-          }
-          break;
-      }
-    } else {
-      this.pushHelpText("story");
-    }
-  }
-
-  private pushHelpText(command) {
-    this.output.pushText(["Run 'help " + command + "' for more information on command."]);
   }
 }

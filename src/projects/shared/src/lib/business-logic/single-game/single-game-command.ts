@@ -14,6 +14,9 @@ export const SinglePlayerCommands = {
     },
     story: {
         description: "Történettel kapcsolatos adatok kezelése.",
+        start: {
+            description: "A történet kezdése."
+        },
         // list: {
         //     description: "A választási lehetőségek listázása.",
         //     default: "options",

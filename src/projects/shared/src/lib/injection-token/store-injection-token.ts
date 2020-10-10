@@ -1,5 +1,5 @@
 export const STORE_INJECTION_TOKEN = {
-    ItemsDataProviderService: "ItemsDataProviderService",
+    ItemStoreService: "ItemStoreService",
     AbilityStoreService: "AbilityStoreService",
     CharacterStoreService: "CharacterStoreService",
     StoryStoreService: "StoryStoreService"

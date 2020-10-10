@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CommandOutput } from '@text-adventures/shared';
+import { CommandOutput, CommandOutputMessage } from '@text-adventures/shared';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { CommandOutputMessage } from '../../../../shared/src/lib/business-logic/command-output.interface';
 
 @Injectable()
 export class CommandOutputService implements CommandOutput {
@@ -39,6 +38,10 @@ export class CommandOutputService implements CommandOutput {
       ),
       map(([flush, logs, allLogs]) => [...allLogs, ...logs])
     ).subscribe(this.fullOutput$);
+  }
+  
+  pushHelp(command: string): void {
+    this.pushText(["Run 'help " + command + "' for more information on command."]);
   }
 
   pushText(logs: string[]) {

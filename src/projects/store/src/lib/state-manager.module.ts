@@ -10,7 +10,7 @@ import { STORE_INJECTION_TOKEN } from '../../../shared/src/lib/injection-token/s
 @NgModule({
   imports: [CommonModule],
   providers: [
-    { provide: STORE_INJECTION_TOKEN.ItemsDataProviderService, useClass: ItemStoreService },
+    { provide: STORE_INJECTION_TOKEN.ItemStoreService, useClass: ItemStoreService },
     { provide: STORE_INJECTION_TOKEN.AbilityStoreService, useClass: AbilityStoreService },
     { provide: STORE_INJECTION_TOKEN.CharacterStoreService, useClass: CharacterStoreService },
     { provide: STORE_INJECTION_TOKEN.StoryStoreService, useClass: StoryStoreService },

@@ -4,7 +4,7 @@ import { PropertyModel } from './property-model';
 import { UsableGameObject } from './usable-game-object.interface';
 
 export enum AbilityType {
-  Phisical,
+  Physical,
   Magical
 }
 
@@ -22,7 +22,7 @@ export class AbilityModel implements UsableGameObject {
   onlyInStories: string[];
   constructor() {
     this.actualLevel = 1;
-    this.abilityType = AbilityType.Phisical;
+    this.abilityType = AbilityType.Physical;
     this.applicationType = 0;
     this.properties = [];
   }

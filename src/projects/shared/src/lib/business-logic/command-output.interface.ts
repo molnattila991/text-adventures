@@ -18,6 +18,7 @@ export interface CommandOutput extends CommandOutputWrite, CommandOutputRead {
 export interface CommandOutputWrite {
     push(logs: CommandOutputMessage[]): void;
     pushText(logs: string[]);
+    pushHelp(command: string): void;
     pushAndFlush(logs: CommandOutputMessage[]): void;
     flush(): void;
 }

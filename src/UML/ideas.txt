@@ -1,12 +1,13 @@
 https://console.firebase.google.com/project/textadventures-cb5e4/firestore/usage/last-24h/reads
 adatfeltöltő script kell, hogy üres adatbázisról is lehessen indítani
 
-spórolni kell az adatokkal fejlesztés közben. Napi 50ezer read.
 
-Logolás.
+Multi/Single Csata
+    -karakter lista single esetén egy statikus listából jön ami csak kliens oldalon van lementve. Csata végén a felhasználó karakterét menteni kell adatbázisba.
+    -multi esetén mindegyik adatbázisból jön realtime "in" operátor használatával.
+    -mind a kettő felett van egy réteg ami a mechanizmus szempontjából azonos
 
-Logolás mindig művelet után megjelenik. Külön listában gyűlik és a hisztori visszatölthető, de egyszerre csak az aktuális változásokat mutatja.
-
+Nem kell minden funkciónalitást implementálni, csak a főbb részeket, az ilyen részletes dolgok hogy requirements stb. még nem kell
 
 
 
@@ -23,32 +24,3 @@ különböző állapotokban különböző opciók
         -kötelező körönként: szavazás, jelzés hol tartasz
         -opcionális, célpont választás, képesség kiválasztása ,támadás (csak ha van célpont és képesség kiválasztva),
                      inventory, skills, abilities 
-
-parancs típusok
-    character
-        -attributumok (erő, vitalitás stb)
-            -listáz
-            -megvizsgál név
-            -fejleszt   név
-
-        -képességek
-            -listáz
-            -megvizsgál
-
-        -tárgyak
-            -listáz
-            -megvizsgál név
-
-            -visel  név
-            -levesz név
-            -eldob  név
-            -átad   név (csak célpont kiválasztás után)
-
-        -harc
-            -célpont
-                -listáz
-                -megvizsgál név
-                -kiválaszt  név
-
-            -képesség
-                -kiválaszt név
