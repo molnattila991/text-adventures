@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormBuilder } from '@angular/forms';
+import { CommandOutputMessage } from '@text-adventures/shared';
 
 @Component({
   selector: 'app-single-player-view',
@@ -7,15 +8,15 @@ import { FormControl, FormBuilder } from '@angular/forms';
     <div class="command-container">
       <div class="command-output-container">
 
-          <div style="white-space: pre-wrap;" *ngFor="let result of output">
-            {{result}}
+          <div style="white-space: pre-wrap;" tabindex="0" *ngFor="let result of output">
+            {{result.message}} <a *ngIf="result.type!=undefined" tabindex="0" (keyup.enter)="showActions.emit(result)" (click)="showActions.emit(result)">Műveletek</a>
           </div>
 
       </div>
       <div class="command-text">
-        <input style="width:89%" 
+        <input style="width:89%"  (keyup.enter)="send()"
             [formControl]="commandFormControl" id="commandInput"/>
-        <button style="width:10%" (click)="performCommnad.emit(commandFormControl.value)">
+        <button style="width:10%" (click)="send()">
           Perform
         </button>
       </div>
@@ -29,14 +30,17 @@ import { FormControl, FormBuilder } from '@angular/forms';
   , changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SinglePlayerViewComponent {
-  @Input() output: string[] = [];
+  @Input() output: CommandOutputMessage[] = [];
   @Output() performCommnad: EventEmitter<string> = new EventEmitter();
+  @Output() showActions: EventEmitter<CommandOutputMessage> = new EventEmitter();
+
   commandFormControl: FormControl;
   constructor(builder: FormBuilder) {
     this.commandFormControl = builder.control("help");
+  }
 
-    this.commandFormControl.valueChanges.subscribe(v => {
-      console.log(v);
-    });
+  send() {
+    this.performCommnad.emit(this.commandFormControl.value);
+    this.commandFormControl.setValue("");
   }
 }

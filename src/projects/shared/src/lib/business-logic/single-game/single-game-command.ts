@@ -14,11 +14,11 @@ export const SinglePlayerCommands = {
     },
     story: {
         description: "Történettel kapcsolatos adatok kezelése.",
-        list: {
-            description: "A választási lehetőségek listázása.",
-            default: "options",
-            params: ["options"]
-        },
+        // list: {
+        //     description: "A választási lehetőségek listázása.",
+        //     default: "options",
+        //     params: ["options"]
+        // },
         inspect: {
             description: "Részletesen megjeleníti a kiválasztott elem adatait.",
             default: "story",

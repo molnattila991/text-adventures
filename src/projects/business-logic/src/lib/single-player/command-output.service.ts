@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { CommandOutput } from '@text-adventures/shared';
-import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { CommandOutputMessage } from '../../../../shared/src/lib/business-logic/command-output.interface';
 
 @Injectable()
 export class CommandOutputService implements CommandOutput {
-  private fullOutput$: BehaviorSubject<string[]> = new BehaviorSubject([]);
-  private actualOutput$: BehaviorSubject<string[]> = new BehaviorSubject([]);
-  private tempLogs$: BehaviorSubject<string[]> = new BehaviorSubject([]);
-  private addTempLogs$: Subject<string[]> = new Subject();
+  private index: number = 0;
+  private fullOutput$: BehaviorSubject<CommandOutputMessage[]> = new BehaviorSubject([]);
+  private actualOutput$: BehaviorSubject<CommandOutputMessage[]> = new BehaviorSubject([]);
+  private tempLogs$: BehaviorSubject<CommandOutputMessage[]> = new BehaviorSubject([]);
+  private addTempLogs$: Subject<CommandOutputMessage[]> = new Subject();
   private flush$: Subject<void> = new Subject();
 
   constructor() {
@@ -39,22 +41,28 @@ export class CommandOutputService implements CommandOutput {
     ).subscribe(this.fullOutput$);
   }
 
-  push(logs: string[]): void {
-    this.addTempLogs$.next(logs);
+  pushText(logs: string[]) {
+    this.push(logs.map(l => { return { message: l } }));
+  }
+
+  push(logs: CommandOutputMessage[]): void {
+    this.addTempLogs$.next(logs.map(l => {
+      return { ...l, index: ++this.index };
+    }));
   }
   flush(): void {
     this.flush$.next();
   }
-  pushAndFlush(logs: string[]): void {
+  pushAndFlush(logs: CommandOutputMessage[]): void {
     this.push(logs);
     this.flush();
   }
 
-  get(): Observable<string[]> {
+  get(): Observable<CommandOutputMessage[]> {
     return this.actualOutput$.asObservable();
   }
 
-  getFull(): Observable<string[]> {
+  getFull(): Observable<CommandOutputMessage[]> {
     return this.fullOutput$.asObservable();
   }
 }

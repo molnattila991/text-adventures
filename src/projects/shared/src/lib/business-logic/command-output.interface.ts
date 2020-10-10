@@ -1,16 +1,28 @@
 import { Observable } from 'rxjs';
 
+export enum CommandOutputType {
+    Story, StoryItem, Item, Attribute, Skill, Character
+}
+
+export interface CommandOutputMessage {
+    message: string;
+    index?: number;
+    id?: string | number;
+    type?: CommandOutputType;
+}
+
 export interface CommandOutput extends CommandOutputWrite, CommandOutputRead {
 
 }
 
 export interface CommandOutputWrite {
-    push(logs: string[]): void;
-    pushAndFlush(logs: string[]): void;
+    push(logs: CommandOutputMessage[]): void;
+    pushText(logs: string[]);
+    pushAndFlush(logs: CommandOutputMessage[]): void;
     flush(): void;
 }
 
 export interface CommandOutputRead {
-    get(): Observable<string[]>
-    getFull(): Observable<string[]>
+    get(): Observable<CommandOutputMessage[]>
+    getFull(): Observable<CommandOutputMessage[]>
 }
