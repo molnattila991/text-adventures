@@ -3,6 +3,7 @@ import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite, SinglePlayerComman
 import { CommandHelperService } from './command-helper.service';
 import { CommandManagerStoryService } from './command-manager-story.service';
 import { CommandManagerSkillService } from './command-manager-skill.service';
+import { CommandManagerAttributeService } from './command-manager-attribute.service';
 
 @Injectable()
 export class CommandHandlerService {
@@ -11,7 +12,8 @@ export class CommandHandlerService {
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SinglePlayerManagerService) private singlePlayerGame: SinglePlayerGame,
     private storyCommandManager: CommandManagerStoryService,
-    private skillCommandManager: CommandManagerSkillService
+    private skillCommandManager: CommandManagerSkillService,
+    private attributeCommandManager: CommandManagerAttributeService
   ) { }
 
   perform(command: string) {
@@ -33,6 +35,7 @@ export class CommandHandlerService {
           this.storyCommandManager.handle(commandParts);
           break;
         case "attributes":
+          this.attributeCommandManager.handle(commandParts);
           break;
         case "skills":
           this.skillCommandManager.handle(commandParts);

@@ -41,6 +41,6 @@ export class SinglePlayerViewComponent {
 
   send() {
     this.performCommnad.emit(this.commandFormControl.value);
-    this.commandFormControl.setValue("");
+    // this.commandFormControl.setValue("");
   }
 }

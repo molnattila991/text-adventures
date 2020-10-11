@@ -6,8 +6,8 @@ import { map, withLatestFrom } from 'rxjs/operators';
 @Injectable()
 export class CommandManagerSkillService implements CommandManager {
   private abilities$: ReplaySubject<AbilityModel[]> = new ReplaySubject();
-  private list$: Subject<string> = new ReplaySubject();
-  private inspect$: Subject<string> = new ReplaySubject();
+  private list$: Subject<string> = new Subject();
+  private inspect$: Subject<string> = new Subject();
   constructor(
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private characterService: UserCharacters,
@@ -103,6 +103,7 @@ export class CommandManagerSkillService implements CommandManager {
     if (item) {
       return item;
     } else {
+      actionParam = actionParam.toLocaleLowerCase().replace('-', ' ');
       item = list.find(i => i.name.toLocaleLowerCase() == actionParam.toLocaleLowerCase().replace('-', ' '));
       if (item) {
         return item;
