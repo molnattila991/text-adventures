@@ -1,27 +1,9 @@
 export const SinglePlayerCommands = {
-    // history: {
-    //     description: "Az előzmények kilistázása.",
-    //     param: 
-    //     all: {
-    //         description: "A teljes előzmény kiírása."
-    //     },
-    //     recent: {
-    //         description: "Az jelenlegi előzmények kiírása."
-    //     }
-    // },
-    start: {
-        description: "A játék kezdése"
-    },
     story: {
         description: "Történettel kapcsolatos adatok kezelése.",
         start: {
             description: "A történet kezdése."
         },
-        // list: {
-        //     description: "A választási lehetőségek listázása.",
-        //     default: "options",
-        //     params: ["options"]
-        // },
         inspect: {
             description: "Részletesen megjeleníti a kiválasztott elem adatait.",
             default: "story",
@@ -38,8 +20,8 @@ export const SinglePlayerCommands = {
             description: "Karaktertulajdonságok lisája.",
         },
         inspect: {
-            description: "Részletesen megjeleníti a kiválasztott elem adatait.",
-            params: ["{attribute name}"]
+            description: "Részletesen megjeleníti a kiválasztott elem adatait. Névmegadás esetén szóközök helyett '-'-et írj.",
+            params: ["{attribute name/attribute id}"]
         },
         improve: {
             description: "Képesség fejlesztése.",
@@ -54,12 +36,12 @@ export const SinglePlayerCommands = {
             params: ["all/physical/magical"]
         },
         inspect: {
-            description: "Részletesen megjeleníti a kiválasztott elem adatait.",
-            params: ["{skill name}"]
+            description: "Részletesen megjeleníti a kiválasztott elem adatait. Névmegadás esetén szóközök helyett '-'-et írj.",
+            params: ["{skill name/skill id}"]
         },
         improve: {
-            description: "Képesség fejlesztése.",
-            params: ["{skill name}"]
+            description: "Képesség fejlesztése. Névmegadás esetén szóközök helyett '-'-et írj.",
+            params: ["{skill name/skill id}"]
         },
     },
     inventory: {
@@ -75,20 +57,20 @@ export const SinglePlayerCommands = {
             params: ["all/free/used"]
         },
         inspect: {
-            description: "Részletesen megjeleníti a kiválasztott elem adatait.",
-            params: ["{item name}"]
+            description: "Részletesen megjeleníti a kiválasztott elem adatait. Névmegadás esetén szóközök helyett '-'-et írj.",
+            params: ["{item name/item id}"]
         },
         pick: {
-            description: "Eszköz felvétele.",
-            params: ["{item name}"]
+            description: "Eszköz felvétele. Névmegadás esetén szóközök helyett '-'-et írj.",
+            params: ["{item name/item id}"]
         },
         put: {
-            description: "Ezköz használata/táskába tétele testrésszel.",
-            params: ["{item name}", "on/off", "{body part}"]
+            description: "Ezköz használata/táskába tétele testrésszel. Névmegadás esetén szóközök helyett '-'-et írj.",
+            params: ["{item name/item id}", "on/off", "{body part}"]
         },
         drop: {
-            description: "Eszköz eldobobása.",
-            params: ["{item name}"]
+            description: "Eszköz eldobobása. Névmegadás esetén szóközök helyett '-'-et írj.",
+            params: ["{item name/item id}"]
         },
         use: {
             description: "Eszköz felhasználása",
