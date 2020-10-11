@@ -4,6 +4,7 @@ import { CommandHelperService } from './command-helper.service';
 import { CommandManagerStoryService } from './command-manager-story.service';
 import { CommandManagerSkillService } from './command-manager-skill.service';
 import { CommandManagerAttributeService } from './command-manager-attribute.service';
+import { CommandManagerInventoryService } from './command-manager-inventory.service';
 
 @Injectable()
 export class CommandHandlerService {
@@ -13,7 +14,8 @@ export class CommandHandlerService {
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SinglePlayerManagerService) private singlePlayerGame: SinglePlayerGame,
     private storyCommandManager: CommandManagerStoryService,
     private skillCommandManager: CommandManagerSkillService,
-    private attributeCommandManager: CommandManagerAttributeService
+    private attributeCommandManager: CommandManagerAttributeService,
+    private inventoryCommandManager: CommandManagerInventoryService
   ) { }
 
   perform(command: string) {
@@ -41,6 +43,7 @@ export class CommandHandlerService {
           this.skillCommandManager.handle(commandParts);
           break;
         case "inventory":
+          this.inventoryCommandManager.handle(commandParts);
           break;
         case "enemies":
           break;

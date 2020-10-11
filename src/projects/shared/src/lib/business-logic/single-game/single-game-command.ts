@@ -49,12 +49,10 @@ export const SinglePlayerCommands = {
         list: {
             description: "Eszköztárral kapcsolatos adatok listája.",
             default: "all",
-            params: ["all/bag/used/bodyparts"]
+            params: ["all/bag/used"]
         },
         bodyParts: {
-            description: "Karakter testrészeinek listája.",
-            default: ["all"],
-            params: ["all/free/used"]
+            description: "Karakter testrészeinek listája."
         },
         inspect: {
             description: "Részletesen megjeleníti a kiválasztott elem adatait. Névmegadás esetén szóközök helyett '-'-et írj.",

@@ -6,6 +6,7 @@ import { LoginUserService } from './login/login-user.service';
 import { CommandHandlerService } from './single-player/command-handler.service';
 import { CommandHelperService } from './single-player/command-helper.service';
 import { CommandManagerAttributeService } from './single-player/command-manager-attribute.service';
+import { CommandManagerInventoryService } from './single-player/command-manager-inventory.service';
 import { CommandManagerSkillService } from './single-player/command-manager-skill.service';
 import { CommandManagerStoryService } from './single-player/command-manager-story.service';
 import { CommandOutputService } from './single-player/command-output.service';
@@ -26,7 +27,8 @@ import { CharacterStoryService } from './story-management/character-story.servic
     CommandHelperService,
     CommandManagerStoryService,
     CommandManagerSkillService,
-    CommandManagerAttributeService
+    CommandManagerAttributeService,
+    CommandManagerInventoryService
   ]
 })
 export class BusinessLogicModule {

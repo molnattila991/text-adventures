@@ -95,7 +95,6 @@ export class CommandManagerSkillService implements CommandManager {
     } else {
       this.list$.next("all");
     }
-    return listParam;
   }
 
   private convertToAbility(actionParam: string, hash: HashMap<AbilityModel>, list: AbilityModel[]): AbilityModel {

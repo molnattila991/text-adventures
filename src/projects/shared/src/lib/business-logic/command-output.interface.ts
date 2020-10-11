@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 export enum CommandOutputType {
-    Story, StoryItem, Item, Attribute, Skill, Character
+    Story, StoryItem, Item, ItemUsed, Attribute, Skill, Character
 }
 
 export interface CommandOutputMessage {
