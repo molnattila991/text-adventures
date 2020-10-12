@@ -29,7 +29,7 @@ export const SinglePlayerCommands = {
         },
     },
     skills: {
-        description: "Karaktertuképességekkel kapcsolatos adatok kezelése.",
+        description: "Karakterképességekkel kapcsolatos adatok kezelése.",
         list: {
             description: "Karaktertuképességek lisája.",
             default: "all",
@@ -43,6 +43,13 @@ export const SinglePlayerCommands = {
             description: "Képesség fejlesztése. Névmegadás esetén szóközök helyett '-'-et írj.",
             params: ["{skill name/skill id}"]
         },
+        select: {
+            description: "Képesség aktív használata. Névmegadás esetén szóközök helyett '-'-et írj.",
+            params: ["{skill name/skill id}"]
+        },
+        active: {
+            description: "Aktív képesség neve."
+        }
     },
     inventory: {
         description: "Eszköztárral kapcsolatos adatok kezelése.",
@@ -75,7 +82,7 @@ export const SinglePlayerCommands = {
             params: ["{item name}"]
         }
     },
-    enemies: {
+    battle: {
         description: "A funkció leírása",
         list: {
             description: "",
@@ -83,11 +90,17 @@ export const SinglePlayerCommands = {
         },
         inspect: {
             description: "Kiválsaztott karakter részleteinek litázása.",
-            params: ["{character name}"]
+            params: ["item/skill/{character name}"]
         },
         target: {
             description: "Kiválasztott karakter célzása.",
-            params: ["{character name}", "{skill name}"]
+            params: ["{character name/character id}"]
+        },
+        attack: {
+            description: "Kiválasztott karakteren művelet végrehajtása.",
+        },
+        vote: {
+
         }
     }
 }

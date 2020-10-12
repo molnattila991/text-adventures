@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite, SinglePlayerCommands, SinglePlayerGame } from '@text-adventures/shared';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite } from '@text-adventures/shared';
 import { CommandHelperService } from './command-helper.service';
 import { CommandManagerStoryService } from './command-manager-story.service';
 import { CommandManagerSkillService } from './command-manager-skill.service';
@@ -11,7 +11,6 @@ export class CommandHandlerService {
   constructor(
     private commandHelper: CommandHelperService,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
-    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SinglePlayerManagerService) private singlePlayerGame: SinglePlayerGame,
     private storyCommandManager: CommandManagerStoryService,
     private skillCommandManager: CommandManagerSkillService,
     private attributeCommandManager: CommandManagerAttributeService,
@@ -45,7 +44,7 @@ export class CommandHandlerService {
         case "inventory":
           this.inventoryCommandManager.handle(commandParts);
           break;
-        case "enemies":
+        case "battle":
           break;
         default:
           this.output.pushText(["Command ('" + commandParts[0] + "') is not valid. Please type 'help' to list avaiable commands"]);

@@ -37,15 +37,15 @@ export class CommandManagerInventoryService implements CommandManager {
         this.items$
       ),
       map(([parameter, usedItems, items]) => {
-        if (parameter = "all") {
+        if (parameter == "all") {
           return [
             ...usedItems.map(item => <CommandOutputMessage>{ type: CommandOutputType.ItemUsed, id: item.item.id, message: item.item.name }),
             ...items.map(item => <CommandOutputMessage>{ type: CommandOutputType.Item, id: item.item.id, message: item.item.name })
           ];
-        } else if (parameter = "bag") {
+        } else if (parameter == "bag") {
           return items.map(item => <CommandOutputMessage>{ type: CommandOutputType.ItemUsed, id: item.item.id, message: item.item.name });
         }
-        else if (parameter = "used") {
+        else if (parameter == "used") {
           return usedItems.map(item => <CommandOutputMessage>{ type: CommandOutputType.Item, id: item.item.id, message: item.item.name });;
         }
       })
