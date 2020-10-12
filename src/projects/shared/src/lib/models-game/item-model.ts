@@ -1,4 +1,4 @@
-import { CharacterItemModel } from './character-model';
+import { CharacterItemModel, CharacterItemModelExpanded } from './character-model';
 import { HashMap } from './../models-be-connector/hash-map.interface';
 import {
   PropertyModel,
@@ -7,10 +7,23 @@ import {
 import { ApplicationType, ItemUsabilityType, ItemType } from './e-item-type';
 import { UsableGameObject } from './usable-game-object.interface';
 
+export class InventoryItemUsabilityManagerModelExpanded {
+  itemUsabilityType: ItemUsabilityType;
+  maxCount: number;
+  actualCount: number;
+}
+
 export class InventoryItemUsabilityManagerModel {
   itemUsabilityType: ItemUsabilityType;
   maxCount: number;
   actualCount: number;
+}
+
+export class InventoryModelExpanded {
+  maxLoad: number;
+  actualLoad: number;
+  inventoryItemUsabilityManager: InventoryItemUsabilityManagerModelExpanded[];
+  items: HashMap<CharacterItemModelExpanded>;
 }
 
 export class InventoryModel {

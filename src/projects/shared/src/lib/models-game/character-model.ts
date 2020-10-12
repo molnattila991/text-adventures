@@ -1,10 +1,21 @@
 import { PropertyModel } from './property-model';
-import { InventoryModel } from './item-model';
+import { InventoryModel, InventoryModelExpanded, ItemModel } from './item-model';
 import { HashMap } from '../models-be-connector/hash-map.interface';
+import { AbilityModel } from './ability-model.interface';
+
+export interface CharacterAbilityModelExpanded {
+  ability: AbilityModel;
+  level: number;
+}
 
 export interface CharacterAbilityModel {
   abilityId: string;
   level: number;
+}
+
+export interface CharacterItemModelExpanded  {
+  item: ItemModel;
+  count: number;
 }
 
 export interface CharacterItemModel {
@@ -21,7 +32,25 @@ export interface CharacterModel {
   abilities: HashMap<CharacterAbilityModel>;
   items: HashMap<CharacterItemModel>;
   attributes: HashMap<PropertyModel>;
+
   stories: string[];
+}
+
+export interface CharacterModelExpanded {
+  id?: string;
+  name: string;
+  characterName: string;
+  description: string;
+  inventory: Partial<InventoryModelExpanded>;
+  abilities: HashMap<CharacterAbilityModelExpanded>;
+  items: HashMap<CharacterItemModelExpanded>;
+  attributes: HashMap<PropertyModel>;
+
+  stories: string[];
+}
+
+export interface CharacterPlayerModelExpanded extends CharacterModelExpanded {
+  userId: string;
 }
 
 export interface CharacterPlayerModel extends CharacterModel {

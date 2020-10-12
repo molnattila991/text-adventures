@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { CommandManager, BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite, UserCharacters, STORE_INJECTION_TOKEN, BaseDataCollection, AbilityModel, AbilityType, CommandOutputMessage, HashMap, CommandOutputType } from '@text-adventures/shared';
-import { combineLatest, ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
@@ -16,13 +16,9 @@ export class CommandManagerSkillService implements CommandManager {
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private characterService: UserCharacters,
     @Inject(STORE_INJECTION_TOKEN.AbilityStoreService) private abilities: BaseDataCollection<AbilityModel>
   ) {
-    combineLatest(
-      [
-        this.characterService.getSelectedCharacter().pipe(map(item => item.abilities)),
-        this.abilities.getHash()
-      ]).pipe(
-        map(([abilities, hash]) => Object.keys(abilities).map(key => hash[abilities[key].abilityId]))
-      )
+
+    this.characterService.getSelectedCharacter()
+      .pipe(map(item => Object.keys(item.abilities).map(key => item.abilities[key].ability)))
       .subscribe(this.abilities$);
 
     this.listSkills();

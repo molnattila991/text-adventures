@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterItemModel, CommandManager, CommandOutputMessage, CommandOutputType, CommandOutputWrite, HashMap, ItemModel, STORE_INJECTION_TOKEN, UserCharacters } from '@text-adventures/shared';
+import { BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterItemModelExpanded, CommandManager, CommandOutputMessage, CommandOutputType, CommandOutputWrite, HashMap, ItemModel, STORE_INJECTION_TOKEN, UserCharacters } from '@text-adventures/shared';
 import { Subject, ReplaySubject, combineLatest } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
@@ -8,28 +8,20 @@ export class CommandManagerInventoryService implements CommandManager {
   private list$: Subject<string> = new Subject();
   private inspect$: Subject<string> = new Subject();
 
-  private usedItems$: ReplaySubject<{ item: ItemModel, count }[]> = new ReplaySubject();
-  private items$: ReplaySubject<{ item: ItemModel, count }[]> = new ReplaySubject();
-  private allItems$: ReplaySubject<{ item: ItemModel, count }[]> = new ReplaySubject();
+  private usedItems$: ReplaySubject<CharacterItemModelExpanded[]> = new ReplaySubject();
+  private items$: ReplaySubject<CharacterItemModelExpanded[]> = new ReplaySubject();
 
   constructor(
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private characterService: UserCharacters,
-    @Inject(STORE_INJECTION_TOKEN.ItemStoreService) private items: BaseDataCollection<ItemModel>
   ) {
+    this.characterService.getSelectedCharacter().subscribe(character => {
+      const items = Object.keys(character.items).map(key => character.items[key]);
+      const usedItems = Object.keys(character.inventory.items).map(key => character.items[key]);
 
-    this.characterService.getSelectedCharacter().subscribe(v => console.log(v));
-    combineLatest([this.characterService.getSelectedCharacter(), this.items.getHash()]).pipe(
-      map(([character, items]) => this.getItemsList(character.items, items))
-    ).subscribe(this.items$);
-
-    combineLatest([this.characterService.getSelectedCharacter(), this.items.getHash()]).pipe(
-      map(([character, items]) => this.getItemsList(character.inventory.items, items))
-    ).subscribe(this.usedItems$);
-
-    combineLatest([this.usedItems$, this.items$])
-      .pipe(map(([usedItems, items]) => [...usedItems, items]))
-      .subscribe(this.allItems$)
+      this.items$.next(items);
+      this.usedItems$.next(usedItems);
+    });
 
     this.list$.pipe(
       withLatestFrom(
@@ -64,7 +56,7 @@ export class CommandManagerInventoryService implements CommandManager {
         if (item) {
           return [
             <CommandOutputMessage>{ type: CommandOutputType.Item, id: item.item.id, message: item.item.name },
-            <CommandOutputMessage>{ type: CommandOutputType.Item, id: item.item.id, message: item.count },
+            <CommandOutputMessage>{ type: CommandOutputType.Item, id: item.item.id, message: item.count + "" },
             <CommandOutputMessage>{ type: CommandOutputType.Item, id: item.item.id, message: JSON.stringify(item.item) }
           ];
         } else {
@@ -72,7 +64,7 @@ export class CommandManagerInventoryService implements CommandManager {
           if (item) {
             return [
               <CommandOutputMessage>{ type: CommandOutputType.ItemUsed, id: item.item.id, message: item.item.name },
-              <CommandOutputMessage>{ type: CommandOutputType.ItemUsed, id: item.item.id, message: item.count },
+              <CommandOutputMessage>{ type: CommandOutputType.ItemUsed, id: item.item.id, message: item.count + "" },
               <CommandOutputMessage>{ type: CommandOutputType.ItemUsed, id: item.item.id, message: JSON.stringify(item.item) }
             ];
           } else {
@@ -123,17 +115,5 @@ export class CommandManagerInventoryService implements CommandManager {
     } else {
       this.list$.next("all");
     }
-  }
-
-  private getItemsList(items: HashMap<CharacterItemModel>, itemsHash: HashMap<ItemModel>) {
-    if (items)
-      return Object.keys(items).map(key => {
-        return {
-          item: <ItemModel>itemsHash[key],
-          count: items[key].count
-        }
-      });
-    else
-      return [];
   }
 }

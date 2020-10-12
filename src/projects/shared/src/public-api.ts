@@ -114,11 +114,7 @@ export { PropertyModel } from './lib/models-game/property-model';
 export {
     ItemsCrudService
 } from './lib/models-be-connector/items-crud.interface';
-export {
-    ItemModel,
-    InventoryModel,
-    InventoryItemUsabilityManagerModel
-} from './lib/models-game/item-model';
+
 export { SelectItem } from './lib/interfaces/select-item.interface';
 export * from './lib/shared-models.module';
 
