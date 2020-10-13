@@ -120,6 +120,8 @@ export class CommandManagerSkillService implements CommandManager {
     } else {
       this.output.pushHelp("skills");
     }
+
+    this.output.flush();
   }
 
   private select(commandParts: string[]) {

@@ -1,7 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterStory, CharacterStoryItem, CommandOutputMessage, CommandOutputType, CommandOutputWrite, DATA_PROVIDER_INJECTION_TOKEN, HashMap, IGenericCrudDataProvider, SingleGameState, SinglePlayerGame, StoryPageModel } from '@text-adventures/shared';
 import { combineLatest, ReplaySubject } from 'rxjs';
-import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { StoryState, StoryStateService } from '../story-management/story-state.service';
+import { StoryPageService } from '../story-management/story-page.service';
 
 @Injectable()
 export class SinglePlayerManagerService implements SinglePlayerGame, CharacterStoryItem {
@@ -10,20 +12,18 @@ export class SinglePlayerManagerService implements SinglePlayerGame, CharacterSt
   private inspect$: ReplaySubject<void> = new ReplaySubject();
   private gameState$: ReplaySubject<SingleGameState> = new ReplaySubject();
 
-  private storyItemsForSelectedStory$: ReplaySubject<HashMap<StoryPageModel>> = new ReplaySubject();
-  private selectStoryItem$: ReplaySubject<string> = new ReplaySubject();
-  private selectStoryItemByIndex$: ReplaySubject<number> = new ReplaySubject();
-  private selectedStoryItem$: ReplaySubject<StoryPageModel> = new ReplaySubject();
   constructor(
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CharacterStoryService) private storyService: CharacterStory,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
+    private storyState: StoryStateService,
+    private storyPageService: StoryPageService,
     @Inject(DATA_PROVIDER_INJECTION_TOKEN.StoryPageDataProviderService) private storyPageDataProvider: IGenericCrudDataProvider<StoryPageModel>
 
   ) {
     this.storyItemSubscriptions();
   }
   selectOptionByIndex(index: number): void {
-    this.selectStoryItemByIndex$.next(index);
+    this.storyPageService.selectOptionByIndex(index);
   }
 
   start(): void {
@@ -34,55 +34,60 @@ export class SinglePlayerManagerService implements SinglePlayerGame, CharacterSt
     this.inspect$.next();
   }
 
-  selectStoryItem(id: string): void {
-    this.selectStoryItem$.next(id);
-  }
-
   private storyItemSubscriptions() {
-    this.storyService.getSelectedItem().pipe(
-      switchMap(v => {
-        return this.storyPageDataProvider.getHashFiltered("storyId", v.id, "==")
-      })
-    ).subscribe(this.storyItemsForSelectedStory$);
-
-    this.selectStoryItem$
-      .pipe(
-        withLatestFrom(this.storyItemsForSelectedStory$),
-        map(([id, hash]) => hash[id]))
-      .subscribe(this.selectedStoryItem$);
-
-    this.selectStoryItemByIndex$
-      .pipe(
-        withLatestFrom(this.selectedStoryItem$),
-        map(([index, storyItem]) => {
-          const item = storyItem.options[index - 1];
-          if (item)
-            return item.destinationId;
-          else
-            throw "Index " + index + " nem megfelelő. Type 'story inspect' to list selectable indexes";
-        })
-      ).subscribe((id) => {
-        this.selectStoryItem$.next(id);
-      }, (error) => {
-        this.output.pushText([error.message]);
-      })
 
     this.start$.pipe(
       withLatestFrom(
         this.storyService.getSelectedItem()
       ), map(([start, story]) => story.firstPageId)
-    ).subscribe(v => this.selectStoryItem(v));
+    ).subscribe(v => {
+      this.storyPageService.selectStoryItem(v)
+    });
 
     this.start$.subscribe(() => this.gameState$.next(SingleGameState.story));
 
-    this.selectedStoryItem$.subscribe(s => this.inspectStory(s));
-    this.inspect$.pipe(withLatestFrom(this.selectedStoryItem$), map(([i, s]) => s)).subscribe(s => this.inspectStory(s));
+    this.storyPageService.getSelectedStoryItem().pipe(
+      map(item => item.enemies != undefined && item.enemies.length > 0)
+    ).subscribe(storyHasEnemies => {
+      if (storyHasEnemies) {
+        this.storyState.setStoryState(StoryState.BattleIntro);
+      } else {
+        this.storyState.setStoryState(StoryState.InStory);
+      }
+    });
+
+    this.storyPageService.getSelectedStoryItem().pipe(
+      map(s => s.enemies)
+    ).subscribe(enemies => {
+      console.log(enemies);
+    })
+
+    combineLatest([this.storyPageService.getSelectedStoryItem(), this.storyState.getStoryState()])
+      .subscribe(([s, storyState]) => this.inspectStory(s, storyState));
+
+    this.inspect$
+      .pipe(
+        withLatestFrom(
+          this.storyPageService.getSelectedStoryItem(),
+          this.storyState.getStoryState()
+        ))
+      .subscribe(([i, s, storyState]) => this.inspectStory(s, storyState));
   }
 
-  private inspectStory(s: StoryPageModel) {
-    this.output.push([<CommandOutputMessage>{ message: s.text }]);
-    s.options.forEach((option, index) => {
-      this.output.push([<CommandOutputMessage>{ message: (index + 1) + ". " + option.text, id: (index + 1), type: CommandOutputType.StoryItem }]);
-    });
+  private inspectStory(s: StoryPageModel, storyState: StoryState) {
+    switch (storyState) {
+      case StoryState.BattleIntro:
+        this.output.push([<CommandOutputMessage>{ message: s.text }]);
+        this.output.pushText(["Add ki a 'battle start' parncsot a folytatáshoz."]);
+        break;
+      case StoryState.InStory:
+        this.output.push([<CommandOutputMessage>{ message: s.text }]);
+        s.options.forEach((option, index) => {
+          this.output.push([<CommandOutputMessage>{ message: (index + 1) + ". " + option.text, id: (index + 1), type: CommandOutputType.StoryItem }]);
+        });
+        break;
+    }
+
+    this.output.flush();
   }
 }

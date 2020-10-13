@@ -23,7 +23,7 @@ import { CommandOutputMessage } from '@text-adventures/shared';
     </div>
   `,
   styles: [
-    ".command-container{position: relative; white-space: pre-wrap;height:500px;border: 1px solid black; background-color:gray;}",
+    ".command-container{font-size: 25px;color: white;position: relative; white-space: pre-wrap;height:500px;border: 1px solid black; background-color:gray;}",
     ".command-output-container{position: absolute;white-space: pre-wrap; height:80%; overflow: auto; width:100%; top:0px;}",
     ".command-text{position: absolute; width:100%; bottom:0px;}"
   ]

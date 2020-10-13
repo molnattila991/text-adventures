@@ -93,6 +93,8 @@ export class CommandManagerInventoryService implements CommandManager {
     } else {
       this.output.pushHelp("items");
     }
+
+    this.output.flush();
   }
 
   private inspect(commandParts: string[]) {

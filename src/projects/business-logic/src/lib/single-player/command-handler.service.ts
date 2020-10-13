@@ -5,6 +5,7 @@ import { CommandManagerStoryService } from './command-manager-story.service';
 import { CommandManagerSkillService } from './command-manager-skill.service';
 import { CommandManagerAttributeService } from './command-manager-attribute.service';
 import { CommandManagerInventoryService } from './command-manager-inventory.service';
+import { CommandManagerBattleService } from './command-manager-battle.service';
 
 @Injectable()
 export class CommandHandlerService {
@@ -14,7 +15,8 @@ export class CommandHandlerService {
     private storyCommandManager: CommandManagerStoryService,
     private skillCommandManager: CommandManagerSkillService,
     private attributeCommandManager: CommandManagerAttributeService,
-    private inventoryCommandManager: CommandManagerInventoryService
+    private inventoryCommandManager: CommandManagerInventoryService,
+    private battleCommandManager: CommandManagerBattleService
   ) { }
 
   perform(command: string) {
@@ -45,13 +47,13 @@ export class CommandHandlerService {
           this.inventoryCommandManager.handle(commandParts);
           break;
         case "battle":
+          this.battleCommandManager.handle(commandParts);
           break;
         default:
           this.output.pushText(["Command ('" + commandParts[0] + "') is not valid. Please type 'help' to list avaiable commands"]);
           break;
       }
     }
-    this.output.flush();
   }
 
   private handleHelp(commandParts: string[]) {

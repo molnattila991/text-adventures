@@ -28,14 +28,18 @@ export class CommandManagerStoryService implements CommandManager {
             } else {
               this.output.pushText(["Index must be number."]);
               this.output.pushHelp("story select");
+              this.output.flush();
             }
           } else {
             this.output.pushHelp("story select");
+            this.output.flush();
           }
+
           break;
       }
     } else {
       this.output.pushHelp("story");
+      this.output.flush();
     }
   }
 }

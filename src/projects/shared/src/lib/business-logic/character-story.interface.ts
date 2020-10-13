@@ -10,5 +10,5 @@ export interface CharacterStory {
 }
 
 export interface CharacterStoryItem {
-    selectStoryItem(id: string): void;
+    // selectStoryItem(id: string): void;
 }

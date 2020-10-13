@@ -83,6 +83,9 @@ export class CommandManagerAttributeService implements CommandManager {
     } else {
       this.output.pushHelp("attributes");
     }
+
+    this.output.flush();
+
   }
 
   private inspect(commandParts: string[]) {

@@ -14,6 +14,8 @@ import { CommandOutputService } from './single-player/command-output.service';
 import { SinglePlayerManagerService } from './single-player/single-player-manager.service';
 import { BattleService } from './story-management/battle.service';
 import { CharacterStoryService } from './story-management/character-story.service';
+import { StoryPageService } from './story-management/story-page.service';
+import { SinglePlayerBattleTeamManagerService } from './single-player/single-player-battle-team-manager.service';
 
 
 
@@ -33,6 +35,8 @@ import { CharacterStoryService } from './story-management/character-story.servic
     CommandManagerInventoryService,
     BattleService,
     CommandManagerBattleService,
+    StoryPageService,
+    SinglePlayerBattleTeamManagerService
   ]
 })
 export class BusinessLogicModule {

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CharacterModel, CharacterPlayerModel } from '@text-adventures/shared';
+import { CharacterModelExpanded, CharacterPlayerModelExpanded } from '@text-adventures/shared';
 import { Observable, ReplaySubject } from 'rxjs';
 
 export interface BattleTeam {
   teamName: string;
   teamIndex: number;
-  teamMembers: CharacterModel[] | CharacterPlayerModel[];
+  teamMembers: CharacterModelExpanded[] | CharacterPlayerModelExpanded[];
 }
 
 @Injectable()
@@ -15,6 +15,10 @@ export class BattleService {
 
   constructor() {
 
+  }
+
+  refresh(teams: BattleTeam[]) {
+    this.teams$.next(teams);
   }
 
   getTeams(): Observable<BattleTeam[]> {

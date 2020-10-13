@@ -84,6 +84,9 @@ export const SinglePlayerCommands = {
     },
     battle: {
         description: "A funkció leírása",
+        start: {
+            description: "",
+        },
         list: {
             description: "",
             params: ["all/enemies/mates"]
