@@ -4,6 +4,7 @@ import { combineLatest, ReplaySubject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { StoryState, StoryStateService } from '../story-management/story-state.service';
 import { StoryPageService } from '../story-management/story-page.service';
+import { BattleService } from '../story-management/battle.service';
 
 @Injectable()
 export class SinglePlayerManagerService implements SinglePlayerGame, CharacterStoryItem {
@@ -17,8 +18,7 @@ export class SinglePlayerManagerService implements SinglePlayerGame, CharacterSt
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
     private storyState: StoryStateService,
     private storyPageService: StoryPageService,
-    @Inject(DATA_PROVIDER_INJECTION_TOKEN.StoryPageDataProviderService) private storyPageDataProvider: IGenericCrudDataProvider<StoryPageModel>
-
+    private battleSerivce: BattleService
   ) {
     this.storyItemSubscriptions();
   }
@@ -58,9 +58,7 @@ export class SinglePlayerManagerService implements SinglePlayerGame, CharacterSt
 
     this.storyPageService.getSelectedStoryItem().pipe(
       map(s => s.enemies)
-    ).subscribe(enemies => {
-      console.log(enemies);
-    })
+    ).subscribe(enemies => this.battleSerivce.createBattleTeams(enemies))
 
     combineLatest([this.storyPageService.getSelectedStoryItem(), this.storyState.getStoryState()])
       .subscribe(([s, storyState]) => this.inspectStory(s, storyState));

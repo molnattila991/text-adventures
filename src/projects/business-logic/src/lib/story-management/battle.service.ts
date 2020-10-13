@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { CharacterModelExpanded, CharacterPlayerModelExpanded } from '@text-adventures/shared';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { AbilityModel, BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterModel, CharacterModelExpanded, CharacterPlayerModelExpanded, ItemModel, STORE_INJECTION_TOKEN, UserCharacters } from '@text-adventures/shared';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 
 export interface BattleTeam {
   teamName: string;
@@ -12,13 +13,61 @@ export interface BattleTeam {
 export class BattleService {
 
   private teams$: ReplaySubject<BattleTeam[]> = new ReplaySubject();
+  private createTeams$: Subject<string[]> = new Subject();
+  constructor(
+    @Inject(STORE_INJECTION_TOKEN.AbilityStoreService) private abilities: BaseDataCollection<AbilityModel>,
+    @Inject(STORE_INJECTION_TOKEN.ItemStoreService) private items: BaseDataCollection<ItemModel>,
+    @Inject(STORE_INJECTION_TOKEN.CharacterStoreService) private characters: BaseDataCollection<CharacterModel>,
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private characterService: UserCharacters
+  ) {
+    this.createTeams$.pipe(
+      filter(t => t && t.length > 0),
+      withLatestFrom(
+        this.characters.getHash(),
+        this.items.getHash(),
+        this.abilities.getHash(),
+        this.characterService.getSelectedCharacter()
+      ),
+      map(([create, characters, items, abilibiesHash, player]) => {
 
-  constructor() {
+        const enemies = create.map(id => {
+          const original = characters[id];
+          const character: CharacterModelExpanded = JSON.parse(JSON.stringify(original));
 
+          if (original.abilities == undefined)
+            original.abilities = {};
+          Object.keys(original.abilities).forEach(key => {
+            character.abilities[key].ability = abilibiesHash[key];
+          });
+
+          if (original.items == undefined)
+            original.items = {};
+          Object.keys(original.items).forEach(key => {
+            character.items[key].item = items[key];
+          });
+
+          if (original.inventory == undefined)
+            original.inventory = {};
+          if (original.inventory.items == undefined)
+            original.inventory.items = {};
+          Object.keys(original.inventory.items).forEach(key => {
+            character.inventory.items[key].item = items[key];
+          });
+
+          return character;
+        });
+
+        const teams: BattleTeam[] = [];
+        teams.push(<BattleTeam>{ teamName: "Szövetségesek", teamIndex: 0, teamMembers: [player] });
+        teams.push(<BattleTeam>{ teamName: "Ellenségek", teamIndex: 1, teamMembers: enemies });
+
+        return teams;
+      })
+    ).subscribe(this.teams$);
   }
 
-  refresh(teams: BattleTeam[]) {
-    this.teams$.next(teams);
+  createBattleTeams(enemies: string[]) {
+    this.createTeams$.next(enemies);
   }
 
   getTeams(): Observable<BattleTeam[]> {

@@ -38,6 +38,8 @@ export class CommandManagerBattleService implements CommandManager {
     } else {
       this.output.pushHelp("battle");
     }
+
+    this.output.flush();
   }
 
   private listSubscription() {
@@ -73,7 +75,7 @@ export class CommandManagerBattleService implements CommandManager {
       teams.forEach(team => {
         this.output.pushText(["Csapat: " + team.teamName]);
         team.teamMembers.forEach(member => {
-          this.output.push([<CommandOutputMessage>{ id: member.id, type: CommandOutputType.Character, message: "Character: " + member.name }]);
+          this.output.push([<CommandOutputMessage>{ id: member.id, type: CommandOutputType.Character, message: "Karakter: " + member.name }]);
         })
       })
     });
