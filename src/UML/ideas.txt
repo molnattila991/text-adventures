@@ -1,6 +1,21 @@
 https://console.firebase.google.com/project/textadventures-cb5e4/firestore/usage/last-24h/reads
 adatfeltöltő script kell, hogy üres adatbázisról is lehessen indítani
 
+szavazásnál nem írja ki ki szavazott, csak azt hogy waiting for others
+közös logokat vagyis a többi játékos logjait külön gyűjteni és kiírni a kör végén
+
+Csata management
+    -adatok
+        csapat
+        jelenlegi játékos
+        kör index
+        körben már lépett játékosok
+        készen állok a folytatásra adat
+        aktív játékosok száma -> szavazatokhoz kell
+    -funkciók
+        készen állok szavazás
+        játékos kiválasztása
+
 
 Multi/Single Csata
     -karakter lista single esetén egy statikus listából jön ami csak kliens oldalon van lementve. Csata végén a felhasználó karakterét menteni kell adatbázisba.
@@ -11,16 +26,4 @@ Nem kell minden funkciónalitást implementálni, csak a főbb részeket, az ily
 
 
 
-Parancs kiadással lehessen navigálni a játékot
 
-lista elemeken az akciókat meglehet nézni és akció kiválasztással lefuttatni
-
-különböző állapotokban különböző opciók
-    Sztori 
-        - kötelező: select storyitem "név"
-        - opcionális: inventory, attributes
-
-    Csata
-        -kötelező körönként: szavazás, jelzés hol tartasz
-        -opcionális, célpont választás, képesség kiválasztása ,támadás (csak ha van célpont és képesség kiválasztva),
-                     inventory, skills, abilities 

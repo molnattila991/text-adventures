@@ -85,7 +85,7 @@ export const SinglePlayerCommands = {
     battle: {
         description: "A funkció leírása",
         start: {
-            description: "",
+            description: "Csata indítása.",
         },
         list: {
             description: "",

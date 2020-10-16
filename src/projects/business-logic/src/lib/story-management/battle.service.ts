@@ -29,10 +29,16 @@ export class BattleService {
         this.characterService.getSelectedCharacter()
       ),
       map(([create, characters, items, abilibiesHash, player]) => {
+        let playerIndex = 0;
+
+        player.index = playerIndex++;
+        player.autoPlayer = false;
 
         const enemies = create.map(id => {
           const original = characters[id];
           const character: CharacterModelExpanded = JSON.parse(JSON.stringify(original));
+          character.index = playerIndex++;
+          character.autoPlayer = true;
 
           if (original.abilities == undefined)
             original.abilities = {};

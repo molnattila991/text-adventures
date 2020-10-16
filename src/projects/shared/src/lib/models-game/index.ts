@@ -1,3 +1,5 @@
+export { PropertyType } from './e-property-type';
+
 export {
     InventoryItemUsabilityManagerModelExpanded,
     InventoryItemUsabilityManagerModel,
@@ -5,6 +7,7 @@ export {
     InventoryModelExpanded,
     ItemModel
 } from './item-model';
+
 
 export {
     CharacterAbilityModelExpanded,

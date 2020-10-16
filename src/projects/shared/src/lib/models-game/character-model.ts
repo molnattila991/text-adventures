@@ -45,7 +45,8 @@ export interface CharacterModelExpanded {
   abilities: HashMap<CharacterAbilityModelExpanded>;
   items: HashMap<CharacterItemModelExpanded>;
   attributes: HashMap<PropertyModel>;
-
+  index: number;
+  autoPlayer: boolean;
   stories: string[];
 }
 

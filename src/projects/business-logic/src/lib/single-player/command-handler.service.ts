@@ -30,6 +30,7 @@ export class CommandHandlerService {
     if (commandParts[0] == "help") {
       //HELP
       this.handleHelp(commandParts);
+      this.output.flush();
 
     } else {
       //EXECUTE
