@@ -1,9 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterModelExpanded, CommandManager, CommandOutputMessage, CommandOutputType, CommandOutputWrite, UserCharacters } from '@text-adventures/shared';
 import { BattleService, BattleTeam } from '../story-management/battle.service';
-import { Subject, ReplaySubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { SinglePlayerBattleTeamManagerService } from './single-player-battle-team-manager.service';
+import { SelectedTargetService } from './selected-target.service';
+import { SinglePlayerBattleAttackManagerService } from './single-player-battle-attack-manager.service';
 
 
 @Injectable()
@@ -11,13 +13,14 @@ export class CommandManagerBattleService implements CommandManager {
 
   private list$: Subject<string> = new Subject();
   private target$: Subject<string> = new Subject();
-  private targetedCharacter$: ReplaySubject<CharacterModelExpanded> = new ReplaySubject();
 
   constructor(
     private battleService: BattleService,
     private singlePlayerBattleTeamManagerService: SinglePlayerBattleTeamManagerService,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private userCharactersService: UserCharacters,
+    private selectedTargetService: SelectedTargetService,
+    private singlePlayerBattleAttackManagerService: SinglePlayerBattleAttackManagerService
   ) {
     this.listSubscription();
     this.targetSubscription();
@@ -40,8 +43,10 @@ export class CommandManagerBattleService implements CommandManager {
           this.target(commandParts);
           break;
         case "attack":
+          this.singlePlayerBattleAttackManagerService.attackWithPlayer();
           break;
         case "vote":
+          this.singlePlayerBattleTeamManagerService.voteWithPlayer();
           break;
         default:
           this.output.pushHelp("battle");
@@ -72,7 +77,7 @@ export class CommandManagerBattleService implements CommandManager {
       if (target) {
         this.output.push([<CommandOutputMessage>{ type: CommandOutputType.Character, id: target.id, message: "Kiválasztott karakter: " + target.name }]);
         this.output.push([<CommandOutputMessage>{ type: CommandOutputType.Character, id: target.id, message: JSON.stringify(target) }]);
-        this.targetedCharacter$.next(target);
+        this.selectedTargetService.selectTarget(target);
       } else {
         this.output.pushHelp("A kiválasztott célpont nem valós.");
         this.output.pushHelp("battle target")

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BattleService } from '../story-management/battle.service';
 import { StoryStateService } from '../story-management/story-state.service';
 import { ReplaySubject, Subject, combineLatest } from 'rxjs';
-import { CharacterModelExpanded, HashMap, PropertyType } from '@text-adventures/shared';
-import { filter, flatMap, map, withLatestFrom } from 'rxjs/operators';
+import { HashMap } from '@text-adventures/shared';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { SinglePlayerBattlePlayerManagerService } from './single-player-battle-player-manager.service';
 
 export interface Vote {
@@ -27,8 +27,9 @@ export class SinglePlayerBattleTeamManagerService {
       .pipe(withLatestFrom(this.votes$))
       .subscribe(([palyerId, votes]) => {
         const v = votes[palyerId];
-        if (v) {
+        if (v == undefined) {
           votes[palyerId] = <Vote>{ playerId: palyerId, value: true };
+          this.votes$.next(votes);
         }
       });
 
@@ -66,6 +67,6 @@ export class SinglePlayerBattleTeamManagerService {
   }
 
   voteWithPlayer(): void {
-
+    this.voteWithPlayer$.next();
   }
 }

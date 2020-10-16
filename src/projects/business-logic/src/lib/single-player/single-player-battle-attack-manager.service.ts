@@ -4,16 +4,21 @@ import { BattleService } from '../story-management/battle.service';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite, UserCharacters, PropertyType } from '@text-adventures/shared';
 import { withLatestFrom } from 'rxjs/operators';
 import { SinglePlayerBattleTeamManagerService } from './single-player-battle-team-manager.service';
+import { Subject } from 'rxjs';
+import { SelectedAbilityService } from './selected-ability.service';
+import { SelectedTargetService } from './selected-target.service';
 
 @Injectable()
 export class SinglePlayerBattleAttackManagerService {
-
+  private playerAttack$: Subject<void> = new Subject();
   constructor(
     private singlePlayerBattlePlayerManagerService: SinglePlayerBattlePlayerManagerService,
     private singlePlayerBattleTeamManagerService: SinglePlayerBattleTeamManagerService,
     private battleService: BattleService,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private userCharactersService: UserCharacters,
+    private selectedAbilityService: SelectedAbilityService,
+    private selectedTargetService: SelectedTargetService
 
   ) {
     this.singlePlayerBattlePlayerManagerService.getCurrentPlayer()
@@ -48,6 +53,30 @@ export class SinglePlayerBattleAttackManagerService {
 
           this.output.pushText(["Az ellenfél befejezte a kört."]);
         }
-      })
+      });
+
+    this.playerAttack$.pipe(
+      withLatestFrom(
+        this.selectedAbilityService.getAbility(),
+        this.selectedTargetService.getTarget(),
+        this.singlePlayerBattlePlayerManagerService.getCurrentPlayer()
+      )
+    ).subscribe(([action, ability, target, currentPlayer]) => {
+      if (target && ability) {
+        //támadás
+
+        target.attributes[PropertyType.actLife].value -= ability.properties.find(p => p.type == PropertyType.damage).value;
+        this.battleService.updateCharacter(target);
+        //kör befejezése;
+
+        this.output.pushText(["Támadás befejezve."]);
+        this.singlePlayerBattleTeamManagerService.vote(currentPlayer.index);
+      }
+    })
   }
+
+  attackWithPlayer(): void {
+    this.playerAttack$.next();
+  }
+
 }

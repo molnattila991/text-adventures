@@ -2,11 +2,11 @@ import { Inject, Injectable } from '@angular/core';
 import { CommandManager, BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite, UserCharacters, STORE_INJECTION_TOKEN, BaseDataCollection, AbilityModel, AbilityType, CommandOutputMessage, HashMap, CommandOutputType } from '@text-adventures/shared';
 import { ReplaySubject, Subject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { SelectedAbilityService } from './selected-ability.service';
 
 @Injectable()
 export class CommandManagerSkillService implements CommandManager {
   private abilities$: ReplaySubject<AbilityModel[]> = new ReplaySubject();
-  private selected$: ReplaySubject<AbilityModel> = new ReplaySubject();
   private list$: Subject<string> = new Subject();
   private inspect$: Subject<string> = new Subject();
   private select$: Subject<string> = new Subject();
@@ -14,7 +14,8 @@ export class CommandManagerSkillService implements CommandManager {
   constructor(
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private characterService: UserCharacters,
-    @Inject(STORE_INJECTION_TOKEN.AbilityStoreService) private abilities: BaseDataCollection<AbilityModel>
+    @Inject(STORE_INJECTION_TOKEN.AbilityStoreService) private abilities: BaseDataCollection<AbilityModel>,
+    private selectedAbilityService: SelectedAbilityService
   ) {
 
     this.characterService.getSelectedCharacter()
@@ -32,7 +33,7 @@ export class CommandManagerSkillService implements CommandManager {
 
   private activeSkill() {
     this.active$.pipe(
-      withLatestFrom(this.selected$)
+      withLatestFrom(this.selectedAbilityService.getAbility())
     ).subscribe(([active, ability]) => {
       if (ability) {
         this.output.push([<CommandOutputMessage>{ id: ability.id, type: CommandOutputType.SkillUsed, message: "Aktív képesség: " + ability.name }]);
@@ -53,7 +54,7 @@ export class CommandManagerSkillService implements CommandManager {
       if (ability) {
         const a = <AbilityModel>ability;
         this.output.push([<CommandOutputMessage>{ id: a.id, type: CommandOutputType.SkillUsed, message: "Képesség kiválasztva: " + a.name }]);
-        this.selected$.next(a);
+        this.selectedAbilityService.selectAbility(a);
       } else {
         this.output.pushText(["Képesség (" + param + ") nem létezik."]);
       }
