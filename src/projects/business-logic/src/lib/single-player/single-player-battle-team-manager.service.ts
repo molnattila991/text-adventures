@@ -16,6 +16,7 @@ export class SinglePlayerBattleTeamManagerService {
   private votes$: ReplaySubject<HashMap<Vote>> = new ReplaySubject();
   private votesCount$: ReplaySubject<number> = new ReplaySubject();
   private vote$: Subject<number> = new Subject();
+  private voteWithPlayer$: Subject<number> = new Subject();
   private startNewRound$: Subject<void> = new Subject();
   private startBattle$: Subject<void> = new Subject();
   constructor(
@@ -33,11 +34,18 @@ export class SinglePlayerBattleTeamManagerService {
 
     this.votes$.pipe(map(v => Object.keys(v).length)).subscribe(this.votesCount$)
 
-
+    this.voteWithPlayer$
+      .pipe(
+        withLatestFrom(this.singlePlayerBattlePlayerManagerService.getCurrentPlayer()),
+        map(([vote, player]) => player.index)
+      )
+      .subscribe(this.vote$);
 
     combineLatest([this.votesCount$, this.singlePlayerBattlePlayerManagerService.getActivePlayersNumber()])
       .pipe(filter(([votes, playersCount]) => votes >= playersCount))
-      .subscribe(v => this.startNewRound$.next());
+      .subscribe(v =>
+        this.startNewRound$.next()
+      );
 
     this.startBattle$.subscribe(v => {
       this.startNewRound$.next();
@@ -55,5 +63,9 @@ export class SinglePlayerBattleTeamManagerService {
 
   startBattle(): void {
     this.startBattle$.next();
+  }
+
+  voteWithPlayer(): void {
+
   }
 }

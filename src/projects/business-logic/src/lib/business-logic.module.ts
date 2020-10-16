@@ -17,6 +17,7 @@ import { CharacterStoryService } from './story-management/character-story.servic
 import { StoryPageService } from './story-management/story-page.service';
 import { SinglePlayerBattleTeamManagerService } from './single-player/single-player-battle-team-manager.service';
 import { SinglePlayerBattlePlayerManagerService } from './single-player/single-player-battle-player-manager.service';
+import { SinglePlayerBattleAttackManagerService } from './single-player/single-player-battle-attack-manager.service';
 
 
 
@@ -39,10 +40,12 @@ import { SinglePlayerBattlePlayerManagerService } from './single-player/single-p
     StoryPageService,
     SinglePlayerBattleTeamManagerService,
     SinglePlayerBattlePlayerManagerService,
+    SinglePlayerBattleAttackManagerService
   ]
 })
 export class BusinessLogicModule {
   constructor(
-    singlePlayerBattle: SinglePlayerBattleTeamManagerService
+    private singlePlayerBattle: SinglePlayerBattleTeamManagerService,
+    private singlePlayerBattleAttackManagerService: SinglePlayerBattleAttackManagerService
   ) { }
 }

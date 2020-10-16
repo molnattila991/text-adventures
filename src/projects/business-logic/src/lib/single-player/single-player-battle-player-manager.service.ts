@@ -73,6 +73,10 @@ export class SinglePlayerBattlePlayerManagerService {
     return this.activePlayersNumber$.asObservable()
   }
 
+  getActivePlayers(): Observable<CharacterModelExpanded[]> {
+    return this.activePlayers$.asObservable();
+  }
+
   getCurrentPlayer(): Observable<CharacterModelExpanded> {
     return this.currentPlayer$.asObservable();
   }

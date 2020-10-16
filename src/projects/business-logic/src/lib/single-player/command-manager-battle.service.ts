@@ -30,7 +30,7 @@ export class CommandManagerBattleService implements CommandManager {
       switch (command) {
         case "start":
           this.singlePlayerBattleTeamManagerService.startBattle();
-            break;
+          break;
         case "list":
           this.list(commandParts);
           break;
@@ -40,6 +40,8 @@ export class CommandManagerBattleService implements CommandManager {
           this.target(commandParts);
           break;
         case "attack":
+          break;
+        case "vote":
           break;
         default:
           this.output.pushHelp("battle");
