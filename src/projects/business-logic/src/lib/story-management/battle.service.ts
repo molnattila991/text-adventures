@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
-import { AbilityModel, BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterModel, CharacterModelExpanded, CharacterPlayerModelExpanded, ItemModel, STORE_INJECTION_TOKEN, UserCharacters } from '@text-adventures/shared';
+import { AbilityModel, BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterModel, CharacterModelExpanded, CharacterPlayerModelExpanded, CommandOutputWrite, ItemModel, PropertyType, STORE_INJECTION_TOKEN, UserCharacters } from '@text-adventures/shared';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
-import { SinglePlayerBattlePlayerManagerService } from '../single-player/single-player-battle-player-manager.service';
+import { StoryStateService, StoryState } from './story-state.service';
 
 export interface BattleTeam {
   teamName: string;
@@ -21,7 +21,7 @@ export class BattleService {
     @Inject(STORE_INJECTION_TOKEN.AbilityStoreService) private abilities: BaseDataCollection<AbilityModel>,
     @Inject(STORE_INJECTION_TOKEN.ItemStoreService) private items: BaseDataCollection<ItemModel>,
     @Inject(STORE_INJECTION_TOKEN.CharacterStoreService) private characters: BaseDataCollection<CharacterModel>,
-    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private characterService: UserCharacters,
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private characterService: UserCharacters
   ) {
     this.createTeams$.pipe(
       filter(t => t && t.length > 0),

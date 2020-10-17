@@ -66,11 +66,11 @@ export class SinglePlayerBattleAttackManagerService {
         //támadás
 
         target.attributes[PropertyType.actLife].value -= ability.properties.find(p => p.type == PropertyType.damage).value;
-        this.battleService.updateCharacter(target);
         //kör befejezése;
-
+        
         this.output.pushText(["Támadás befejezve."]);
-        this.singlePlayerBattleTeamManagerService.vote(currentPlayer.index);
+        this.output.pushText(["Jelezd ha befejezted a köröd."]);
+        this.battleService.updateCharacter(target);
       }
     })
   }

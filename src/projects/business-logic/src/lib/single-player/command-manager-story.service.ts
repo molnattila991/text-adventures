@@ -1,14 +1,20 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandManager, CommandOutputWrite, SinglePlayerGame } from '@text-adventures/shared';
+import { StoryStateService } from '../story-management/story-state.service';
 
 @Injectable()
 export class CommandManagerStoryService implements CommandManager {
 
   constructor(
+    private storyStateService: StoryStateService,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SinglePlayerManagerService) private singlePlayerGame: SinglePlayerGame
 
-  ) { }
+  ) {
+    this.storyStateService.getStoryState().subscribe(v => {
+      console.log(v);
+    })
+  }
 
   handle(commandParts: string[]): void {
     if (commandParts[1]) {

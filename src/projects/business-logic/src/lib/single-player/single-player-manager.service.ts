@@ -79,6 +79,8 @@ export class SinglePlayerManagerService implements SinglePlayerGame, CharacterSt
         this.output.pushText(["Add ki a 'battle start' parncsot a folytatáshoz."]);
         break;
       case StoryState.InStory:
+      case StoryState.LostBattle:
+      case StoryState.WinBattle:
         this.output.push([<CommandOutputMessage>{ message: s.text }]);
         s.options.forEach((option, index) => {
           this.output.push([<CommandOutputMessage>{ message: (index + 1) + ". " + option.text, id: (index + 1), type: CommandOutputType.StoryItem }]);

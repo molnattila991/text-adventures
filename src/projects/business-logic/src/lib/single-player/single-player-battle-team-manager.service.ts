@@ -20,7 +20,6 @@ export class SinglePlayerBattleTeamManagerService {
   private startNewRound$: Subject<void> = new Subject();
   private startBattle$: Subject<void> = new Subject();
   constructor(
-    private storyStateService: StoryStateService,
     private singlePlayerBattlePlayerManagerService: SinglePlayerBattlePlayerManagerService,
     private battleService: BattleService
   ) {

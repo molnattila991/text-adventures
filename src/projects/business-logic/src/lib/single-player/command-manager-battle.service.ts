@@ -6,6 +6,7 @@ import { map, withLatestFrom } from 'rxjs/operators';
 import { SinglePlayerBattleTeamManagerService } from './single-player-battle-team-manager.service';
 import { SelectedTargetService } from './selected-target.service';
 import { SinglePlayerBattleAttackManagerService } from './single-player-battle-attack-manager.service';
+import { StoryState, StoryStateService } from '../story-management/story-state.service';
 
 
 @Injectable()
@@ -20,7 +21,9 @@ export class CommandManagerBattleService implements CommandManager {
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.UserCharactersService) private userCharactersService: UserCharacters,
     private selectedTargetService: SelectedTargetService,
-    private singlePlayerBattleAttackManagerService: SinglePlayerBattleAttackManagerService
+    private singlePlayerBattleAttackManagerService: SinglePlayerBattleAttackManagerService,
+    private storyStateService: StoryStateService
+
   ) {
     this.listSubscription();
     this.targetSubscription();
@@ -33,30 +36,40 @@ export class CommandManagerBattleService implements CommandManager {
       switch (command) {
         case "start":
           this.singlePlayerBattleTeamManagerService.startBattle();
+          this.output.flush();
           break;
         case "list":
           this.list(commandParts);
+          this.output.flush();
           break;
         case "inspect":
           break;
         case "target":
           this.target(commandParts);
+          this.output.flush();
           break;
         case "attack":
           this.singlePlayerBattleAttackManagerService.attackWithPlayer();
+          this.output.flush();
           break;
         case "vote":
           this.singlePlayerBattleTeamManagerService.voteWithPlayer();
+          this.output.flush();
+          break;
+        case "end":
+          this.storyStateService.setStoryState(StoryState.WinBattle);
           break;
         default:
           this.output.pushHelp("battle");
+          this.output.flush();
           break;
       }
     } else {
       this.output.pushHelp("battle");
+      this.output.flush();
     }
 
-    this.output.flush();
+
   }
 
   private targetSubscription() {

@@ -1,6 +1,12 @@
 https://console.firebase.google.com/project/textadventures-cb5e4/firestore/usage/last-24h/reads
 adatfeltöltő script kell, hogy üres adatbázisról is lehessen indítani
 
+targetolni index alapján
+!!!!Újra kell választani a targe-et mert változik a tömbben lévő karakterek referenciája
+    -target index kell az objektum helyett
+single-player battle
+    -azt is figyelni kell, hogy melyik csapatban mennyi ember van, ha kifogyott a csapat akkor nyert vesztett a játékos
+
 szavazásnál nem írja ki ki szavazott, csak azt hogy waiting for others
 közös logokat vagyis a többi játékos logjait külön gyűjteni és kiírni a kör végén
 
