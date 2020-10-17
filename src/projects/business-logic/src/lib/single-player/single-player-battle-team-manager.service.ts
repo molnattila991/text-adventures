@@ -21,7 +21,8 @@ export class SinglePlayerBattleTeamManagerService {
   private startBattle$: Subject<void> = new Subject();
   constructor(
     private storyStateService: StoryStateService,
-    private singlePlayerBattlePlayerManagerService: SinglePlayerBattlePlayerManagerService
+    private singlePlayerBattlePlayerManagerService: SinglePlayerBattlePlayerManagerService,
+    private battleService: BattleService
   ) {
     this.vote$
       .pipe(withLatestFrom(this.votes$))
@@ -37,8 +38,8 @@ export class SinglePlayerBattleTeamManagerService {
 
     this.voteWithPlayer$
       .pipe(
-        withLatestFrom(this.singlePlayerBattlePlayerManagerService.getCurrentPlayer()),
-        map(([vote, player]) => player.index)
+        withLatestFrom(this.battleService.getPlayerIndex()),
+        map(([vote, playerIndex]) => playerIndex)
       )
       .subscribe(this.vote$);
 

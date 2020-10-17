@@ -16,6 +16,7 @@ export class BattleService {
   private teams$: ReplaySubject<BattleTeam[]> = new ReplaySubject();
   private createTeams$: Subject<string[]> = new Subject();
   private updateCharacter$: Subject<CharacterModelExpanded> = new Subject();
+  private playerIndex$: ReplaySubject<number> = new ReplaySubject();
   constructor(
     @Inject(STORE_INJECTION_TOKEN.AbilityStoreService) private abilities: BaseDataCollection<AbilityModel>,
     @Inject(STORE_INJECTION_TOKEN.ItemStoreService) private items: BaseDataCollection<ItemModel>,
@@ -69,9 +70,12 @@ export class BattleService {
         teams.push(<BattleTeam>{ teamName: "Szövetségesek", teamIndex: 0, teamMembers: [player] });
         teams.push(<BattleTeam>{ teamName: "Ellenségek", teamIndex: 1, teamMembers: enemies });
 
-        return teams;
+        return { teams: teams, playerIndex: player.index };
       })
-    ).subscribe(this.teams$);
+    ).subscribe(value => {
+      this.playerIndex$.next(value.playerIndex);
+      this.teams$.next(value.teams);
+    });
 
     this.updateCharacter$
       .pipe(withLatestFrom(this.teams$))
@@ -92,6 +96,10 @@ export class BattleService {
 
   getTeams(): Observable<BattleTeam[]> {
     return this.teams$.asObservable();
+  }
+
+  getPlayerIndex(): Observable<number> {
+    return this.playerIndex$.asObservable();
   }
 
   updateCharacter(character: CharacterModelExpanded): void {

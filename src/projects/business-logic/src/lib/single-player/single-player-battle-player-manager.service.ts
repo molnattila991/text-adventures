@@ -29,7 +29,10 @@ export class SinglePlayerBattlePlayerManagerService {
         map(([activePlayers, finishedPlayers]) =>
           activePlayers.filter(ap => finishedPlayers.find(f => f == ap.index) == undefined)
         )
-      ).subscribe(this.avaiableNextPlayers$);
+      ).subscribe(v => {
+        console.log(v)
+        this.avaiableNextPlayers$.next(v);
+      });
 
     this.activePlayers$
       .pipe(withLatestFrom(this.finishedPlayers$))
@@ -40,10 +43,28 @@ export class SinglePlayerBattlePlayerManagerService {
 
     this.activePlayers$.pipe(map(p => p.length)).subscribe(this.activePlayersNumber$);
 
-    this.newRound$.subscribe(v => {
-      // this.finishedPlayers$.next([]);
-      this.nextPlayer$.next();
-    });
+    this.newRound$
+      .pipe(
+        withLatestFrom(
+          this.finishedPlayers$,
+          this.activePlayersNumber$
+        ),
+        map(([action, finishedPlayers, activePlayersNumber]) => {
+          if (finishedPlayers.length >= activePlayersNumber) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      )
+      .subscribe(v => {
+        if (v) {
+          this.finishedPlayers$.next([]);
+          this.nextPlayer$.next();
+        } else {
+          this.nextPlayer$.next();
+        }
+      });
 
     this.nextPlayer$.pipe(
       withLatestFrom(
@@ -58,15 +79,7 @@ export class SinglePlayerBattlePlayerManagerService {
 
       this.finishedPlayers$.next(finishedPlayerIndexes);
       this.currentPlayer$.next(nextPlayer);
-    })
-
-    combineLatest([this.finishedPlayers$, this.activePlayersNumber$])
-      .pipe(filter(([finished, active]) => finished.length > 0))
-      .subscribe(([finishedPlayers, activePlayerNumber]) => {
-        if (finishedPlayers.length >= activePlayerNumber) {
-          this.finishedPlayers$.next([]);
-        }
-      });
+    });
   }
 
   getActivePlayersNumber(): Observable<number> {
