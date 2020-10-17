@@ -104,6 +104,9 @@ export const SinglePlayerCommands = {
         },
         vote: {
 
+        },
+        end: {
+
         }
     }
 }
