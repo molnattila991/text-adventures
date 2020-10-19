@@ -3,23 +3,7 @@ export { CharacterItemsInUse } from './lib/interfaces/character/character-items-
 export { CharacterPlayerModel } from './lib/models-game/character-model';
 export { UserModel } from './lib/models-game/user/user-model.interface';
 
-export {
-    BattleStartedMessage,
-    BattlePlayerVoteForContineMessage,
-    BattlePlayerHasAlreadyVotedForContineMessage,
-    BattlePlayerSelectedMessage, BattlePlayerDeadMessage,
-    BattleFinishedRoundMessage
-} from "./lib/messages/battle-messages";
-
 export { ActionEventModel, ActionEventAbilityModel, ActionEventCharacterAttributeModel, ActionEventItemModel } from "./lib/models-game/action-event-model.interface"
-
-export { IRoomsService } from "./lib/interfaces/battle/rooms-service.interface";
-export { IRoomService } from "./lib/interfaces/battle/room-service.interface";
-export { IBattleManagerService } from "./lib/interfaces/battle/battle-manager-service.interface";
-export { IBattleAttackService } from "./lib/interfaces/battle/battle-attack-service.interface";
-export { RoomModel, RoomTitleModel, RoomState, RoomUiModel, RoomUiPage } from "./lib/models-game/battle/room-model.interface";
-
-export { TeamMemberModel, TeamModel, TeamMemberType } from "./lib/models-game/battle/team-model.interface";
 
 export {
     CharacterInvenoryItemUsabilityTypeOnMaxMessage

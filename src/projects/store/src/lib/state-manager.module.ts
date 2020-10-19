@@ -4,7 +4,9 @@ import { ItemStoreService } from './item-store.service';
 import { AbilityStoreService } from './ability-store.service';
 import { CharacterStoreService } from './character-store.service';
 import { StoryStoreService } from './story-store.service';
-import { STORE_INJECTION_TOKEN } from '../../../shared/src/lib/injection-token/store-injection-token';
+import { STORE_INJECTION_TOKEN } from '@text-adventures/shared';
+import { RoomsStoreService } from './rooms-store.service';
+import { RoomsTitleStoreService } from './rooms-title-store.service';
 
 
 @NgModule({
@@ -14,6 +16,8 @@ import { STORE_INJECTION_TOKEN } from '../../../shared/src/lib/injection-token/s
     { provide: STORE_INJECTION_TOKEN.AbilityStoreService, useClass: AbilityStoreService },
     { provide: STORE_INJECTION_TOKEN.CharacterStoreService, useClass: CharacterStoreService },
     { provide: STORE_INJECTION_TOKEN.StoryStoreService, useClass: StoryStoreService },
+    { provide: STORE_INJECTION_TOKEN.RoomsStoreService, useClass: RoomsStoreService },
+    { provide: STORE_INJECTION_TOKEN.RoomsTitleStoreService, useClass: RoomsTitleStoreService },
   ]
 })
 export class StateManagerModule { }

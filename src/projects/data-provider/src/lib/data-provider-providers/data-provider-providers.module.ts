@@ -36,11 +36,11 @@ import { DATA_PROVIDER_INJECTION_TOKEN } from '@text-adventures/shared';
       useClass: CharactersDataProviderService
     },
     {
-      provide: 'RoomsDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.RoomsDataProviderService,
       useClass: RoomsDataProviderService
     },
     {
-      provide: 'RoomsTitleDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.RoomsTitleDataProviderService,
       useClass: RoomsTitleDataProviderService
     },
     {
