@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { RoomTitleModel, SelectItem } from '@text-adventures/shared';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { RoomTitleModel } from '@text-adventures/shared';
 
 @Component({
   selector: 'app-list-room-view',
   template: `
     <ul>
-      <li *ngFor="let room of rooms">
-        {{room.text}}
+      <li *ngFor="let title of rooms" tabindex=0 
+      (keyup.enter)="selected.emit(title.roomId)" 
+      (click)="selected.emit(title.roomId)">
+        {{title.name}}
       </li>
     </ul>
   `,
@@ -14,6 +16,7 @@ import { RoomTitleModel, SelectItem } from '@text-adventures/shared';
   ], changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListRoomViewComponent {
-  @Input() rooms: SelectItem[];
+  @Input() rooms: RoomTitleModel[];
+  @Output() selected: EventEmitter<string> = new EventEmitter();
   constructor() { }
 }

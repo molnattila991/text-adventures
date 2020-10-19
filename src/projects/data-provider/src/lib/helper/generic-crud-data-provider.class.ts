@@ -6,15 +6,9 @@ import { map } from 'rxjs/operators';
 export class GenericCrudDataProvider<T> implements IGenericCrudDataProvider<T> {
   collection$: ReplaySubject<StoreKeyValue<T>[]> = new ReplaySubject();
   hashMap$: ReplaySubject<HashMap<T>> = new ReplaySubject();
-  byId$: ReplaySubject<T> = new ReplaySubject();
-  collectionFiltered$: ReplaySubject<StoreKeyValue<T>[]> = new ReplaySubject();
-  hashMapFiltered$: ReplaySubject<HashMap<T>> = new ReplaySubject();
   collectionSubscription: Subscription;
   hashMapSubscription: Subscription;
-
-  hashMapSubscriptionFiltered: Subscription;
   selectList$: Observable<any>;
-  byIdSubscription: any;
 
   constructor(
     protected crudService: GenericCrudService,
@@ -38,7 +32,6 @@ export class GenericCrudDataProvider<T> implements IGenericCrudDataProvider<T> {
   }
 
   getHashFiltered(property: string, value: any, operation: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' = "=="): Observable<HashMap<T>> {
-    //return this.hashMapFiltered$.asObservable();
     return this.crudService.getHashMapFiltered(this.path, <StoreFilter>{
       fieldPath: property,
       operationString: operation,
@@ -46,27 +39,12 @@ export class GenericCrudDataProvider<T> implements IGenericCrudDataProvider<T> {
     });
   }
 
-  refreshHashMapFiltered(property: string, value: any, operation: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' = "==") {
-    this.hashMapSubscriptionFiltered &&
-      this.hashMapSubscriptionFiltered.unsubscribe();
-    this.hashMapSubscriptionFiltered = this.crudService
-      .getHashMapFiltered<T>(this.path, <StoreFilter>{
-        fieldPath: property,
-        operationString: operation,
-        value: value
-      })
-      .subscribe(this.hashMapFiltered$);
-  }
-
   get(): Observable<StoreKeyValue<T>[]> {
     return this.collection$.asObservable();
   }
 
   getById(id: string): Observable<T> {
-    this.byIdSubscription && this.byIdSubscription.unsubscribe();
-    this.byIdSubscription = this.crudService.getById(this.path, id).subscribe(
-      (item: any) => this.byId$.next(item));
-    return this.byId$.asObservable();
+    return this.crudService.getById<T>(this.path, id);
   }
 
   getFiltered(property: string, value: any, operation: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' = "=="): Observable<StoreKeyValue<T>[]> {
@@ -76,8 +54,6 @@ export class GenericCrudDataProvider<T> implements IGenericCrudDataProvider<T> {
       value: value
     });
   }
-
-  refreshFiltered(property: string, value: any) { }
 
   add(model: Partial<T>): Promise<T> {
     return this.crudService.add<T>(this.path, model);

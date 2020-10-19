@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-create-room-view',
@@ -6,15 +7,23 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     <div class="example-container">
       <mat-form-field appearance="fill">
         <mat-label>Szobanév</mat-label>
-        <input matInput>
+        <input [formControl]="nameFormControl" matInput>
       </mat-form-field>
-      <button>Létrehozás</button>
+      <button (click)="createRoom()">Létrehozás</button>
     </div>
   `,
   styles: [
   ], changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateRoomViewComponent {
+  nameFormControl: FormControl;
+  @Output() create: EventEmitter<string> = new EventEmitter();
+  constructor() { 
+    this.nameFormControl = new FormControl("");
+  }
 
-  constructor() { }
+  createRoom(): void {
+    const name = this.nameFormControl.value;
+    this.create.emit(name);
+  }
 }

@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { FirebaseMapHelperService } from './firestore-base/firebase-map-helper.service';
 import { GenericCrudService, StoreKeyValue, HashMap, StoreFilter } from '@text-adventures/shared';
 
@@ -25,7 +25,7 @@ export class FirestoreBaseService implements GenericCrudService {
   }
 
   getById<T>(path: string, id: string): Observable<T> {
-    return this.db.collection(path).doc(id).snapshotChanges().pipe(map(snapShot => <any>{
+    return this.db.collection(path).doc(id).snapshotChanges().pipe(tap(snapshot=>console.log(snapshot)),map(snapShot => <any>{
       ...<any>snapShot.payload.data(),
       id: snapShot.payload.id
     }));

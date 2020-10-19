@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HashMap, BUSSINESS_LOGIC_INJECTION_TOKEN, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, UserCharacters, StoryModel, CharacterStory, StoryPageModel, CharacterStoryItem } from '@text-adventures/shared';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CharacterStoryService implements CharacterStory {
@@ -17,7 +17,8 @@ export class CharacterStoryService implements CharacterStory {
     this.userCharactersService.getSelectedCharacter().pipe(
       switchMap(v => {
         return this.storyDataProvider.getHashFiltered("id", v.stories, "in")
-      })
+      }),
+      tap(c=>console.log(c))
     ).subscribe(this.storiesForSelectedCharacter$);
 
     const id = localStorage.getItem("selectedStoryId");

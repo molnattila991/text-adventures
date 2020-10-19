@@ -3,4 +3,5 @@ import { Observable } from 'rxjs';
 export interface BaseDataCollection<T> {
     getHash(): Observable<HashMap<T>>
     getSelectList(): Observable<SelectItem[]>;
+    getList(): Observable<T[]>;
 }
