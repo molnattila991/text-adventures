@@ -24,8 +24,8 @@ export class CreateRoomService implements CreateRoom {
       map(([roomName, user]) => {
         return <RoomModel>{
           name: roomName,
-          currentPlayerID: user.id,
-          hostPlayerID: "",
+          currentPlayerID: "",
+          hostPlayerID: user.id,
           maxNumberOfTeams: 2,
           numberOfActivePlayers: 0,
           numberOfPlayers: 0,

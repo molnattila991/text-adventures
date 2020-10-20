@@ -1,6 +1,6 @@
 import { IGenericCrudDataProvider } from '@text-adventures/shared';
-import { Observable, ReplaySubject, of, Subject, Subscription } from 'rxjs';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 export interface ISelectedItemService<T> {
     select(id: string): void;

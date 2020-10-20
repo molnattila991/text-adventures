@@ -7,6 +7,7 @@ export const BUSSINESS_LOGIC_INJECTION_TOKEN = {
     CommandHandlerService: "CommandHandlerService",
     CommandOutputService: "CommandOutputService",
     CreateRoomService: "CreateRoomService",
-    SelectedRoomService: "SelectedRoomService"
+    SelectedRoomService: "SelectedRoomService",
+    SelectedCharactersService: "SelectedCharactersService"
 
 }
