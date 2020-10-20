@@ -15,9 +15,11 @@ export class SelectedItemService<T> implements ISelectedItemService<T>{
     ) {
         this.select$.pipe(switchMap(id => this.dataProvider.getById(id))).subscribe(this.selectedItem$);
     }
+    
     select(id: string): void {
         this.select$.next(id);
     }
+
     getSelectedItem(): Observable<T> {
         return this.selectedItem$.asObservable();
     }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { ISelectedItemService, SelectedRoomManagement } from '@text-adventures/business-logic';
+import { ISelectedItemService, ISelectedItemsService, SelectedRoomManagement } from '@text-adventures/business-logic';
 import { BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, RoomModel, RoomTitleModel, STORE_INJECTION_TOKEN } from '@text-adventures/shared';
 
 @Component({
@@ -29,6 +29,8 @@ import { BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, RoomModel, RoomTit
       </div>
     </div>
 
+    {{selectedCharacters.getSelectedItemList()|async|json}}
+
   `,
   styles: [
   ], changeDetection: ChangeDetectionStrategy.OnPush
@@ -38,9 +40,9 @@ export class ListRoomContainerComponent {
   constructor(
     @Inject(STORE_INJECTION_TOKEN.RoomsTitleStoreService) public store: BaseDataCollection<RoomTitleModel>,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService) public selectedRoom: ISelectedItemService<RoomModel>,
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedCharactersService) public selectedCharacters: ISelectedItemsService<RoomModel>,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService) public selectedRoomService: SelectedRoomManagement
-  ) {
-
+  ) { 
   }
 
   select(id): void {
