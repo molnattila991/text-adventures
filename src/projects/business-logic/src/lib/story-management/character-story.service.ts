@@ -17,8 +17,7 @@ export class CharacterStoryService implements CharacterStory {
     this.userCharactersService.getSelectedCharacter().pipe(
       switchMap(v => {
         return this.storyDataProvider.getHashFiltered("id", v.stories, "in")
-      }),
-      tap(c=>console.log(c))
+      })
     ).subscribe(this.storiesForSelectedCharacter$);
 
     const id = localStorage.getItem("selectedStoryId");

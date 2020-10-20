@@ -8,6 +8,7 @@ export interface IGenericCrudDataProvider<T> {
   getHashFiltered(property: string, value: any, operation?: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' | 'in'): Observable<HashMap<T>>;
   get(): Observable<StoreKeyValue<T>[]>;
   getById(id: string): Observable<T>;
+  getByIdList(id: string[]): Observable<T[]>
   getFiltered(property: string, value: any, operation?: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' | 'in'): Observable<StoreKeyValue<T>[]>;
   getSelectList(propertyName: string): Observable<SelectItem[]>;
   add(model: Partial<T>): Promise<T>;

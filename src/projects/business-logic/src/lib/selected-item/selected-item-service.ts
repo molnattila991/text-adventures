@@ -13,7 +13,7 @@ export class SelectedItemService<T> implements ISelectedItemService<T>{
     constructor(
         protected dataProvider: IGenericCrudDataProvider<T>
     ) {
-        this.select$.pipe(switchMap(id => this.dataProvider.getById(id)), tap(a => console.log(a))).subscribe(this.selectedItem$);
+        this.select$.pipe(switchMap(id => this.dataProvider.getById(id))).subscribe(this.selectedItem$);
     }
     select(id: string): void {
         this.select$.next(id);

@@ -47,6 +47,10 @@ export class GenericCrudDataProvider<T> implements IGenericCrudDataProvider<T> {
     return this.crudService.getById<T>(this.path, id);
   }
 
+  getByIdList(id: string[]): Observable<T[]> {
+    return this.crudService.getByIdList<T>(this.path, id);
+  }
+
   getFiltered(property: string, value: any, operation: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' = "=="): Observable<StoreKeyValue<T>[]> {
     return this.crudService.getFiltered(this.path, <StoreFilter>{
       fieldPath: property,
