@@ -1,23 +1,23 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MultiCommandHandlerService } from '@text-adventures/business-logic';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutput, CommandOutputMessage } from '@text-adventures/shared';
-import { CommandHandlerService } from 'projects/business-logic/src/lib/single-player/command-handler.service';
 
 @Component({
-  selector: 'app-single-player-container',
+  selector: 'app-multi-player-container',
   template: `
-    <app-single-player-view 
+    <app-multi-player-view 
     [output]="output.get()|async" 
     (performCommnad)="performCommnad($event)"
-    (showActions)="showActions($event)"></app-single-player-view>
+    (showActions)="showActions($event)"></app-multi-player-view>
   `,
   styles: [
   ], changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SinglePlayerContainerComponent implements OnInit {
+export class MultiPlayerContainerComponent implements OnInit {
 
   constructor(
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) public output: CommandOutput,
-    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandHandlerService) private handler: CommandHandlerService
+    private handler: MultiCommandHandlerService
   ) { }
 
   ngOnInit(): void {

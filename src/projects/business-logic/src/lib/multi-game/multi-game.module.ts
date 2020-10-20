@@ -5,6 +5,8 @@ import { CreateRoomService } from './room/create-room.service';
 import { SelectedRoomService } from './room/selected-room.service';
 import { SelectedCharactersService } from './characters/selected-characters.service';
 import { CharactersInRoomService } from './characters/characters-in-room.service';
+import { MultiCommandHandlerService } from './game/multi-command-handler.service';
+import { MultiCommandHelperService } from './game/multi-command-helper.service';
 
 
 
@@ -17,7 +19,9 @@ import { CharactersInRoomService } from './characters/characters-in-room.service
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.CreateRoomService, useClass: CreateRoomService },
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService, useClass: SelectedRoomService },
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedCharactersService, useClass: SelectedCharactersService },
-    CharactersInRoomService
+    CharactersInRoomService,
+    MultiCommandHelperService,
+    MultiCommandHandlerService
 
   ]
 })
