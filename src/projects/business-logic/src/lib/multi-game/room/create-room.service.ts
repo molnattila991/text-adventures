@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { BUSSINESS_LOGIC_INJECTION_TOKEN, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, RoomModel, RoomTitleModel, TeamModel, UserCharacters, UserHandling } from '@text-adventures/shared';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, RoomModel, RoomTitleModel, RoomVotes, TeamModel, UserCharacters, UserHandling } from '@text-adventures/shared';
 import { of } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
@@ -13,7 +13,8 @@ export class CreateRoomService implements CreateRoom {
   constructor(
     @Inject(DATA_PROVIDER_INJECTION_TOKEN.RoomsDataProviderService) private roomsDataProvider: IGenericCrudDataProvider<RoomModel>,
     @Inject(DATA_PROVIDER_INJECTION_TOKEN.RoomsTitleDataProviderService) private roomsTitleDataProvider: IGenericCrudDataProvider<RoomTitleModel>,
-    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.LoginUserService) private user: UserHandling
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.LoginUserService) private user: UserHandling,
+    @Inject(DATA_PROVIDER_INJECTION_TOKEN.RoomVotesDataProviderService) protected roomVotesdataProvider: IGenericCrudDataProvider<RoomVotes>
   ) { }
 
   createRoom(name: string): void {
@@ -53,6 +54,11 @@ export class CreateRoomService implements CreateRoom {
         this.roomsTitleDataProvider.add(<RoomTitleModel>{
           name: room.name,
           roomId: room.id
+        });
+
+        this.roomVotesdataProvider.add(<RoomVotes>{
+          roomId: room.id,
+          votes: []
         })
       })
     })

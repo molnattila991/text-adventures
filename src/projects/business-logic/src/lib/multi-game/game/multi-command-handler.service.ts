@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite } from '@text-adventures/shared';
+import { MultiCommandManagerGameService } from './handlers/multi-command-manager-game.service';
 import { MultiCommandHelperService } from './multi-command-helper.service';
 
 @Injectable()
@@ -7,6 +8,7 @@ export class MultiCommandHandlerService {
   constructor(
     private commandHelper: MultiCommandHelperService,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private output: CommandOutputWrite,
+    private gameHandler: MultiCommandManagerGameService
   ) { }
 
   perform(command: string) {
@@ -24,6 +26,12 @@ export class MultiCommandHandlerService {
     } else {
       //EXECUTE
       switch (commandParts[0]) {
+        case "teams":
+          this.gameHandler.handle(commandParts);
+          break;
+        case "game":
+          this.gameHandler.handle(commandParts);
+          break;
         case "attributes":
           this.output.pushText(["attributes"]);
           break;

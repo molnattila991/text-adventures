@@ -1,4 +1,32 @@
 export const MultiPlayerCommands = {
+
+    teams: {
+        description: "Csapatokkal kapcsolatos adatok.",
+
+        list: {
+            description: "Csapatok listázása."
+        },
+        join: {
+            description: "Csapat kiválasztása.",
+            params: ["{szoba név/szoba azonosító}"]
+        },
+        exit: {
+            description: "Kilépés csapatból.",
+            params: ["{szoba név/szoba azonosító}"]
+        }
+    },
+    game: {
+        description: "Játékkal kapcsolatos adatok.",
+
+        vote: { 
+            description: "Játék kezdése.",
+        },
+        state: {
+            description: "A játékosok számát és állapotát adja meg."
+        }
+    },
+
+
     attributes: {
         description: "Karaktertulajdonságokkal kapcsolatos adatok kezelése.",
         list: {

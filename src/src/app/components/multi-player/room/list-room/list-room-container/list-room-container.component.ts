@@ -11,9 +11,6 @@ import { BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, RoomModel, RoomTit
     >
     </app-list-room-view>
 
-    {{selectedRoom.getSelectedItem()|async|json}}
-
-
     <div *ngIf="selectedRoom.getSelectedItem()|async; let item">
       <div *ngFor="let team of item.teams">
         <h2>
@@ -28,8 +25,6 @@ import { BaseDataCollection, BUSSINESS_LOGIC_INJECTION_TOKEN, RoomModel, RoomTit
         </ul>
       </div>
     </div>
-
-    {{selectedCharacters.getSelectedItemList()|async|json}}
 
   `,
   styles: [

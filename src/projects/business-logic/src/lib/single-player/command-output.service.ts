@@ -41,7 +41,7 @@ export class CommandOutputService implements CommandOutput {
   }
   
   pushHelp(command: string): void {
-    this.pushText(["Run 'help " + command + "' for more information on command."]);
+    this.pushText(["Segítségért üsd be a 'help " + command + "' parancsot."]);
   }
 
   pushText(logs: string[]) {

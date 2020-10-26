@@ -1,1 +1,1 @@
-export * from "./"
+export {valami} from "./test"
