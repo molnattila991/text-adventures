@@ -8,6 +8,6 @@ export const DATA_PROVIDER_INJECTION_TOKEN = {
     UsersDataProviderService: "UsersDataProviderService",
     RoomsDataProviderService: "RoomsDataProviderService",
     RoomsTitleDataProviderService: "RoomsTitleDataProviderService",
-    RoomVotesDataProviderService: "RoomVotesDataProviderService"
-
+    RoomVotesDataProviderService: "RoomVotesDataProviderService",
+    RoomLogsDataProviderService: "RoomLogsDataProviderService"
 }

@@ -1,1 +1,1 @@
-export {valami} from "./test"
+export { MultiGameLogs } from "./multi-game-logs"

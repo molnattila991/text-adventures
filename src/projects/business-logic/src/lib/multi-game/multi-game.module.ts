@@ -10,11 +10,11 @@ import { MultiCommandHelperService } from './game/multi-command-helper.service';
 import { MultiCommandManagerGameService } from './game/handlers/multi-command-manager-game.service';
 import { SelectedRoomVotesService } from './room/selected-room-votes.service';
 import { MultiGameStateService } from './game/multi-game-state.service';
+import { MultiGameLoggerService } from './game/logger/multi-game-logger.service';
 
 
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule
   ],
@@ -27,7 +27,8 @@ import { MultiGameStateService } from './game/multi-game-state.service';
     MultiCommandHandlerService,
     MultiCommandManagerGameService,
     SelectedRoomVotesService,
-    MultiGameStateService
+    MultiGameStateService,
+    MultiGameLoggerService
 
   ]
 })

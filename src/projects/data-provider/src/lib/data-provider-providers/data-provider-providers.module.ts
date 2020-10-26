@@ -12,6 +12,7 @@ import { UserCharactersDataProviderService } from '../services/user-characters-d
 import { FirebaseProvidersModule } from '@text-adventures/firestore-be';
 import { DATA_PROVIDER_INJECTION_TOKEN } from '@text-adventures/shared';
 import { VotesDataProviderService } from '../services/votes-data-provider.service';
+import { RoomLogsDataProviderService } from '../services/room-logs-data-provider.service';
 
 @NgModule({
   imports: [CommonModule, FirebaseProvidersModule],
@@ -55,6 +56,10 @@ import { VotesDataProviderService } from '../services/votes-data-provider.servic
     {
       provide: DATA_PROVIDER_INJECTION_TOKEN.RoomVotesDataProviderService,
       useClass: VotesDataProviderService
+    },
+    {
+      provide: DATA_PROVIDER_INJECTION_TOKEN.RoomLogsDataProviderService,
+      useClass: RoomLogsDataProviderService
     }
   ]
 })

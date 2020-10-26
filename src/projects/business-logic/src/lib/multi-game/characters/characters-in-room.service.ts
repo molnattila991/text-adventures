@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, CharacterPlayerModel, RoomModel, TeamMemberModel } from '@text-adventures/shared';
 import { ISelectedItemService, ISelectedItemsService } from '@text-adventures/business-logic';
-import { map } from 'rxjs/operators';
+import { filter, map, pairwise } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 
 @Injectable()
@@ -17,8 +17,12 @@ export class CharactersInRoomService {
     ).subscribe(this.allMembers$);
 
     this.allMembers$
-      .pipe(map(members => members.map(m => m.characterId)))
-      .subscribe(members => this.selectedCharacters.select(members))
+      .pipe(
+        map(members => members.map(m => m.characterId)),
+        pairwise(),
+        filter(([prev, curr]) => JSON.stringify(prev) != JSON.stringify(curr))
+      )
+      .subscribe(([prev, curr]) => this.selectedCharacters.select(curr))
   }
 }
 
