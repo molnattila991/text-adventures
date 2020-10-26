@@ -5,7 +5,7 @@ import { ReplaySubject, Observable, of } from 'rxjs';
 import { ISelectedItemService } from '@text-adventures/business-logic';
 
 export interface MultiTeamStatus {
-  activeMembersNumber: number;
+  membersNumber: number;
   votes: number;
 }
 
@@ -33,11 +33,11 @@ export class SelectedRoomVotesService {
       .pipe(
         withLatestFrom(this.selectedRoomService.getSelectedItem()),
         map(([votes, room]) => {
-          const activeMembersNumber = room.teams
-            .map(t => t.teamMembers.filter(member => member.active).length)
+          const membersNumber = room.teams
+            .map(t => t.teamMembers.length)
             .reduce((sum, current) => sum + current, 0);
           return <MultiTeamStatus>{
-            activeMembersNumber,
+            membersNumber,
             votes: votes.votes.length
           };
         })

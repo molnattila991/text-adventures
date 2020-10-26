@@ -23,7 +23,7 @@ export class MultiCommandManagerGameService implements CommandManager {
           this.selectedRoomVotesService.getStatus()
             .pipe(first())
             .subscribe(item => {
-              this.output.pushText(["Aktuális státus: " + item.votes + "/" + item.activeMembersNumber + " (szavazat/aktív játékosok száma)."]);
+              this.output.pushText(["Aktuális státus: " + item.votes + "/" + item.membersNumber + " (szavazat/aktív játékosok száma)."]);
             })
           break;
       }

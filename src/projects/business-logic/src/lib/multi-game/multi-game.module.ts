@@ -11,6 +11,8 @@ import { MultiCommandManagerGameService } from './game/handlers/multi-command-ma
 import { SelectedRoomVotesService } from './room/selected-room-votes.service';
 import { MultiGameStateService } from './game/multi-game-state.service';
 import { MultiGameLoggerService } from './game/logger/multi-game-logger.service';
+import { CharacterSelectorService } from './characters/character-selector.service';
+import { MultiGameRoundManagerService } from './game/multi-game-round-manager.service';
 
 
 
@@ -21,14 +23,16 @@ import { MultiGameLoggerService } from './game/logger/multi-game-logger.service'
   providers: [
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.CreateRoomService, useClass: CreateRoomService },
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService, useClass: SelectedRoomService },
-    { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedCharactersService, useClass: SelectedCharactersService },
+    SelectedCharactersService,
     CharactersInRoomService,
     MultiCommandHelperService,
     MultiCommandHandlerService,
     MultiCommandManagerGameService,
     SelectedRoomVotesService,
     MultiGameStateService,
-    MultiGameLoggerService
+    MultiGameLoggerService,
+    MultiGameRoundManagerService,
+    CharacterSelectorService
 
   ]
 })

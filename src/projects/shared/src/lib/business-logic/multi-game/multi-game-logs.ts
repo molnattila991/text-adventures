@@ -1,8 +1,8 @@
-import { GameMessage } from '../../models-game/action-result.interface';
+import { CommandOutputMessage } from '..';
 
 export interface MultiGameLogs {
-  all: GameMessage[],
-  actual: GameMessage[];
+  all: CommandOutputMessage[],
+  actual: CommandOutputMessage[];
   roomId: string;
   id: string;
 }
