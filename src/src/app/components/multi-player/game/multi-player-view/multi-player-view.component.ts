@@ -36,7 +36,7 @@ export class MultiPlayerViewComponent {
 
   commandFormControl: FormControl;
   constructor(builder: FormBuilder) {
-    this.commandFormControl = builder.control("help");
+    this.commandFormControl = builder.control("game vote");
   }
 
   send() {

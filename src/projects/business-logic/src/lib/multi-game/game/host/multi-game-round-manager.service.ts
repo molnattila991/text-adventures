@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CharacterSelectorService } from '../characters/character-selector.service';
+import { CharacterSelectorService } from './character-selector.service';
 
 @Injectable()
 export class MultiGameRoundManagerService {
@@ -7,6 +7,10 @@ export class MultiGameRoundManagerService {
   constructor(
     private characterSelectorService: CharacterSelectorService
   ) { }
+
+  startGame(): void {
+    
+  }
 
   startNewRound(): void {
 

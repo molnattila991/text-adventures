@@ -17,7 +17,7 @@ export class MultiGameStateService {
     this.gameState$.next(MultiGameState.waitForStart);
   }
 
-  setState(state: MultiGameState): void {
+  async setState(state: MultiGameState): Promise<void> {
     this.gameState$.next(state);
   }
 
