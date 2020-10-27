@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { BUSSINESS_LOGIC_INJECTION_TOKEN, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, RoomModel, STORE_INJECTION_TOKEN } from '@text-adventures/shared';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, RoomModel } from '@text-adventures/shared';
 import { of, ReplaySubject, Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, take, withLatestFrom } from 'rxjs/operators';
 import { ISelectedItemService } from '../../../selected-item/selected-item-service';
 import { CharactersInRoomService } from '../../characters/characters-in-room.service';
 
@@ -56,12 +56,9 @@ export class CharacterSelectorService {
     ]).pipe(
       map(selectAvaiableNextPlayers)
     ).subscribe(v => {
+      console.log("Avaiable players:", v);
       this.avaiableNextPlayersInRound$.next(v);
     });
-  }
-
-  getNextPlayer(): Observable<string> {
-    return this.nextPlayer$.asObservable();
   }
 
   getActivePlayersNumber(): Observable<number> {
@@ -70,6 +67,10 @@ export class CharacterSelectorService {
 
   getAvaiableNextPlayers(): Observable<number> {
     return this.avaiableNextPlayersInRound$.pipe(map(players => players.length));
+  }
+
+  reset(): void {
+    this.avaiableNextPlayersInRound$.next([]);
   }
 
   selectNextPlayer(): void {

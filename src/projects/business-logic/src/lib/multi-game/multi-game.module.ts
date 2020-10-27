@@ -9,7 +9,7 @@ import { MultiCommandHandlerService } from './game/multi-command-handler.service
 import { MultiCommandHelperService } from './game/multi-command-helper.service';
 import { MultiCommandManagerGameService } from './game/handlers/multi-command-manager-game.service';
 import { SelectedRoomVotesService } from './room/selected-room-votes.service';
-import { MultiGameStateService } from './game/multi-game-state.service';
+import { MultiGameStateService } from './game/state/multi-game-state.service';
 import { MultiGameLoggerService } from './game/logger/multi-game-logger.service';
 import { CharacterSelectorService } from './game/host/character-selector.service';
 import { MultiGameRoundManagerService } from './game/host/multi-game-round-manager.service';

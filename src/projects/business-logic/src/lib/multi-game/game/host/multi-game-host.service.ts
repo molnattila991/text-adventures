@@ -1,12 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
-import { BUSSINESS_LOGIC_INJECTION_TOKEN, UserHandling, RoomModel, CommandOutput, CommandOutputMessage } from '@text-adventures/shared';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, UserHandling, RoomModel, CommandOutput, CommandOutputMessage, MultiGameState } from '@text-adventures/shared';
 import { ReplaySubject, combineLatest } from 'rxjs';
-import { map, filter, withLatestFrom } from 'rxjs/operators';
+import { map, filter, withLatestFrom, pairwise } from 'rxjs/operators';
 import { ISelectedItemService } from '../../../selected-item/selected-item-service';
 import { SelectedRoomVotesService } from '../../room/selected-room-votes.service';
-import { MultiGameState, MultiGameStateService } from '../multi-game-state.service';
+import { MultiGameStateService } from '../state/multi-game-state.service';
 import { MultiGameLoggerService } from '../logger/multi-game-logger.service';
 import { CharacterSelectorService } from './character-selector.service';
+import { MultiGameRoundManagerService } from './multi-game-round-manager.service';
 
 @Injectable()
 export class MultiGameHostService {
@@ -17,7 +18,8 @@ export class MultiGameHostService {
     private selectedRoomVotesService: SelectedRoomVotesService,
     private multiGameStateService: MultiGameStateService,
     private multiGameLoggerService: MultiGameLoggerService,
-    private characterSelectorService: CharacterSelectorService
+    private characterSelectorService: CharacterSelectorService,
+    private multiGameRoundManagerService: MultiGameRoundManagerService
   ) {
     combineLatest([
       this.loggedInUser.getLoggedInUser(),
@@ -37,7 +39,8 @@ export class MultiGameHostService {
         switch (state) {
           case MultiGameState.waitForStart:
             console.log("waitForStart");
-            if (votes.membersNumber == votes.votes) {
+            if (votes.membersNumber > 1 && votes.membersNumber == votes.votes) {
+              console.log("TODO: if (votes.membersNumber > 1 && votes.membersNumber == votes.votes)")
               //start állapot
               console.log("waitForStart in");
               this.selectedRoomVotesService.resetVotes();
@@ -48,13 +51,15 @@ export class MultiGameHostService {
 
           case MultiGameState.waitForVote:
             console.log("waitForVote");
-            if (votes.membersNumber == votes.votes) {
+            if (votes.membersNumber > 1 && votes.membersNumber == votes.votes) {
+              console.log("TODO: if (votes.membersNumber > 1 && votes.membersNumber == votes.votes)")
+
               console.log("waitForVote in");
               //next player
               //körök kezelése
               //logolás
               this.selectedRoomVotesService.resetVotes();
-              this.multiGameStateService.setState(MultiGameState.newPlayerStarted);
+              this.multiGameRoundManagerService.next();
             }
             break;
         }
@@ -62,10 +67,19 @@ export class MultiGameHostService {
 
     this.multiGameStateService.getState()
       .pipe(
+        // pairwise(),
         withLatestFrom(this.appIsHost$),
+        // filter(([[prev, curr], appIsHost]) => prev != curr && appIsHost == true)
         filter(([state, appIsHost]) => appIsHost == true)
+
+        // ).subscribe(([[prev, state]]) => {
       ).subscribe(([state]) => {
+
         switch (state) {
+          case MultiGameState.default:
+            this.multiGameStateService.setState(MultiGameState.waitForStart);
+            break;
+
           case MultiGameState.started:
             console.log("started");
             //Init game
@@ -73,20 +87,26 @@ export class MultiGameHostService {
             // this.multiGameLoggerService.push([]);
             // this.multiGameLoggerService.flush();
             this.selectedRoomVotesService.resetVotes();
-            this.multiGameStateService.setState(MultiGameState.newRoundStarted);
+            this.multiGameStateService.setState(MultiGameState.newRound);
             break;
 
-          case MultiGameState.newRoundStarted:
+          case MultiGameState.newRound:
             //Új kör
-            console.log("newRoundStarted")
-            this.multiGameStateService.setState(MultiGameState.newPlayerStarted);
+            console.log("newRound");
+            this.characterSelectorService.reset();
+            this.multiGameStateService.incrementRoundNumber();
+            this.multiGameStateService.setState(MultiGameState.newTurn);
             break;
 
-          case MultiGameState.newPlayerStarted:
-            console.log("newPlayerStarted")
+          case MultiGameState.newTurn:
+            console.log("newTurn")
             // this.characterSelectorService.playerFinishRound();
             this.characterSelectorService.selectNextPlayer();
             this.multiGameStateService.setState(MultiGameState.waitForVote);
+            break;
+
+          case MultiGameState.ended:
+            console.log("ended");
             break;
         }
       });

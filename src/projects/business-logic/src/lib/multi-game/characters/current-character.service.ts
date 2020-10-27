@@ -26,6 +26,7 @@ export class CurrentCharacterService {
     ).subscribe(this.currentPlayer$);
 
     this.currentPlayer$.pipe(
+      filter(p => p != undefined),
       withLatestFrom(this.selectedCharacters.getSelectedItemsHash()),
       map(([currentPlayer, characters]) => characters[currentPlayer.characterId])
     ).subscribe(this.currentCharacter$);

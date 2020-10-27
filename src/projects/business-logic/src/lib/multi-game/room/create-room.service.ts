@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
-import { BUSSINESS_LOGIC_INJECTION_TOKEN, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, MultiGameLogs, RoomModel, RoomTitleModel, RoomVotes, TeamModel, UserCharacters, UserHandling } from '@text-adventures/shared';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, MultiGameLogs, MultiGameState, RoomModel, RoomTitleModel, RoomVotes, TeamModel, UserCharacters, UserHandling } from '@text-adventures/shared';
 import { of } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { MultiGameRoomState } from '../../../../../shared/src/lib/business-logic/multi-game/multi-game-room-state.interface';
 
 export interface CreateRoom {
   createRoom(name: string): void;
@@ -15,7 +16,9 @@ export class CreateRoomService implements CreateRoom {
     @Inject(DATA_PROVIDER_INJECTION_TOKEN.RoomsTitleDataProviderService) private roomsTitleDataProvider: IGenericCrudDataProvider<RoomTitleModel>,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.LoginUserService) private user: UserHandling,
     @Inject(DATA_PROVIDER_INJECTION_TOKEN.RoomVotesDataProviderService) protected roomVotesdataProvider: IGenericCrudDataProvider<RoomVotes>,
-    @Inject(DATA_PROVIDER_INJECTION_TOKEN.RoomLogsDataProviderService) protected roomLogsdataProvider: IGenericCrudDataProvider<MultiGameLogs>
+    @Inject(DATA_PROVIDER_INJECTION_TOKEN.RoomLogsDataProviderService) protected roomLogsdataProvider: IGenericCrudDataProvider<MultiGameLogs>,
+    @Inject(DATA_PROVIDER_INJECTION_TOKEN.MultiGameStateDataProviderService) protected multidataProvider: IGenericCrudDataProvider<MultiGameRoomState>
+
 
   ) { }
 
@@ -67,6 +70,12 @@ export class CreateRoomService implements CreateRoom {
           actual: [],
           all: [],
           roomId: room.id
+        });
+
+        this.multidataProvider.add(<MultiGameRoomState>{
+          roomId: room.id,
+          state: MultiGameState.default,
+          round: 0
         });
       })
     })
