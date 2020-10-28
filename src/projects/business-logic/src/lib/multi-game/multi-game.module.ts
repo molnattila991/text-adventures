@@ -11,6 +11,7 @@ import { MultiCommandManagerGameService } from './game/handlers/multi-command-ma
 import { SelectedRoomVotesService } from './room/selected-room-votes.service';
 import { MultiGameStateService } from './game/state/multi-game-state.service';
 import { CharacterSelectorService } from './game/host/character-selector.service';
+import { AppTypeService } from './game/host/app-type.service';
 
 
 
@@ -29,7 +30,8 @@ import { CharacterSelectorService } from './game/host/character-selector.service
     SelectedRoomVotesService,
     MultiGameStateService,
     CharacterSelectorService,
-    MultiGameStateService
+    MultiGameStateService,
+    AppTypeService
 
   ]
 })
