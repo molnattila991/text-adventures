@@ -56,7 +56,6 @@ export class CharacterSelectorService {
     ]).pipe(
       map(selectAvaiableNextPlayers)
     ).subscribe(v => {
-      console.log("Avaiable players:", v);
       this.avaiableNextPlayersInRound$.next(v);
     });
   }

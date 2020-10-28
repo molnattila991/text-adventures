@@ -20,18 +20,13 @@ export class CharactersInRoomService {
       map(([prev, curr]) => curr)
     ).subscribe(this.allMembers$);
 
-    this.allMembers$
-      .pipe(
-        map(members => members.map(m => m.characterId)),
-      )
-      .subscribe(members => this.selectedCharacters.select(members));
+    this.allMembers$.pipe(
+      map(members => members.map(m => m.characterId)),
+    ).subscribe(members => this.selectedCharacters.select(members));
 
     this.selectedRoom.getSelectedItem().pipe(
       map(teams => teams.teams.filter(members => members.teamMembers.filter(m => m.active).length > 0).length)
-    ).subscribe(membersCount => {
-      //console.log("MembersCount: " + membersCount);
-      this.activeTeamCount$.next(membersCount)
-    });
+    ).subscribe(this.activeTeamCount$);
   }
 
   getActiveTeamsCount(): Observable<number> {
