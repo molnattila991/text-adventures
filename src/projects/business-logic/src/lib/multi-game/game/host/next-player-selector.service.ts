@@ -6,10 +6,9 @@ import { ISelectedItemService } from '../../../selected-item/selected-item-servi
 import { CharactersInRoomService } from '../../characters/characters-in-room.service';
 
 @Injectable()
-export class CharacterSelectorService {
-  private activePlayers$: ReplaySubject<string[]> = new ReplaySubject();
+export class NextPlayerSelectorService {
   private playersWhoDone$: BehaviorSubject<string[]> = new BehaviorSubject([]);
-  private avaiableNextPlayersInRound$: ReplaySubject<string[]> = new ReplaySubject();
+  private avaiableNextPlayersInRound$: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private nextPlayer$: ReplaySubject<string> = new ReplaySubject();
 
   constructor(
@@ -23,13 +22,6 @@ export class CharacterSelectorService {
         room.currentPlayerID = "";
         this.dataProvider.update(room.id, room);
       })
-
-    this.charactersInRoomService.getPlayers()
-      .pipe(
-        map(players => players.filter(p => p.active == true)),
-        map(players => players.map(p => p.playerID))
-      )
-      .subscribe(this.activePlayers$);
 
     this.nextPlayer$.pipe(
       withLatestFrom(this.selectedRoom.getSelectedItem())
@@ -52,20 +44,13 @@ export class CharacterSelectorService {
 
     combineLatest([
       this.playersWhoDone$,
-      this.activePlayers$
+      this.charactersInRoomService.getActivePlayers()
     ]).pipe(
       map(selectAvaiableNextPlayers)
     ).subscribe(v => {
+      console.log("avaiableNextPlayersInRound", v);
       this.avaiableNextPlayersInRound$.next(v);
     });
-
-    this.avaiableNextPlayersInRound$.subscribe(v => {
-      console.log(v);
-    });
-  }
-
-  getActivePlayersNumber(): Observable<number> {
-    return this.activePlayers$.pipe(map(players => players.length));
   }
 
   getAvaiableNextPlayers(): Observable<number> {

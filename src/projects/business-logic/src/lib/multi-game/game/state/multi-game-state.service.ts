@@ -25,6 +25,10 @@ export class MultiGameStateService {
           selectedItem && this.gameState$.next(selectedItem);
         }
       });
+
+    this.gameState$.subscribe(v => {
+      console.log(v);
+    });
   }
 
   setState(state: MultiGameState): void {
