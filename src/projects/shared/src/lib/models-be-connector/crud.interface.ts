@@ -6,6 +6,7 @@ import { StoreKeyValue } from './store-key-value.interface';
 export interface GenericCrudService {
   get<T>(path: string): Observable<StoreKeyValue<T>[]>;
   getById<T>(path: string, id: string): Observable<T>;
+  getByIdList<T>(path: string, id: string[]): Observable<T[]>
   getFiltered<T>(
     path: string,
     filter: StoreFilter

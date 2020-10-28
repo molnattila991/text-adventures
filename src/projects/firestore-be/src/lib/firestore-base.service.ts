@@ -2,9 +2,10 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { FirebaseMapHelperService } from './firestore-base/firebase-map-helper.service';
 import { GenericCrudService, StoreKeyValue, HashMap, StoreFilter } from '@text-adventures/shared';
+import { firestore } from 'firebase/app';
 
 @Injectable()
 export class FirestoreBaseService implements GenericCrudService {
@@ -25,10 +26,26 @@ export class FirestoreBaseService implements GenericCrudService {
   }
 
   getById<T>(path: string, id: string): Observable<T> {
-    return this.db.collection(path).doc(id).snapshotChanges().pipe(map(snapShot => <any>{
-      ...<any>snapShot.payload.data(),
-      id: snapShot.payload.id
-    }));
+    return this.db.collection(path).doc(id).snapshotChanges().pipe(
+      map(snapShot => <any>{
+        ...<any>snapShot.payload.data(),
+        id: snapShot.payload.id
+      })
+    );
+  }
+
+  getByIdList<T>(path: string, id: string[]): Observable<T[]> {
+    return this.db.collection<T>(path, item => item.where(firestore.FieldPath.documentId(), "in", id)).snapshotChanges()
+      .pipe(
+        map(snapShot =>
+          snapShot.map(item => {
+            return <T>{
+              ...<any>item.payload.doc.data(),
+              id: item.payload.doc.id
+            }
+          })
+        )
+      );
   }
 
   getHashMap<T>(path: string): Observable<HashMap<T>> {

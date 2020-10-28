@@ -11,9 +11,6 @@ export class CommandManagerStoryService implements CommandManager {
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SinglePlayerManagerService) private singlePlayerGame: SinglePlayerGame
 
   ) {
-    this.storyStateService.getStoryState().subscribe(v => {
-      console.log(v);
-    })
   }
 
   handle(commandParts: string[]): void {

@@ -21,9 +21,6 @@ export class SinglePlayerContainerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.output.getFull().subscribe(v=>{
-      console.log(v);
-    })
     //TODO init help text
     this.output.pushText(["Üdvözöllek kalandor. Amennyiben segítségre van szükséged, írd a 'help' parancsot az alábbi mezőbe."])
     this.output.flush();

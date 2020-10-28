@@ -6,12 +6,11 @@ import { StoreKeyValue } from "./store-key-value.interface";
 export interface IGenericCrudDataProvider<T> {
   getHashMap(): Observable<HashMap<T>>;
   getHashFiltered(property: string, value: any, operation?: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' | 'in'): Observable<HashMap<T>>;
-  refreshHashMapFiltered(property: string, value: any, operation?: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' | 'in');
   get(): Observable<StoreKeyValue<T>[]>;
   getById(id: string): Observable<T>;
+  getByIdList(id: string[]): Observable<T[]>
   getFiltered(property: string, value: any, operation?: '<' | '<=' | '==' | '>' | '>=' | 'array-contains' | 'array-contains-any' | 'in'): Observable<StoreKeyValue<T>[]>;
   getSelectList(propertyName: string): Observable<SelectItem[]>;
-  refreshFiltered(property: string, value: any);
   add(model: Partial<T>): Promise<T>;
   update(id: string, model: T): Promise<T>;
   delete(id: string): Promise<void>;

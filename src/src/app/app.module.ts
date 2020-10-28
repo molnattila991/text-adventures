@@ -11,6 +11,7 @@ import { SelectCharacterModule } from './components/selector-character/select-ch
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, UserHandling } from '@text-adventures/shared';
 import { SelectStoryModule } from './components/selector-story/select-character.module';
 import { SinglePlayerModule } from './components/single-player/single-player.module';
+import { MultiPlayerModule } from './components/multi-player/multi-player.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,8 @@ import { SinglePlayerModule } from './components/single-player/single-player.mod
     SelectCharacterModule,
     SelectStoryModule,
     SinglePlayerModule,
+
+    MultiPlayerModule
 
   ],
   providers: [],

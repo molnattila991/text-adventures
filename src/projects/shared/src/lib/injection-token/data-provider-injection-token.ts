@@ -5,5 +5,10 @@ export const DATA_PROVIDER_INJECTION_TOKEN = {
     StoryPageDataProviderService: "StoryPageDataProviderService",
     CharactersDataProviderService: "CharactersDataProviderService",
     UserCharactersDataProviderService: "UserCharactersDataProviderService",
-    UsersDataProviderService: "UsersDataProviderService"
+    UsersDataProviderService: "UsersDataProviderService",
+    RoomsDataProviderService: "RoomsDataProviderService",
+    RoomsTitleDataProviderService: "RoomsTitleDataProviderService",
+    RoomVotesDataProviderService: "RoomVotesDataProviderService",
+    RoomLogsDataProviderService: "RoomLogsDataProviderService",
+    MultiGameStateDataProviderService: "MultiGameStateDataProviderService"
 }

@@ -1,6 +1,29 @@
 https://console.firebase.google.com/project/textadventures-cb5e4/firestore/usage/last-24h/reads
 adatfeltöltő script kell, hogy üres adatbázisról is lehessen indítani
 
+
+single-battle 
+    támadásokat logolni
+
+multi-battle
+    -battle-command
+    -battle-service
+        -teams - adatbázisból jön
+            -változás esetén expanded objeket felölteni
+    -logolást kitalálni
+        -minden esemény legyen benne
+            -target name
+                -attribute name és régi-új érték
+        -szavazás nem kell, csak hogy elkezdődott a kör, meg hogy jelezni kell a kör befejezését.
+    
+    csak saját körben
+    -inventory használat
+    -skills
+    -battle
+    -attributes
+    minden körben
+    -szavazás
+
 targetolni index alapján
 !!!!Újra kell választani a targe-et mert változik a tömbben lévő karakterek referenciája
     -target index kell az objektum helyett
@@ -9,18 +32,6 @@ single-player battle
 
 szavazásnál nem írja ki ki szavazott, csak azt hogy waiting for others
 közös logokat vagyis a többi játékos logjait külön gyűjteni és kiírni a kör végén
-
-Csata management
-    -adatok
-        csapat
-        jelenlegi játékos
-        kör index
-        körben már lépett játékosok
-        készen állok a folytatásra adat
-        aktív játékosok száma -> szavazatokhoz kell
-    -funkciók
-        készen állok szavazás
-        játékos kiválasztása
 
 
 Multi/Single Csata

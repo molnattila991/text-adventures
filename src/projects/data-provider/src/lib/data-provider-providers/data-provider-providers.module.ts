@@ -11,6 +11,9 @@ import { UsersDataProviderService } from '../services/users-data-provider.servic
 import { UserCharactersDataProviderService } from '../services/user-characters-data-provider.service';
 import { FirebaseProvidersModule } from '@text-adventures/firestore-be';
 import { DATA_PROVIDER_INJECTION_TOKEN } from '@text-adventures/shared';
+import { VotesDataProviderService } from '../services/votes-data-provider.service';
+import { RoomLogsDataProviderService } from '../services/room-logs-data-provider.service';
+import { MultiGameStateDataProviderService } from '../services/multi-game-state-data-provider.service';
 
 @NgModule({
   imports: [CommonModule, FirebaseProvidersModule],
@@ -36,11 +39,11 @@ import { DATA_PROVIDER_INJECTION_TOKEN } from '@text-adventures/shared';
       useClass: CharactersDataProviderService
     },
     {
-      provide: 'RoomsDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.RoomsDataProviderService,
       useClass: RoomsDataProviderService
     },
     {
-      provide: 'RoomsTitleDataProviderService',
+      provide: DATA_PROVIDER_INJECTION_TOKEN.RoomsTitleDataProviderService,
       useClass: RoomsTitleDataProviderService
     },
     {
@@ -50,7 +53,20 @@ import { DATA_PROVIDER_INJECTION_TOKEN } from '@text-adventures/shared';
     {
       provide: DATA_PROVIDER_INJECTION_TOKEN.UserCharactersDataProviderService,
       useClass: UserCharactersDataProviderService
+    },
+    {
+      provide: DATA_PROVIDER_INJECTION_TOKEN.RoomVotesDataProviderService,
+      useClass: VotesDataProviderService
+    },
+    {
+      provide: DATA_PROVIDER_INJECTION_TOKEN.RoomLogsDataProviderService,
+      useClass: RoomLogsDataProviderService
+    },
+    {
+      provide: DATA_PROVIDER_INJECTION_TOKEN.MultiGameStateDataProviderService,
+      useClass: MultiGameStateDataProviderService
     }
+    
   ]
 })
 export class DataProviderProvidersModule { }

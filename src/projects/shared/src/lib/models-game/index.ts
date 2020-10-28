@@ -21,3 +21,6 @@ export {
     CharacterPlayerModelExpanded
 } from './character-model'
 
+
+export * from "./multi-game"
+
