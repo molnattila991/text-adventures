@@ -8,6 +8,7 @@ import { MultiGameStateService } from '../state/multi-game-state.service';
 import { MultiGameLoggerService } from '../logger/multi-game-logger.service';
 import { CharacterSelectorService } from './character-selector.service';
 import { MultiGameRoundManagerService } from './multi-game-round-manager.service';
+import { MultiGameHostStateManagerService } from './multi-game-host-state-manager.service';
 
 @Injectable()
 export class MultiGameHostService {
@@ -18,8 +19,7 @@ export class MultiGameHostService {
     private selectedRoomVotesService: SelectedRoomVotesService,
     private multiGameStateService: MultiGameStateService,
     private multiGameLoggerService: MultiGameLoggerService,
-    private characterSelectorService: CharacterSelectorService,
-    private multiGameRoundManagerService: MultiGameRoundManagerService
+    private multiGameHostStateManagerService: MultiGameHostStateManagerService
   ) {
     combineLatest([
       this.loggedInUser.getLoggedInUser(),
@@ -38,29 +38,11 @@ export class MultiGameHostService {
       ).subscribe(([votes, appIsHost, state]) => {
         switch (state) {
           case MultiGameState.waitForStart:
-            console.log("waitForStart");
-            if (votes.membersNumber > 1 && votes.membersNumber == votes.votes) {
-              console.log("TODO: if (votes.membersNumber > 1 && votes.membersNumber == votes.votes)")
-              //start állapot
-              console.log("waitForStart in");
-              this.selectedRoomVotesService.resetVotes();
-              //new round if required
-              this.multiGameStateService.setState(MultiGameState.started);
-            }
+            this.multiGameHostStateManagerService.waitForStart(votes);
             break;
 
           case MultiGameState.waitForVote:
-            console.log("waitForVote");
-            if (votes.membersNumber > 1 && votes.membersNumber == votes.votes) {
-              console.log("TODO: if (votes.membersNumber > 1 && votes.membersNumber == votes.votes)")
-
-              console.log("waitForVote in");
-              //next player
-              //körök kezelése
-              //logolás
-              this.selectedRoomVotesService.resetVotes();
-              this.multiGameRoundManagerService.next();
-            }
+            this.multiGameHostStateManagerService.waitForVote(votes);
             break;
         }
       });
@@ -77,39 +59,25 @@ export class MultiGameHostService {
 
         switch (state) {
           case MultiGameState.default:
-            this.multiGameStateService.setState(MultiGameState.waitForStart);
+            this.multiGameHostStateManagerService.default();
             break;
 
           case MultiGameState.started:
-            console.log("started");
-            //Init game
-            //Logok megosztása.
-            // this.multiGameLoggerService.push([]);
-            // this.multiGameLoggerService.flush();
-            this.selectedRoomVotesService.resetVotes();
-            this.multiGameStateService.setState(MultiGameState.newRound);
+            this.multiGameHostStateManagerService.started();
             break;
 
           case MultiGameState.newRound:
-            //Új kör
-            console.log("newRound");
-            this.characterSelectorService.reset();
-            this.multiGameStateService.incrementRoundNumber();
-            this.multiGameStateService.setState(MultiGameState.newTurn);
+            this.multiGameHostStateManagerService.newRound();
             break;
 
           case MultiGameState.newTurn:
-            console.log("newTurn")
-            // this.characterSelectorService.playerFinishRound();
-            this.characterSelectorService.selectNextPlayer();
-            this.multiGameStateService.setState(MultiGameState.waitForVote);
+            this.multiGameHostStateManagerService.newTurn();
             break;
 
           case MultiGameState.ended:
-            console.log("ended");
+            this.multiGameHostStateManagerService.ended();
             break;
         }
       });
-
   }
 }

@@ -16,6 +16,7 @@ import { MultiGameRoundManagerService } from './game/host/multi-game-round-manag
 import { CurrentCharacterService } from './characters/current-character.service';
 import { MultiGameHostService } from './game/host/multi-game-host.service';
 import { CharacterInTurnService } from './game/player/character-in-turn.service';
+import { MultiGameHostStateManagerService } from './game/host/multi-game-host-state-manager.service';
 
 
 
@@ -39,7 +40,8 @@ import { CharacterInTurnService } from './game/player/character-in-turn.service'
     MultiGameStateService,
     CurrentCharacterService,
     MultiGameHostService,
-    CharacterInTurnService
+    CharacterInTurnService,
+    MultiGameHostStateManagerService
 
   ]
 })

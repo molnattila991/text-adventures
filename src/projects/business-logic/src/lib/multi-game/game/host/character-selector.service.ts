@@ -70,7 +70,7 @@ export class CharacterSelectorService {
   }
 
   reset(): void {
-    this.avaiableNextPlayersInRound$.next([]);
+    this.playersWhoDone$.next([]);
   }
 
   selectNextPlayer(): void {

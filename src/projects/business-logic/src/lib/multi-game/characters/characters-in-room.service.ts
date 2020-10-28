@@ -14,20 +14,24 @@ export class CharactersInRoomService {
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService) private selectedRoom: ISelectedItemService<RoomModel>
   ) {
     this.selectedRoom.getSelectedItem().pipe(
-      map(flatTeams)
+      map(flatTeams),
+      pairwise(),
+      filter(([prev, curr]) => JSON.stringify(prev) != JSON.stringify(curr)),
+      map(([prev, curr]) => curr)
     ).subscribe(this.allMembers$);
 
     this.allMembers$
       .pipe(
         map(members => members.map(m => m.characterId)),
-        pairwise(),
-        filter(([prev, curr]) => JSON.stringify(prev) != JSON.stringify(curr))
       )
-      .subscribe(([prev, curr]) => this.selectedCharacters.select(curr));
+      .subscribe(members => this.selectedCharacters.select(members));
 
     this.selectedRoom.getSelectedItem().pipe(
       map(teams => teams.teams.filter(members => members.teamMembers.filter(m => m.active).length > 0).length)
-    ).subscribe(this.activeTeamCount$)
+    ).subscribe(membersCount => {
+      //console.log("MembersCount: " + membersCount);
+      this.activeTeamCount$.next(membersCount)
+    });
   }
 
   getActiveTeamsCount(): Observable<number> {

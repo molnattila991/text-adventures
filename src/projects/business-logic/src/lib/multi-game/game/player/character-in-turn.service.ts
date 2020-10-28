@@ -8,9 +8,6 @@ export class CharacterInTurnService {
   constructor(
     private currentCharacterService: CurrentCharacterService
   ) {
-    this.currentCharacterService.isCurrentPlayerLoggedInPlayer().subscribe(v=>console.log(v));
-    this.currentCharacterService.getCharacter().subscribe(v=>console.log(v));
-
     this.currentCharacterService.isCurrentPlayerLoggedInPlayer().pipe(
       filter(isCurrentPlayer => isCurrentPlayer),
       withLatestFrom(this.currentCharacterService.getCharacter())
