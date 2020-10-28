@@ -4,4 +4,5 @@ export interface MultiGameRoomState {
     roomId: string;
     state: MultiGameState;
     round: number;
+    turn: number;
 }

@@ -10,13 +10,7 @@ import { MultiCommandHelperService } from './game/multi-command-helper.service';
 import { MultiCommandManagerGameService } from './game/handlers/multi-command-manager-game.service';
 import { SelectedRoomVotesService } from './room/selected-room-votes.service';
 import { MultiGameStateService } from './game/state/multi-game-state.service';
-import { MultiGameLoggerService } from './game/logger/multi-game-logger.service';
 import { CharacterSelectorService } from './game/host/character-selector.service';
-import { MultiGameRoundManagerService } from './game/host/multi-game-round-manager.service';
-import { CurrentCharacterService } from './characters/current-character.service';
-import { MultiGameHostService } from './game/host/multi-game-host.service';
-import { CharacterInTurnService } from './game/player/character-in-turn.service';
-import { MultiGameHostStateManagerService } from './game/host/multi-game-host-state-manager.service';
 
 
 
@@ -34,21 +28,13 @@ import { MultiGameHostStateManagerService } from './game/host/multi-game-host-st
     MultiCommandManagerGameService,
     SelectedRoomVotesService,
     MultiGameStateService,
-    MultiGameLoggerService,
-    MultiGameRoundManagerService,
     CharacterSelectorService,
-    MultiGameStateService,
-    CurrentCharacterService,
-    MultiGameHostService,
-    CharacterInTurnService,
-    MultiGameHostStateManagerService
+    MultiGameStateService
 
   ]
 })
 export class MultiGameModule {
   constructor(
     private charactersInRoomService: CharactersInRoomService,
-    private multiGameHostService: MultiGameHostService,
-    private characterInTurnService: CharacterInTurnService
   ) { }
 }

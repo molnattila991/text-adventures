@@ -44,11 +44,26 @@ export class MultiGameStateService {
     ).subscribe(([action, state]) => {
       if (state.round)
         state.round += 1;
+      else
+        state.round = 0;
       this.dataProvider.update(state.id, state);
     });
   }
 
-  get(): Observable<MultiGameRoomState>{
+  incrementTurnNumber(): void {
+    of("").pipe(
+      withLatestFrom(this.gameState$),
+      take(1)
+    ).subscribe(([action, state]) => {
+      if (state.turn)
+        state.turn += 1;
+      else
+        state.turn = 0;
+      this.dataProvider.update(state.id, state);
+    });
+  }
+
+  get(): Observable<MultiGameRoomState> {
     return this.gameState$.asObservable();
   }
 

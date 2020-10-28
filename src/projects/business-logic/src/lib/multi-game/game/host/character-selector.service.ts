@@ -58,6 +58,10 @@ export class CharacterSelectorService {
     ).subscribe(v => {
       this.avaiableNextPlayersInRound$.next(v);
     });
+
+    this.avaiableNextPlayersInRound$.subscribe(v => {
+      console.log(v);
+    });
   }
 
   getActivePlayersNumber(): Observable<number> {

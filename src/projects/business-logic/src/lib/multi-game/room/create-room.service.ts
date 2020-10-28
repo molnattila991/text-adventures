@@ -75,7 +75,8 @@ export class CreateRoomService implements CreateRoom {
         this.multidataProvider.add(<MultiGameRoomState>{
           roomId: room.id,
           state: MultiGameState.default,
-          round: 0
+          round: 0,
+          turn: 0
         });
       })
     })
