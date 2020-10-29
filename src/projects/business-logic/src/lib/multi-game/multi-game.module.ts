@@ -13,6 +13,7 @@ import { MultiGameStateService } from './game/state/multi-game-state.service';
 import { NextPlayerSelectorService } from './game/host/next-player-selector.service';
 import { AppTypeService } from './game/host/app-type.service';
 import { MultiGameHostService } from './game/host/multi-game-host.service';
+import { MultiGameHostStateManagerService } from './game/host/multi-game-host-state-manager.service';
 
 
 
@@ -33,7 +34,8 @@ import { MultiGameHostService } from './game/host/multi-game-host.service';
     NextPlayerSelectorService,
     AppTypeService,
     MultiGameStateService,
-    MultiGameHostService
+    MultiGameHostService,
+    MultiGameHostStateManagerService
 
   ]
 })

@@ -5,6 +5,7 @@ import { distinctUntilChanged, filter, switchMap, withLatestFrom } from 'rxjs/op
 import { SelectedRoomVotesService } from '../../room/selected-room-votes.service';
 import { MultiGameStateService } from '../state/multi-game-state.service';
 import { AppTypeService } from './app-type.service';
+import { MultiGameHostStateManagerService } from './multi-game-host-state-manager.service';
 
 @Injectable()
 export class MultiGameHostService {
@@ -12,7 +13,8 @@ export class MultiGameHostService {
   constructor(
     private appTypeService: AppTypeService,
     private multiGameStateService: MultiGameStateService,
-    private selectedRoomVotesService: SelectedRoomVotesService
+    private selectedRoomVotesService: SelectedRoomVotesService,
+    private multiGameHostStateManagerService: MultiGameHostStateManagerService
   ) {
     this.selectedRoomVotesService.resetVotes();
 
@@ -29,11 +31,13 @@ export class MultiGameHostService {
 
       switch (gameState) {
         case MultiGameState.waitForStart:
-          console.log("waitForStart")
+          console.log("waitForStart");
           this.multiGameStateService.setState(MultiGameState.started);
           break;
         case MultiGameState.waitForVote:
-          console.log("waitForVote")
+          console.log("waitForVote");
+
+          this.multiGameStateService.setState(MultiGameState.newTurn);
           break;
       }
     });
@@ -45,19 +49,24 @@ export class MultiGameHostService {
     ).subscribe(state => {
       switch (state) {
         case MultiGameState.started:
-          console.log("started")
+          console.log("started");
           alert("A játék elkezdődött.");
-
+          this.multiGameStateService.setState(MultiGameState.newTurn);
           break;
         case MultiGameState.newTurn:
-          console.log("newTurn")
+          //round
+          //turn
+          //next player
+          this.multiGameHostStateManagerService.next();
+          this.multiGameStateService.setState(MultiGameState.waitForVote);
+          console.log("newTurn");
           break;
         case MultiGameState.default:
-          console.log("default")
+          console.log("default");
           break;
         case MultiGameState.ended:
-          console.log("ended")
-          alert("Vége a harcnak")
+          console.log("ended");
+          alert("Vége a harcnak");
           break;
       }
     })
