@@ -53,10 +53,8 @@ export class MultiGameHostService {
           alert("A játék elkezdődött.");
           this.multiGameStateService.setState(MultiGameState.newTurn);
           break;
-        case MultiGameState.newTurn:
-          //round
-          //turn
-          //next player
+        case MultiGameState.newTurn:          
+        //next player
           this.multiGameRoundManagerService.next();
           this.multiGameStateService.setState(MultiGameState.waitForVote);
           console.log("newTurn");

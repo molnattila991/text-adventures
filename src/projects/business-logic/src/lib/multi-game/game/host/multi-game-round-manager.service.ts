@@ -3,6 +3,7 @@ import { MultiGameState } from '@text-adventures/shared';
 import { Subject } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
 import { CharactersInRoomService } from '../../characters/characters-in-room.service';
+import { SelectedRoomVotesService } from '../../room/selected-room-votes.service';
 import { MultiGameStateService } from '../state/multi-game-state.service';
 import { NextPlayerSelectorService } from './next-player-selector.service';
 
@@ -13,7 +14,9 @@ export class MultiGameRoundManagerService {
   constructor(
     private charactersInRoomService: CharactersInRoomService,
     private multiGameStateService: MultiGameStateService,
-    private nextPlayerSelectorService: NextPlayerSelectorService
+    private nextPlayerSelectorService: NextPlayerSelectorService,
+    private selectedRoomVotesService: SelectedRoomVotesService
+
   ) {
     this.next$.pipe(
       withLatestFrom(
@@ -25,10 +28,14 @@ export class MultiGameRoundManagerService {
       console.log("End of turn: ", activePlayersNumber, avaiableNextPlayers, activeTeamNumbers);
       if (activeTeamNumbers > 1) {
         if (avaiableNextPlayers >= 1) {
-          // this.multiGameStateService.setState(MultiGameState.newTurn);
+          this.multiGameStateService.incrementTurnNumber();
         } else {
-          // this.multiGameStateService.setState(MultiGameState.newRound);
+          this.nextPlayerSelectorService.reset();
+          this.multiGameStateService.incrementRoundNumber()
         }
+
+        this.selectedRoomVotesService.resetVotes();
+        this.nextPlayerSelectorService.selectNextPlayer();
       } else {
         this.multiGameStateService.setState(MultiGameState.ended);
       }
