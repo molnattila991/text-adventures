@@ -27,7 +27,7 @@ export class MultiGameStateService {
       });
 
     this.gameState$.subscribe(v => {
-      console.log("multiGameState MultiGameStateService", v);
+      //console.log("multiGameState MultiGameStateService", v);
     });
 
     this.gameState$
@@ -35,7 +35,7 @@ export class MultiGameStateService {
       .subscribe(state => {
         console.log("reset multiGameState MultiGameStateService");
 
-        state.state = 1;
+        state.state = MultiGameState.waitForStart;
         this.dataProvider.update(state.id, state);
       });
   }

@@ -19,7 +19,7 @@ export class NextPlayerSelectorService {
     this.selectedRoom.getSelectedItem()
       .pipe(take(1))
       .subscribe((room) => {
-        console.log("Reset currentPlayerId NextPlayerSelectorService")
+        //console.log("Reset currentPlayerId NextPlayerSelectorService")
         room.currentPlayerID = "";
         this.dataProvider.update(room.id, room);
       })
@@ -47,7 +47,7 @@ export class NextPlayerSelectorService {
     ]).pipe(
       map(selectAvaiableNextPlayers)
     ).subscribe(v => {
-      console.log("avaiableNextPlayersInRound NextPlayerSelectorService", v);
+      //console.log("avaiableNextPlayersInRound NextPlayerSelectorService", v);
       this.avaiableNextPlayersInRound$.next(v);
     });
   }

@@ -16,8 +16,7 @@ export class MultiGameHostService {
   ) {
     this.selectedRoomVotesService.resetVotes();
 
-    this.appTypeService.isHost().pipe(
-      //distinctUntilChanged((a, b) => a == b),
+    this.appTypeService.ifHost().pipe(
       switchMap(() => this.selectedRoomVotesService.getStatus()
         .pipe(
           distinctUntilChanged((a, b) => a.votes == b.votes),
@@ -30,36 +29,37 @@ export class MultiGameHostService {
 
       switch (gameState) {
         case MultiGameState.waitForStart:
+          console.log("waitForStart")
           this.multiGameStateService.setState(MultiGameState.started);
           break;
         case MultiGameState.waitForVote:
-
+          console.log("waitForVote")
           break;
       }
     });
 
 
-    this.appTypeService.isHost().pipe(
-      //distinctUntilChanged((a, b) => a == b),
+    this.appTypeService.ifHost().pipe(
       switchMap(() => this.multiGameStateService.getState()),
       distinctUntilChanged((a, b) => a == b)
     ).subscribe(state => {
       switch (state) {
         case MultiGameState.started:
-          alert("A járék elkezdődött.");
-          
+          console.log("started")
+          alert("A játék elkezdődött.");
+
           break;
         case MultiGameState.newTurn:
+          console.log("newTurn")
           break;
         case MultiGameState.default:
+          console.log("default")
           break;
         case MultiGameState.ended:
-          console.log("ENDED");
+          console.log("ended")
           alert("Vége a harcnak")
           break;
       }
     })
-
-
   }
 }
