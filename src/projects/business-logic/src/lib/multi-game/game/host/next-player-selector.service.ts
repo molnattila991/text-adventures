@@ -48,7 +48,7 @@ export class NextPlayerSelectorService {
     ]).pipe(
       map(selectAvaiableNextPlayers)
     ).subscribe(v => {
-      console.log("avaiableNextPlayersInRound", v);
+      console.log("avaiableNextPlayersInRound NextPlayerSelectorService", v);
       this.avaiableNextPlayersInRound$.next(v);
     });
   }
@@ -66,9 +66,7 @@ export class NextPlayerSelectorService {
       .pipe(
         withLatestFrom(this.avaiableNextPlayersInRound$),
         take(1),
-        map(([action, players]) => {
-          return players[Math.floor(Math.random() * players.length)]
-        }),
+        map(([action, players]) => players[Math.floor(Math.random() * players.length)]),
       ).subscribe(v => {
         this.nextPlayer$.next(v)
       });

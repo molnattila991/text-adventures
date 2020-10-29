@@ -27,7 +27,7 @@ export class MultiGameStateService {
       });
 
     this.gameState$.subscribe(v => {
-      console.log(v);
+      console.log("multiGameState MultiGameStateService", v);
     });
   }
 

@@ -20,7 +20,7 @@ export class AppTypeService {
 
   }
 
-  private isHost(): Observable<boolean> {
+  public isHost(): Observable<boolean> {
     return this.appIsHost$.asObservable();
   }
 }
