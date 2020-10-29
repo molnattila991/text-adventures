@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MultiGameState } from '@text-adventures/shared';
-import { pipe } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SelectedRoomVotesService } from '../../room/selected-room-votes.service';
 import { MultiGameStateService } from '../state/multi-game-state.service';
 import { AppTypeService } from './app-type.service';
-import { MultiGameHostStateManagerService } from './multi-game-host-state-manager.service';
+import { MultiGameRoundManagerService } from './multi-game-round-manager.service';
 
 @Injectable()
 export class MultiGameHostService {
@@ -14,7 +13,8 @@ export class MultiGameHostService {
     private appTypeService: AppTypeService,
     private multiGameStateService: MultiGameStateService,
     private selectedRoomVotesService: SelectedRoomVotesService,
-    private multiGameHostStateManagerService: MultiGameHostStateManagerService
+    private multiGameRoundManagerService: MultiGameRoundManagerService
+
   ) {
     this.selectedRoomVotesService.resetVotes();
 
@@ -57,7 +57,7 @@ export class MultiGameHostService {
           //round
           //turn
           //next player
-          this.multiGameHostStateManagerService.next();
+          this.multiGameRoundManagerService.next();
           this.multiGameStateService.setState(MultiGameState.waitForVote);
           console.log("newTurn");
           break;
