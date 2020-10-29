@@ -44,8 +44,8 @@ export class SelectedRoomVotesService {
       ).subscribe(this.status$);
 
       this.status$.subscribe(v=>{
-        console.log(v);
-      })
+        console.log("voteStatus SelectedRoomVotesService", v);
+      });
   }
 
   getSelectedItem(): Observable<RoomVotes> {
