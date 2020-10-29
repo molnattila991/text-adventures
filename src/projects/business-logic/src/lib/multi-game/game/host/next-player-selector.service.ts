@@ -19,6 +19,7 @@ export class NextPlayerSelectorService {
     this.selectedRoom.getSelectedItem()
       .pipe(take(1))
       .subscribe((room) => {
+        console.log("Reset currentPlayerId NextPlayerSelectorService")
         room.currentPlayerID = "";
         this.dataProvider.update(room.id, room);
       })
@@ -34,14 +35,12 @@ export class NextPlayerSelectorService {
       .pipe(
         filter(p => p != undefined),
         withLatestFrom(this.playersWhoDone$),
-        map(([playerId, players]) => {
-          return [playerId, ...players]
-        })
+        map(([playerId, players]) => [playerId, ...players])
       )
       .subscribe(v => {
         this.playersWhoDone$.next(v);
       });
-      
+
     combineLatest([
       this.playersWhoDone$,
       this.charactersInRoomService.getActivePlayers()

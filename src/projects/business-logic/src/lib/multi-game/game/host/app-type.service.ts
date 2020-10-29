@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, UserHandling, RoomModel } from '@text-adventures/shared';
 import { combineLatest, ReplaySubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { ISelectedItemService } from '../../../selected-item/selected-item-service';
 
 @Injectable()
@@ -15,7 +15,8 @@ export class AppTypeService {
       this.loggedInUser.getLoggedInUser(),
       this.selectedRoomService.getSelectedItem()
     ]).pipe(
-      map(([user, room]) => room.hostPlayerID == user.id)
+      map(([user, room]) => room.hostPlayerID == user.id),
+      distinctUntilChanged((a, b) => a == b),
     ).subscribe(this.appIsHost$);
 
   }

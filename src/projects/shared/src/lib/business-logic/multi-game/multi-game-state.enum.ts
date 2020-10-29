@@ -3,7 +3,6 @@ export enum MultiGameState {
   waitForStart,
   started,
   newTurn,
-  newRound,
   waitForVote,
   ended
 }
