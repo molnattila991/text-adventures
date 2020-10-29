@@ -41,7 +41,7 @@ export class NextPlayerSelectorService {
       .subscribe(v => {
         this.playersWhoDone$.next(v);
       });
-
+      
     combineLatest([
       this.playersWhoDone$,
       this.charactersInRoomService.getActivePlayers()

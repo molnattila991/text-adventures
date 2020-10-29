@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, RoomModel, TeamMemberModel } from '@text-adventures/shared';
 import { ISelectedItemService } from '@text-adventures/business-logic';
-import { distinctUntilChanged, filter, map, pairwise } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, pairwise, tap } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 import { SelectedCharactersService } from './selected-characters.service';
 
@@ -18,7 +18,7 @@ export class CharactersInRoomService {
     this.selectedRoom.getSelectedItem()
       .pipe(
         map(flatTeams),
-        distinctUntilChanged((a, b) => JSON.stringify(alert) != JSON.stringify(b))
+        distinctUntilChanged((a, b) => JSON.stringify(alert) == JSON.stringify(b))
       )
       .subscribe(this.allMembers$)
 
@@ -32,8 +32,9 @@ export class CharactersInRoomService {
 
     this.allMembers$
       .pipe(
-        map(players => players.filter(p => p.active == true)),
-        map(players => players.map(p => p.playerID))
+        map(players => players
+          .filter(p => p.active == true)
+          .map(p => p.playerID)),
       )
       .subscribe(this.activePlayers$);
   }
