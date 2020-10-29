@@ -1,12 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, RoomModel } from '@text-adventures/shared';
-import { of, ReplaySubject, Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { filter, map, take, withLatestFrom } from 'rxjs/operators';
+import { of, ReplaySubject, Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { filter, map, take, withLatestFrom, distinctUntilChanged } from 'rxjs/operators';
 import { ISelectedItemService } from '../../../selected-item/selected-item-service';
 import { CharactersInRoomService } from '../../characters/characters-in-room.service';
 
 @Injectable()
 export class NextPlayerSelectorService {
+  private nextPlayerAction$: Subject<void> = new Subject();
   private playersWhoDone$: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private avaiableNextPlayersInRound$: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private nextPlayer$: ReplaySubject<string> = new ReplaySubject();
@@ -19,6 +20,7 @@ export class NextPlayerSelectorService {
     this.selectedRoom.getSelectedItem()
       .pipe(take(1))
       .subscribe((room) => {
+        //console.log("Reset currentPlayerId NextPlayerSelectorService")
         room.currentPlayerID = "";
         this.dataProvider.update(room.id, room);
       })
@@ -34,22 +36,29 @@ export class NextPlayerSelectorService {
       .pipe(
         filter(p => p != undefined),
         withLatestFrom(this.playersWhoDone$),
-        map(([playerId, players]) => {
-          return [playerId, ...players]
-        })
+        map(([playerId, players]) => [playerId, ...players])
       )
       .subscribe(v => {
         this.playersWhoDone$.next(v);
       });
-      
+
     combineLatest([
       this.playersWhoDone$,
       this.charactersInRoomService.getActivePlayers()
     ]).pipe(
+      distinctUntilChanged((a, b) => JSON.stringify(a) == JSON.stringify(b)),
       map(selectAvaiableNextPlayers)
     ).subscribe(v => {
       console.log("avaiableNextPlayersInRound NextPlayerSelectorService", v);
       this.avaiableNextPlayersInRound$.next(v);
+    });
+
+    this.nextPlayerAction$.pipe(
+      withLatestFrom(this.avaiableNextPlayersInRound$),
+      map(([action, players]) => players[Math.floor(Math.random() * players.length)]),
+    ).subscribe(v => {
+      console.log("nextPlayer NextPlayerSelectorService", v);
+      this.nextPlayer$.next(v)
     });
   }
 
@@ -62,14 +71,7 @@ export class NextPlayerSelectorService {
   }
 
   selectNextPlayer(): void {
-    of("")
-      .pipe(
-        withLatestFrom(this.avaiableNextPlayersInRound$),
-        take(1),
-        map(([action, players]) => players[Math.floor(Math.random() * players.length)]),
-      ).subscribe(v => {
-        this.nextPlayer$.next(v)
-      });
+    this.nextPlayerAction$.next();
   }
 }
 
