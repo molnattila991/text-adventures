@@ -30,13 +30,13 @@ export class MultiGameStateService {
       });
 
     this.gameState$.subscribe(v => {
-      console.log("multiGameState MultiGameStateService", v);
+      // console.log("multiGameState MultiGameStateService", v);
     });
 
     this.gameState$
       .pipe(take(1))
       .subscribe(state => {
-        console.log("reset multiGameState MultiGameStateService");
+        //console.log("reset multiGameState MultiGameStateService");
 
         state.state = MultiGameState.waitForStart;
         state.round = 0;
@@ -46,7 +46,6 @@ export class MultiGameStateService {
 
     this.incrementTurn$.pipe(
       withLatestFrom(this.gameState$),
-      take(1)
     ).subscribe(([action, state]) => {
       if (state.turn == undefined) {
         state.turn = 0;
@@ -59,7 +58,6 @@ export class MultiGameStateService {
 
     this.incrementRound$.pipe(
       withLatestFrom(this.gameState$),
-      take(1)
     ).subscribe(([action, state]) => {
       if (state.round == undefined) {
         state.round = 0;

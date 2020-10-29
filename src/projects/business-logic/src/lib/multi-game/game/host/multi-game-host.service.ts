@@ -50,7 +50,6 @@ export class MultiGameHostService {
       switch (state) {
         case MultiGameState.started:
           console.log("started");
-          alert("A játék elkezdődött.");
           this.multiGameStateService.setState(MultiGameState.newTurn);
           break;
         case MultiGameState.newTurn:          
