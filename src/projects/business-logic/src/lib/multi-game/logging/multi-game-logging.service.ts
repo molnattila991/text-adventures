@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutput, CommandOutputMessage, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, MultiGameLogs, RoomModel } from '@text-adventures/shared';
 import { BehaviorSubject, Subject, Observable, ReplaySubject } from 'rxjs';
-import { withLatestFrom, map, switchMap } from 'rxjs/operators';
+import { withLatestFrom, map, switchMap, take } from 'rxjs/operators';
 import { ISelectedItemService } from '../../selected-item/selected-item-service';
 
 @Injectable()
@@ -25,6 +25,16 @@ export class MultiGameLoggingService implements CommandOutput {
           const selectedItem = item[0].model;
           selectedItem && this.selectedItem$.next(selectedItem);
         }
+      });
+
+    this.selectedItem$
+      .pipe(take(1))
+      .subscribe(item => {
+        //console.log("reset multiGameState MultiGameStateService");
+        item.all = [];
+        item.actual = [];
+
+        this.dataProvider.update(item.id, item);
       });
 
     this.addTempLogs$.pipe(

@@ -15,6 +15,8 @@ export class MultiGameStateService {
   private incrementRound$: Subject<void> = new Subject();
   private incrementTurn$: Subject<void> = new Subject();
 
+  private turnAndRound$: ReplaySubject<{ turn, round }> = new ReplaySubject();
+
   constructor(
     @Inject(DATA_PROVIDER_INJECTION_TOKEN.MultiGameStateDataProviderService) protected dataProvider: IGenericCrudDataProvider<MultiGameRoomState>,
     @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService) private selectedRoomService: ISelectedItemService<RoomModel>
@@ -41,6 +43,8 @@ export class MultiGameStateService {
         state.state = MultiGameState.waitForStart;
         state.round = 0;
         state.turn = 0;
+
+        this.turnAndRound$.next({ turn: state.turn, round: state.turn });
         this.dataProvider.update(state.id, state);
       });
 
@@ -53,6 +57,7 @@ export class MultiGameStateService {
         state.turn += 1;
       }
 
+      this.turnAndRound$.next({ turn: state.turn, round: state.round });
       this.dataProvider.update(state.id, state);
     });
 
@@ -71,6 +76,7 @@ export class MultiGameStateService {
         state.turn += 1;
       }
 
+      this.turnAndRound$.next({ turn: state.turn, round: state.round });
       this.dataProvider.update(state.id, state);
     });
   }
@@ -103,5 +109,9 @@ export class MultiGameStateService {
 
   getRoundNumber(): Observable<number> {
     return this.gameState$.pipe(map(item => item.round));
+  }
+
+  getTurnAndRound(): Observable<{ turn, round }> {
+    return this.turnAndRound$.asObservable();
   }
 }
