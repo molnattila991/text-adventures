@@ -25,7 +25,7 @@ import { MultiGameLoggingService } from './logging/multi-game-logging.service';
   providers: [
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.CreateRoomService, useClass: CreateRoomService },
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService, useClass: SelectedRoomService },
-    { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService, useClass: MultiGameLoggingService },
+    { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.MultiGameLoggingService, useClass: MultiGameLoggingService },
     SelectedCharactersService,
     CharactersInRoomService,
     MultiCommandHelperService,

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { MultiGameState } from '@text-adventures/shared';
+import { Inject, Injectable } from '@angular/core';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite, MultiGameState } from '@text-adventures/shared';
 import { Subject } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
 import { CharactersInRoomService } from '../../characters/characters-in-room.service';
@@ -15,8 +15,8 @@ export class MultiGameRoundManagerService {
     private charactersInRoomService: CharactersInRoomService,
     private multiGameStateService: MultiGameStateService,
     private nextPlayerSelectorService: NextPlayerSelectorService,
-    private selectedRoomVotesService: SelectedRoomVotesService
-
+    private selectedRoomVotesService: SelectedRoomVotesService,
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.MultiGameLoggingService) private writeLogService: CommandOutputWrite
   ) {
     this.next$.pipe(
       withLatestFrom(
@@ -25,7 +25,7 @@ export class MultiGameRoundManagerService {
         this.charactersInRoomService.getActiveTeamsCount()
       )
     ).subscribe(([action, activePlayersNumber, avaiableNextPlayers, activeTeamNumbers]) => {
-      console.log("End of turn: ", activePlayersNumber, avaiableNextPlayers, activeTeamNumbers);
+      // console.log("End of turn: ", activePlayersNumber, avaiableNextPlayers, activeTeamNumbers);
       if (activeTeamNumbers > 1) {
         if (avaiableNextPlayers >= 1) {
           this.multiGameStateService.incrementTurnNumber();
@@ -39,6 +39,10 @@ export class MultiGameRoundManagerService {
       } else {
         this.multiGameStateService.setState(MultiGameState.ended);
       }
+    });
+
+    this.nextPlayerSelectorService.getActualPlayer().subscribe(v=>{
+      this.writeLogService.pushText([`Következő játékost: ${v}`]);
     });
   }
 

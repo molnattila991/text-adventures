@@ -1,18 +1,32 @@
-import { Injectable } from '@angular/core';
-import { CommandOutput, CommandOutputMessage } from '@text-adventures/shared';
-import { BehaviorSubject, Subject, Observable } from 'rxjs';
-import { withLatestFrom, map } from 'rxjs/operators';
+import { Inject, Injectable } from '@angular/core';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutput, CommandOutputMessage, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, MultiGameLogs, RoomModel } from '@text-adventures/shared';
+import { BehaviorSubject, Subject, Observable, ReplaySubject } from 'rxjs';
+import { withLatestFrom, map, switchMap } from 'rxjs/operators';
+import { ISelectedItemService } from '../../selected-item/selected-item-service';
 
 @Injectable()
 export class MultiGameLoggingService implements CommandOutput {
   private index: number = 0;
-  private fullOutput$: BehaviorSubject<CommandOutputMessage[]> = new BehaviorSubject([]);
-  private actualOutput$: BehaviorSubject<CommandOutputMessage[]> = new BehaviorSubject([]);
   private tempLogs$: BehaviorSubject<CommandOutputMessage[]> = new BehaviorSubject([]);
   private addTempLogs$: Subject<CommandOutputMessage[]> = new Subject();
   private flush$: Subject<void> = new Subject();
+  private selectedItem$: ReplaySubject<MultiGameLogs> = new ReplaySubject();
+  constructor(
+    @Inject(DATA_PROVIDER_INJECTION_TOKEN.RoomLogsDataProviderService) private dataProvider: IGenericCrudDataProvider<MultiGameLogs>,
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService) private selectedRoomService: ISelectedItemService<RoomModel>
 
-  constructor() {
+  ) {
+
+    this.selectedRoomService.getSelectedItem()
+      .pipe(
+        switchMap(item => this.dataProvider.getFiltered("roomId", item.id, "=="))
+      ).subscribe(item => {
+        if (item.length > 0) {
+          const selectedItem = item[0].model;
+          selectedItem && this.selectedItem$.next(selectedItem);
+        }
+      });
+
     this.addTempLogs$.pipe(
       withLatestFrom(
         this.tempLogs$
@@ -24,24 +38,20 @@ export class MultiGameLoggingService implements CommandOutput {
 
     this.flush$.pipe(
       withLatestFrom(
-        this.tempLogs$
-      ),
-      map(([flush, logs]) => [...logs])
-    ).subscribe(this.actualOutput$);
-
-    this.flush$.subscribe(() => this.tempLogs$.next([]));
-
-    this.flush$.pipe(
-      withLatestFrom(
         this.tempLogs$,
-        this.fullOutput$
-      ),
-      map(([flush, logs, allLogs]) => [...allLogs, ...logs])
-    ).subscribe(this.fullOutput$);
+        this.selectedItem$
+      )
+    ).subscribe(([flush, logs, log]) => {
+      log.actual = logs;
+      log.all = [...log.all, ...logs];
+
+      this.tempLogs$.next([]);
+      this.dataProvider.update(log.id, log);
+    });
   }
-  
+
   pushHelp(command: string): void {
-    this.pushText(["Segítségért üsd be a 'help " + command + "' parancsot."]);
+    throw new Error('Method not implemented.');
   }
 
   pushText(logs: string[]) {
@@ -62,10 +72,10 @@ export class MultiGameLoggingService implements CommandOutput {
   }
 
   get(): Observable<CommandOutputMessage[]> {
-    return this.actualOutput$.asObservable();
+    return this.selectedItem$.pipe(map(item => item.actual));
   }
 
   getFull(): Observable<CommandOutputMessage[]> {
-    return this.fullOutput$.asObservable();
+    return this.selectedItem$.pipe(map(item => item.all));
   }
 }
