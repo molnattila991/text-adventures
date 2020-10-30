@@ -14,6 +14,7 @@ import { NextPlayerSelectorService } from './game/host/next-player-selector.serv
 import { AppTypeService } from './game/host/app-type.service';
 import { MultiGameHostService } from './game/host/multi-game-host.service';
 import { MultiGameRoundManagerService } from './game/host/multi-game-round-manager.service';
+import { MultiGameLoggingService } from './logging/multi-game-logging.service';
 
 
 
@@ -24,6 +25,7 @@ import { MultiGameRoundManagerService } from './game/host/multi-game-round-manag
   providers: [
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.CreateRoomService, useClass: CreateRoomService },
     { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService, useClass: SelectedRoomService },
+    { provide: BUSSINESS_LOGIC_INJECTION_TOKEN.SelectedRoomService, useClass: MultiGameLoggingService },
     SelectedCharactersService,
     CharactersInRoomService,
     MultiCommandHelperService,
