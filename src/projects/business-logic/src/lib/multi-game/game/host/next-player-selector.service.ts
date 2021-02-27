@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { BUSSINESS_LOGIC_INJECTION_TOKEN, DATA_PROVIDER_INJECTION_TOKEN, IGenericCrudDataProvider, RoomModel } from '@text-adventures/shared';
-import { of, ReplaySubject, Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { ReplaySubject, Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { filter, map, take, withLatestFrom, distinctUntilChanged } from 'rxjs/operators';
 import { ISelectedItemService } from '../../../selected-item/selected-item-service';
 import { CharactersInRoomService } from '../../characters/characters-in-room.service';
@@ -72,6 +72,10 @@ export class NextPlayerSelectorService {
 
   selectNextPlayer(): void {
     this.nextPlayerAction$.next();
+  }
+
+  getActualPlayer(): Observable<string> {
+    return this.nextPlayer$.asObservable();
   }
 }
 

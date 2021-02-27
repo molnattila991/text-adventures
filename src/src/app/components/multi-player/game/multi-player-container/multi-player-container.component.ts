@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MultiCommandHandlerService } from '@text-adventures/business-logic';
-import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutput, CommandOutputMessage } from '@text-adventures/shared';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputMessage, CommandOutputRead, CommandOutputWrite } from '@text-adventures/shared';
 
 @Component({
   selector: 'app-multi-player-container',
   template: `
     <app-multi-player-view 
-    [output]="output.get()|async" 
+    [output]="read.get()|async" 
     (performCommnad)="performCommnad($event)"
     (showActions)="showActions($event)"></app-multi-player-view>
   `,
@@ -16,14 +16,16 @@ import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutput, CommandOutputMessage } 
 export class MultiPlayerContainerComponent implements OnInit {
 
   constructor(
-    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) public output: CommandOutput,
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.CommandOutputService) private write: CommandOutputWrite,
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.MultiGameMergeLogsService) public read: CommandOutputRead,
+
     private handler: MultiCommandHandlerService
   ) { }
 
   ngOnInit(): void {
     //TODO init help text
-    this.output.pushText(["Üdvözöllek kalandor. Amennyiben segítségre van szükséged, írd a 'help' parancsot az alábbi mezőbe."])
-    this.output.flush();
+    this.write.pushText(["Üdvözöllek kalandor. Amennyiben segítségre van szükséged, írd a 'help' parancsot az alábbi mezőbe."])
+    this.write.flush();
   }
 
   performCommnad(command: string) {

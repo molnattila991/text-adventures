@@ -16,7 +16,6 @@ export class MultiGameRoundManagerService {
     private multiGameStateService: MultiGameStateService,
     private nextPlayerSelectorService: NextPlayerSelectorService,
     private selectedRoomVotesService: SelectedRoomVotesService
-
   ) {
     this.next$.pipe(
       withLatestFrom(
@@ -25,7 +24,7 @@ export class MultiGameRoundManagerService {
         this.charactersInRoomService.getActiveTeamsCount()
       )
     ).subscribe(([action, activePlayersNumber, avaiableNextPlayers, activeTeamNumbers]) => {
-      console.log("End of turn: ", activePlayersNumber, avaiableNextPlayers, activeTeamNumbers);
+      // console.log("End of turn: ", activePlayersNumber, avaiableNextPlayers, activeTeamNumbers);
       if (activeTeamNumbers > 1) {
         if (avaiableNextPlayers >= 1) {
           this.multiGameStateService.incrementTurnNumber();

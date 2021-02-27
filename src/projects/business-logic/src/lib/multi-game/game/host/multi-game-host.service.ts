@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { MultiGameState } from '@text-adventures/shared';
+import { Inject, Injectable } from '@angular/core';
+import { BUSSINESS_LOGIC_INJECTION_TOKEN, CommandOutputWrite, MultiGameState } from '@text-adventures/shared';
 import { distinctUntilChanged, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SelectedRoomVotesService } from '../../room/selected-room-votes.service';
 import { MultiGameStateService } from '../state/multi-game-state.service';
@@ -13,7 +13,8 @@ export class MultiGameHostService {
     private appTypeService: AppTypeService,
     private multiGameStateService: MultiGameStateService,
     private selectedRoomVotesService: SelectedRoomVotesService,
-    private multiGameRoundManagerService: MultiGameRoundManagerService
+    private multiGameRoundManagerService: MultiGameRoundManagerService,
+    @Inject(BUSSINESS_LOGIC_INJECTION_TOKEN.MultiGameLoggingService) private writeLogService: CommandOutputWrite
 
   ) {
     this.selectedRoomVotesService.resetVotes();
@@ -50,11 +51,14 @@ export class MultiGameHostService {
       switch (state) {
         case MultiGameState.started:
           console.log("started");
+          this.writeLogService.pushText(["A játék elkezdődött."]);
           this.multiGameStateService.setState(MultiGameState.newTurn);
           break;
-        case MultiGameState.newTurn:          
-        //next player
+        case MultiGameState.newTurn:
+          //next player
           this.multiGameRoundManagerService.next();
+          
+          this.writeLogService.flush();
           this.multiGameStateService.setState(MultiGameState.waitForVote);
           console.log("newTurn");
           break;

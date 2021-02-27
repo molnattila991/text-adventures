@@ -4,12 +4,21 @@
 
 <app-select-character-container></app-select-character-container>
 
-<app-select-story-container></app-select-story-container>
+<button (click)="single=!single">
+    <span *ngIf="single">Multi</span>
+    <span *ngIf="single==false">Single</span>
+</button>
 
-<!-- <app-single-player-container></app-single-player-container> -->
+<ng-container *ngIf="single">
+    <app-select-story-container></app-select-story-container>
+    <app-single-player-container></app-single-player-container>
+</ng-container>
 
-<app-create-room-container></app-create-room-container>
 
-<app-list-room-container></app-list-room-container>
+<ng-container *ngIf="single==false">
+    <app-create-room-container></app-create-room-container>
 
-<app-multi-player-container></app-multi-player-container>
+    <app-list-room-container></app-list-room-container>
+
+    <app-multi-player-container></app-multi-player-container>
+</ng-container>
