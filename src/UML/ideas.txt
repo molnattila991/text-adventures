@@ -4,7 +4,7 @@ adatfeltöltő script kell, hogy üres adatbázisról is lehessen indítani
 
 single-battle 
     támadásokat logolni
-
+a
 multi-battle
     -battle-command
     -battle-service
